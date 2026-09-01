@@ -10,7 +10,7 @@ const { lang = 'id' } = Astro.props;
     
     <!-- Hero Article Header -->
     <header class="space-y-4 text-center sm:text-left">
-      <div id="seo-badge" class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold font-mono border border-indigo-500/20">
+      <div id="seo-badge" class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-500/10 text-red-600 text-xs font-bold font-mono border border-red-500/20">
         ALAT UKUR DIGITAL PRESISI 1:1
       </div>
       <h1 id="seo-h1" class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
@@ -361,20 +361,20 @@ const { lang = 'id' } = Astro.props;
         <!-- MPA Card 1: Cara Kalibrasi -->
         <a
           href="/cara-kalibrasi"
-          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
+          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
         >
           <div class="space-y-1.5">
-            <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+            <div class="w-8 h-8 rounded-xl bg-red-500/10 text-red-600 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
               📐
             </div>
-            <h3 class="font-bold text-xs text-[var(--color-ink)] group-hover:text-indigo-500 transition-colors">
+            <h3 id="mpa-c1-title" class="font-bold text-xs text-[var(--color-ink)] group-hover:text-red-600 transition-colors">
               Panduan Kalibrasi
             </h3>
-            <p class="text-[11px] text-[var(--color-mute)] leading-relaxed">
+            <p id="mpa-c1-desc" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
               Panduan lengkap langkah demi langkah kalibrasi layar HP, laptop, dan monitor.
             </p>
           </div>
-          <span class="text-[10px] text-indigo-500 font-semibold font-mono flex items-center gap-1 pt-2">
+          <span id="mpa-c1-btn" class="text-[10px] text-red-600 font-semibold font-mono flex items-center gap-1 pt-2">
             Buka Panduan →
           </span>
         </a>
@@ -382,20 +382,20 @@ const { lang = 'id' } = Astro.props;
         <!-- MPA Card 2: Tentang Kami -->
         <a
           href="/tentang"
-          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
+          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
         >
           <div class="space-y-1.5">
-            <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+            <div class="w-8 h-8 rounded-xl bg-red-500/10 text-red-600 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
               🏢
             </div>
-            <h3 class="font-bold text-xs text-[var(--color-ink)] group-hover:text-indigo-500 transition-colors">
+            <h3 id="mpa-c2-title" class="font-bold text-xs text-[var(--color-ink)] group-hover:text-red-600 transition-colors">
               Tentang Kami
             </h3>
-            <p class="text-[11px] text-[var(--color-mute)] leading-relaxed">
+            <p id="mpa-c2-desc" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
               Visi pembuatan penggaris digital 1:1, prinsip akurasi, dan teknologi DPR/PPI.
             </p>
           </div>
-          <span class="text-[10px] text-indigo-500 font-semibold font-mono flex items-center gap-1 pt-2">
+          <span id="mpa-c2-btn" class="text-[10px] text-red-600 font-semibold font-mono flex items-center gap-1 pt-2">
             Baca Tentang Kami →
           </span>
         </a>
@@ -409,14 +409,14 @@ const { lang = 'id' } = Astro.props;
             <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
               🔒
             </div>
-            <h3 class="font-bold text-xs text-[var(--color-ink)] group-hover:text-emerald-500 transition-colors">
+            <h3 id="mpa-c3-title" class="font-bold text-xs text-[var(--color-ink)] group-hover:text-emerald-500 transition-colors">
               Kebijakan Privasi
             </h3>
-            <p class="text-[11px] text-[var(--color-mute)] leading-relaxed">
+            <p id="mpa-c3-desc" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
               Jaminan 100% privasi lokal di peramban tanpa pelacakan data sensitif.
             </p>
           </div>
-          <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold font-mono flex items-center gap-1 pt-2">
+          <span id="mpa-c3-btn" class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold font-mono flex items-center gap-1 pt-2">
             Lihat Privasi →
           </span>
         </a>
@@ -430,14 +430,14 @@ const { lang = 'id' } = Astro.props;
             <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
               ✉️
             </div>
-            <h3 class="font-bold text-xs text-[var(--color-ink)] group-hover:text-purple-500 transition-colors">
+            <h3 id="mpa-c4-title" class="font-bold text-xs text-[var(--color-ink)] group-hover:text-purple-500 transition-colors">
               Hubungi Kami
             </h3>
-            <p class="text-[11px] text-[var(--color-mute)] leading-relaxed">
+            <p id="mpa-c4-desc" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
               Saran fitur, feedback pengguna, dan pengajuan database layar perangkat.
             </p>
           </div>
-          <span class="text-[10px] text-purple-500 font-semibold font-mono flex items-center gap-1 pt-2">
+          <span id="mpa-c4-btn" class="text-[10px] text-purple-500 font-semibold font-mono flex items-center gap-1 pt-2">
             Kirim Masukan →
           </span>
         </a>

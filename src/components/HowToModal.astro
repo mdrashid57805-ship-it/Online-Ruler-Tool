@@ -16,7 +16,7 @@ const { lang = 'id' } = Astro.props;
     <!-- Modal Header -->
     <div class="flex items-center justify-between px-5 pt-5 pb-4 border-b border-[var(--color-hairline)] shrink-0">
       <div>
-        <span id="howto-badge-text" class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest font-mono block">PANDUAN LENGKAP</span>
+        <span id="howto-badge-text" class="text-[10px] font-bold text-red-600 uppercase tracking-widest font-mono block">PANDUAN LENGKAP</span>
         <h2 id="howto-title-text" class="text-base sm:text-lg font-bold tracking-tight">Cara Menggunakan Online Penggaris</h2>
       </div>
 
@@ -36,20 +36,20 @@ const { lang = 'id' } = Astro.props;
       
       <!-- Step 1 -->
       <div class="flex gap-3">
-        <div class="w-6 h-6 rounded-full bg-indigo-500/10 text-indigo-500 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
+        <div class="w-6 h-6 rounded-full bg-red-500/10 text-red-600 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
           1
         </div>
         <div class="space-y-1">
           <h4 id="howto-step1-title" class="font-bold text-[var(--color-ink)] text-sm">Kalibrasi Layar (Ukuran Asli 1:1)</h4>
           <p id="howto-step1-desc">
-            Klik tombol <strong class="text-[var(--color-ink)]">Kalibrasi</strong> di toolbar atas. Pilih salah satu dari 3 metode: Deteksi Otomatis, Diagonal Layar, atau tempelkan kartu ATM/KTP fisik agar 1 cm di layar benar-benar sama dengan 1 cm fisik di dunia nyata.
+            Klik tombol <strong class="text-red-600">Kalibrasi</strong> di toolbar atas. Pilih salah satu dari 3 metode: Deteksi Otomatis, Diagonal Layar, atau tempelkan kartu ATM/KTP fisik agar 1 cm di layar benar-benar sama dengan 1 cm fisik di dunia nyata.
           </p>
         </div>
       </div>
 
       <!-- Step 2 -->
       <div class="flex gap-3">
-        <div class="w-6 h-6 rounded-full bg-indigo-500/10 text-indigo-500 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
+        <div class="w-6 h-6 rounded-full bg-red-500/10 text-red-600 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
           2
         </div>
         <div class="space-y-1">
@@ -62,29 +62,31 @@ const { lang = 'id' } = Astro.props;
 
       <!-- Step 3 -->
       <div class="flex gap-3">
-        <div class="w-6 h-6 rounded-full bg-indigo-500/10 text-indigo-500 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
+        <div class="w-6 h-6 rounded-full bg-red-500/10 text-red-600 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
           3
         </div>
         <div class="space-y-1">
-          <h4 id="howto-step3-title" class="font-bold text-[var(--color-ink)] text-sm">Garis Panduan & Jangka Sorong</h4>
+          <h4 id="howto-step3-title" class="font-bold text-[var(--color-ink)] text-sm">Penunjuk Ukur (Marker) & Jangka Sorong</h4>
           <p id="howto-step3-desc">
-            <strong class="text-[var(--color-ink)]">Klik pada area penggaris</strong> untuk membuat garis panduan presisi, atau aktifkan <strong class="text-[var(--color-ink)]">Jangka Sorong (Caliper)</strong> untuk mengukur jarak antara dua titik secara akurat.
+            Klik atau geser penunjuk merah (marker) untuk membaca ukuran panjang langsung secara instan dalam cm, mm, atau inci. Gunakan tombol jangka sorong untuk mengukur jarak antar 2 titik.
           </p>
         </div>
       </div>
 
-      <!-- Keyboard Shortcuts -->
-      <div class="pt-3 border-t border-[var(--color-hairline)] space-y-2.5">
-        <h4 id="howto-shortcuts-title" class="font-bold text-[var(--color-ink)] text-sm">Tombol Pintas Keyboard (Shortcuts)</h4>
-        
-        <div class="space-y-1.5 font-mono text-[11px]">
+      <!-- Keyboard Shortcuts Cheatsheet -->
+      <div class="pt-4 border-t border-[var(--color-hairline)] space-y-2.5">
+        <h4 id="howto-shortcuts-title" class="font-bold text-[var(--color-ink)] text-xs flex items-center gap-1.5 font-mono uppercase tracking-wider">
+          <span>⌨️</span> Tombol Pintas Keyboard
+        </h4>
+
+        <div class="grid grid-cols-1 gap-1.5 font-mono text-[11px]">
           <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
             <span id="sc-label-guides" class="font-sans text-[var(--color-body)]">Garis Panduan</span>
             <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">G</kbd>
           </div>
           <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
-            <span id="sc-label-crosshair" class="font-sans text-[var(--color-body)]">Crosshair Kursor</span>
-            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">C</kbd>
+            <span id="sc-label-crosshair" class="font-sans text-[var(--color-body)]">Penunjuk / Marker</span>
+            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">P</kbd>
           </div>
           <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
             <span id="sc-label-grid" class="font-sans text-[var(--color-body)]">Matriks Grid</span>
@@ -95,16 +97,8 @@ const { lang = 'id' } = Astro.props;
             <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">K</kbd>
           </div>
           <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
-            <span id="sc-label-fullscreen" class="font-sans text-[var(--color-body)]">Layar Penuh (Fullscreen)</span>
-            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">F</kbd>
-          </div>
-          <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
             <span id="sc-label-theme" class="font-sans text-[var(--color-body)]">Mode Gelap / Terang</span>
             <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">D</kbd>
-          </div>
-          <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
-            <span id="sc-label-clear" class="font-sans text-[var(--color-body)]">Hapus Semua Panduan</span>
-            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">Esc</kbd>
           </div>
           <div class="flex items-center justify-between py-1">
             <span id="sc-label-units" class="font-sans text-[var(--color-body)]">Ganti Satuan (cm / mm / in)</span>
@@ -123,7 +117,7 @@ const { lang = 'id' } = Astro.props;
     <div class="px-5 py-3 border-t border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] shrink-0">
       <button
         id="btn-close-howto-bottom"
-        class="w-full py-2.5 rounded-xl bg-[var(--color-primary)] text-[var(--color-on-primary)] font-semibold text-xs hover:opacity-90 transition-all shadow-md"
+        class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs transition-all shadow-md"
       >
         Mengerti, Mulai Mengukur
       </button>

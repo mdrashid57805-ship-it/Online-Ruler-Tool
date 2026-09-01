@@ -14,20 +14,20 @@ import Footer from '../components/Footer.astro';
   <main class="pt-24 pb-20 px-4 sm:px-6 max-w-4xl mx-auto text-[var(--color-ink)] space-y-10">
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 text-xs text-[var(--color-mute)]" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-[var(--color-ink)] transition-colors">Beranda</a>
+      <a id="sub-bread-home" href="/" class="hover:text-[var(--color-ink)] transition-colors">Beranda</a>
       <span>/</span>
-      <span class="text-indigo-500 font-medium">Tentang Kami</span>
+      <span id="sub-bread-current" class="text-red-600 font-medium">Tentang Kami</span>
     </nav>
 
     <!-- Header -->
     <div class="space-y-3">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold font-mono">
+      <div id="sub-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-600 text-xs font-bold font-mono">
         TENTANG KAMI
       </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+      <h1 id="sub-h1" class="text-3xl sm:text-4xl font-extrabold tracking-tight">
         Tentang Online Penggaris (onlinepenggaris.com)
       </h1>
-      <p class="text-sm sm:text-base text-[var(--color-body)] leading-relaxed">
+      <p id="sub-lead" class="text-sm sm:text-base text-[var(--color-body)] leading-relaxed">
         Solusi pengukuran visual digital berpresisi tinggi yang dapat diakses langsung dari peramban web modern tanpa perlu download atau instalasi aplikasi.
       </p>
     </div>
@@ -37,57 +37,54 @@ import Footer from '../components/Footer.astro';
       
       <!-- Section 1 -->
       <section class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3">
-        <h2 class="text-base sm:text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
+        <h2 id="sec1-title" class="text-base sm:text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
           <span>🎯</span> Visi & Latar Belakang
         </h2>
-        <p>
+        <p id="sec1-p1">
           Berapa kali Anda membutuhkan penggaris fisik untuk mengukur barang kecil di sekitar Anda—seperti baut, sekrup, perhiasan, lebar kartu nama, diameter kancing, atau pasfoto—namun tidak dapat menemukan penggaris mistar di dekat Anda?
         </p>
-        <p>
+        <p id="sec1-p2">
           <strong>Online Penggaris</strong> hadir untuk menjawab kebutuhan tersebut. Kami merancang alat ukur digital berbasis browser web yang mengubah layar smartphone, tablet, laptop, atau monitor komputer Anda menjadi mistar fisik seukuran nyata (<em>1:1 actual scale ruler</em>).
         </p>
       </section>
 
       <!-- Section 2 -->
       <section class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3">
-        <h2 class="text-base sm:text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
+        <h2 id="sec2-title" class="text-base sm:text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
           <span>⚙️</span> Inovasi Kalibrasi CSS PPI & DPR
         </h2>
-        <p>
+        <p id="sec2-p1">
           Layar modern memiliki kerapatan piksel fisik (<em>PPI / Pixels Per Inch</em>) yang sangat bervariasi. Penggaris web biasa yang mengasumsikan standar 96 PPI akan menampilkan ukuran 1 cm yang salah pada layar resolusi tinggi (seperti MacBook Retina, smartphone Full HD, atau monitor 4K).
         </p>
-        <p>
+        <p id="sec2-p2">
           Sistem kami menghitung kerapatan piksel pada tingkat logika <strong>CSS Pixel Space</strong> yang dinormalisasi dengan <strong>Device Pixel Ratio (DPR)</strong>:
         </p>
-        <div class="p-3 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] font-mono text-xs text-indigo-500 font-semibold">
-          CSS PPI = Kerapatan Piksel Pabrikan (Physical PPI) ÷ Device Pixel Ratio (DPR)
+        <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] font-mono text-xs text-red-600 font-semibold">
+          1 Inci CSS = 1 Inci Fisik (saat PPI dikalibrasikan)<br/>
+          1 cm = (PPI / 2.54) CSS Pixels
         </div>
-        <p>
-          Dengan formula ini, setiap 1 sentimeter atau 1 inci yang digambar pada kanvas penggaris kami memiliki panjang fisik yang presisi dan cocok saat ditempelkan langsung pada layar kaca.
+        <p id="sec2-p3">
+          Dengan 3 metode kalibrasi kami (Deteksi Otomatis, Diagonal Inci Layar, dan Kartu ATM/KTP Standar ISO), siapapun dapat memperoleh skala penggaris 100% akurat dalam hitungan detik.
         </p>
       </section>
 
       <!-- Section 3 -->
       <section class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3">
-        <h2 class="text-base sm:text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
-          <span>🌟</span> Keunggulan Utama Kami
+        <h2 id="sec3-title" class="text-base sm:text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
+          <span>🔒</span> Nilai & Komitmen Kami
         </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
-            <h3 class="font-bold text-xs text-[var(--color-ink)]">⚡ 3 Metode Kalibrasi</h3>
-            <p class="text-[11px]">Deteksi hardware otomatis, rumus diagonal layar (inci), atau pencocokan kartu ATM standar ISO.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div class="p-4 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1.5">
+            <h3 id="val1-title" class="font-bold text-xs text-[var(--color-ink)]">100% Gratis & Tanpa Iklan Mengganggu</h3>
+            <p id="val1-desc" class="text-xs text-[var(--color-mute)]">
+              Dapat digunakan kapanpun secara cuma-cuma tanpa batas penggunaan dan tanpa biaya langganan tersembunyi.
+            </p>
           </div>
-          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
-            <h3 class="font-bold text-xs text-[var(--color-ink)]">📏 Jangka Sorong Digital (Caliper)</h3>
-            <p class="text-[11px]">Ukur jarak dua titik bebas di layar lengkap dengan pembacaan ΔX (lebar) dan ΔY (tinggi).</p>
-          </div>
-          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
-            <h3 class="font-bold text-xs text-[var(--color-ink)]">📱 Ramah HP & Tablet</h3>
-            <p class="text-[11px]">Navigasi dock jempol satu tangan dan layout adaptif untuk smartphone iOS dan Android.</p>
-          </div>
-          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
-            <h3 class="font-bold text-xs text-[var(--color-ink)]">🔒 100% Privasi & Tanpa Iklan Mengganggu</h3>
-            <p class="text-[11px]">Semua kalkulasi diproses lokal di peramban Anda tanpa pengumpulan data pribadi.</p>
+          <div class="p-4 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1.5">
+            <h3 id="val2-title" class="font-bold text-xs text-[var(--color-ink)]">Privasi Aman & Nol Pelacakan</h3>
+            <p id="val2-desc" class="text-xs text-[var(--color-mute)]">
+              Semua pengaturan kalibrasi dan preferensi disimpan murni di memori lokal peramban (localStorage) gawai Anda.
+            </p>
           </div>
         </div>
       </section>
@@ -96,12 +93,121 @@ import Footer from '../components/Footer.astro';
 
     <!-- Return to Tool CTA -->
     <div class="pt-4 text-center">
-      <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--color-primary)] text-[var(--color-on-primary)] font-semibold text-xs shadow-md hover:opacity-90 transition-all">
+      <a id="btn-back-to-ruler" href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        Kembali ke Alat Penggaris Online
+        <span id="btn-back-text">Kembali ke Alat Penggaris Online</span>
       </a>
     </div>
   </main>
 
   <Footer lang="id" />
+
+  <!-- Subpage Language Synchronization Script -->
+  <script is:inline>
+    (function () {
+      const DICT = {
+        id: {
+          breadHome: 'Beranda',
+          breadCurr: 'Tentang Kami',
+          badge: 'TENTANG KAMI',
+          h1: 'Tentang Online Penggaris (onlinepenggaris.com)',
+          lead: 'Solusi pengukuran visual digital berpresisi tinggi yang dapat diakses langsung dari peramban web modern tanpa perlu download atau instalasi aplikasi.',
+          sec1T: '🎯 Visi & Latar Belakang',
+          sec1P1: 'Berapa kali Anda membutuhkan penggaris fisik untuk mengukur barang kecil di sekitar Anda—seperti baut, sekrup, perhiasan, lebar kartu nama, diameter kancing, atau pasfoto—namun tidak dapat menemukan penggaris mistar di dekat Anda?',
+          sec1P2: 'Online Penggaris hadir untuk menjawab kebutuhan tersebut. Kami merancang alat ukur digital berbasis browser web yang mengubah layar smartphone, tablet, laptop, atau monitor komputer Anda menjadi mistar fisik seukuran nyata (1:1 actual scale ruler).',
+          sec2T: '⚙️ Inovasi Kalibrasi CSS PPI & DPR',
+          sec2P1: 'Layar modern memiliki kerapatan piksel fisik (PPI / Pixels Per Inch) yang sangat bervariasi. Penggaris web biasa yang mengasumsikan standar 96 PPI akan menampilkan ukuran 1 cm yang salah pada layar resolusi tinggi (seperti MacBook Retina, smartphone Full HD, atau monitor 4K).',
+          sec2P2: 'Sistem kami menghitung kerapatan piksel pada tingkat logika CSS Pixel Space yang dinormalisasi dengan Device Pixel Ratio (DPR):',
+          sec2P3: 'Dengan 3 metode kalibrasi kami (Deteksi Otomatis, Diagonal Inci Layar, dan Kartu ATM/KTP Standar ISO), siapapun dapat memperoleh skala penggaris 100% akurat dalam hitungan detik.',
+          sec3T: '🔒 Nilai & Komitmen Kami',
+          v1T: '100% Gratis & Tanpa Iklan Mengganggu',
+          v1D: 'Dapat digunakan kapanpun secara cuma-cuma tanpa batas penggunaan dan tanpa biaya langganan tersembunyi.',
+          v2T: 'Privasi Aman & Nol Pelacakan',
+          v2D: 'Semua pengaturan kalibrasi dan preferensi disimpan murni di memori lokal peramban (localStorage) gawai Anda.',
+          backBtn: 'Kembali ke Alat Penggaris Online',
+          btnLabel: 'EN'
+        },
+        en: {
+          breadHome: 'Home',
+          breadCurr: 'About Us',
+          badge: 'ABOUT US',
+          h1: 'About Online Penggaris (onlinepenggaris.com)',
+          lead: 'High-precision digital visual measurement suite accessible directly within modern web browsers without installing any mobile or desktop application.',
+          sec1T: '🎯 Vision & Background',
+          sec1P1: 'How often do you need a physical ruler to measure everyday small items—such as screws, jewelry, credit cards, or passport photos—only to realize no ruler is nearby?',
+          sec1P2: 'Online Penggaris is engineered to solve this problem. We transform your smartphone, tablet, laptop, or desktop monitor into a physical 1:1 true-scale measuring instrument directly inside your web browser.',
+          sec2T: '⚙️ CSS PPI & DPR Calibration Innovation',
+          sec2P1: 'Modern screens feature diverse pixel densities (PPI). Generic online rulers assuming fixed 96 PPI produce inaccurate results on high-resolution displays (e.g. Retina MacBooks, Full HD smartphones, 4K monitors).',
+          sec2P2: 'Our engine computes pixel density at the CSS pixel space level normalized against Device Pixel Ratio (DPR):',
+          sec2P3: 'With our 3 calibration modes (Auto-Detect, Diagonal Display Size, and ISO Credit Card Alignment), anyone can calibrate 100% exact sub-millimeter measurements in seconds.',
+          sec3T: '🔒 Our Core Values & Commitment',
+          v1T: '100% Free Forever & Zero Clutter',
+          v1D: 'Access all measurement tools and features completely free without hidden subscription tiers.',
+          v2T: '100% Client-Side Privacy',
+          v2D: 'All calibration values and display preferences reside purely in your local browser storage (localStorage).',
+          backBtn: 'Return to Online Ruler Tool',
+          btnLabel: 'ID'
+        }
+      };
+
+      function updatePage(lang) {
+        const d = DICT[lang] || DICT.id;
+        const bH = document.getElementById('sub-bread-home');
+        if (bH) bH.textContent = d.breadHome;
+        const bC = document.getElementById('sub-bread-current');
+        if (bC) bC.textContent = d.breadCurr;
+        const badge = document.getElementById('sub-badge');
+        if (badge) badge.textContent = d.badge;
+        const h1 = document.getElementById('sub-h1');
+        if (h1) h1.textContent = d.h1;
+        const lead = document.getElementById('sub-lead');
+        if (lead) lead.textContent = d.lead;
+
+        const s1T = document.getElementById('sec1-title');
+        if (s1T) s1T.textContent = d.sec1T;
+        const s1P1 = document.getElementById('sec1-p1');
+        if (s1P1) s1P1.textContent = d.sec1P1;
+        const s1P2 = document.getElementById('sec1-p2');
+        if (s1P2) s1P2.textContent = d.sec1P2;
+
+        const s2T = document.getElementById('sec2-title');
+        if (s2T) s2T.textContent = d.sec2T;
+        const s2P1 = document.getElementById('sec2-p1');
+        if (s2P1) s2P1.textContent = d.sec2P1;
+        const s2P2 = document.getElementById('sec2-p2');
+        if (s2P2) s2P2.textContent = d.sec2P2;
+        const s2P3 = document.getElementById('sec2-p3');
+        if (s2P3) s2P3.textContent = d.sec2P3;
+
+        const s3T = document.getElementById('sec3-title');
+        if (s3T) s3T.textContent = d.sec3T;
+        const v1T = document.getElementById('val1-title');
+        if (v1T) v1T.textContent = d.v1T;
+        const v1D = document.getElementById('val1-desc');
+        if (v1D) v1D.textContent = d.v1D;
+        const v2T = document.getElementById('val2-title');
+        if (v2T) v2T.textContent = d.v2T;
+        const v2D = document.getElementById('val2-desc');
+        if (v2D) v2D.textContent = d.v2D;
+
+        const btnBack = document.getElementById('btn-back-text');
+        if (btnBack) btnBack.textContent = d.backBtn;
+
+        const langBtnLabel = document.getElementById('lang-btn-label');
+        if (langBtnLabel) langBtnLabel.textContent = d.btnLabel;
+      }
+
+      let currentLang = localStorage.getItem('onlinepenggaris_lang_v1') || 'id';
+      updatePage(currentLang);
+
+      const btnLang = document.getElementById('btn-lang-toggle');
+      if (btnLang) {
+        btnLang.addEventListener('click', function () {
+          currentLang = currentLang === 'id' ? 'en' : 'id';
+          localStorage.setItem('onlinepenggaris_lang_v1', currentLang);
+          updatePage(currentLang);
+        });
+      }
+    })();
+  </script>
 </BaseLayout>

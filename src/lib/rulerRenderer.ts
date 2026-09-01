@@ -47,13 +47,13 @@ export function renderRulerEdge(options: RenderOptions): void {
   const length = isHorizontal ? width : height;
 
   // Colors based on theme
-  const bgColor = isDark ? '#11131f' : '#f8fafc';
-  const borderColor = isDark ? '#222638' : '#e2e8f0';
-  const minorTickColor = isDark ? 'rgba(148, 163, 184, 0.45)' : 'rgba(148, 163, 184, 0.7)';
-  const midTickColor = isDark ? 'rgba(203, 213, 225, 0.8)' : 'rgba(71, 85, 105, 0.85)';
-  const majorTickColor = isDark ? '#f1f5f9' : '#0f172a';
-  const textColor = isDark ? '#e2e8f0' : '#1e293b';
-  const unitBadgeColor = isDark ? '#818cf8' : '#4f46e5';
+  const bgColor = isDark ? '#1e293b' : '#ffffff';
+  const borderColor = isDark ? '#334155' : '#e5e7eb';
+  const minorTickColor = isDark ? 'rgba(148, 163, 184, 0.45)' : 'rgba(156, 163, 175, 0.7)';
+  const midTickColor = isDark ? 'rgba(203, 213, 225, 0.8)' : 'rgba(75, 85, 99, 0.85)';
+  const majorTickColor = isDark ? '#f8fafc' : '#111827';
+  const textColor = isDark ? '#cbd5e1' : '#111827';
+  const unitBadgeColor = isDark ? '#ef4444' : '#dc2626';
 
   // Background
   ctx.fillStyle = bgColor;

@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="404 — Halaman Tidak Ditemukan | Online Penggaris"
+  description="Halaman yang Anda cari tidak ditemukan atau telah dipindahkan. Kembali ke beranda OnlinePenggaris.com untuk menggunakan penggaris digital akurat."
+  lang="id"
+>
+  <Navbar lang="id" />
+
+  <main class="min-h-[75vh] flex items-center justify-center px-4 sm:px-6 py-20">
+    <div class="max-w-md w-full text-center space-y-6">
+      
+      <!-- Ruler Visual Graphic for 404 with Red Accents -->
+      <div class="relative mx-auto w-48 h-12 rounded-xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] overflow-hidden flex items-end justify-between px-3 pb-1 shadow-inner select-none">
+        <div class="w-0.5 h-6 bg-red-600"></div>
+        <div class="w-0.5 h-3 bg-[var(--color-hairline-strong)]"></div>
+        <div class="w-0.5 h-3 bg-[var(--color-hairline-strong)]"></div>
+        <div class="w-0.5 h-4 bg-red-400"></div>
+        <div class="w-0.5 h-3 bg-[var(--color-hairline-strong)]"></div>
+        <div class="w-0.5 h-8 bg-red-600 font-mono text-[9px] font-bold text-red-600 absolute left-1/2 -translate-x-1/2 bottom-0 flex flex-col items-center">
+          <span class="mb-1">404</span>
+          <div class="w-0.5 h-4 bg-red-600"></div>
+        </div>
+        <div class="w-0.5 h-3 bg-[var(--color-hairline-strong)]"></div>
+        <div class="w-0.5 h-4 bg-red-400"></div>
+        <div class="w-0.5 h-3 bg-[var(--color-hairline-strong)]"></div>
+        <div class="w-0.5 h-3 bg-[var(--color-hairline-strong)]"></div>
+        <div class="w-0.5 h-6 bg-red-600"></div>
+      </div>
+
+      <!-- Text Header -->
+      <div class="space-y-2">
+        <span class="inline-block px-3 py-0.5 rounded-full bg-red-500/10 text-red-600 text-xs font-mono font-bold border border-red-500/20">
+          ERROR 404
+        </span>
+        <h1 id="err-h1" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--color-ink)]">
+          Halaman Tidak Ditemukan
+        </h1>
+        <p id="err-desc" class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+          Maaf, halaman atau rute yang Anda cari berada di luar jangkauan mistar pengukuran kami atau tautan telah dipindahkan.
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+        <a
+          id="btn-err-home"
+          href="/"
+          class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span id="btn-err-home-text">Kembali ke Penggaris</span>
+        </a>
+
+        <a
+          id="btn-err-cal"
+          href="/cara-kalibrasi"
+          class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] text-[var(--color-ink)] font-semibold text-xs hover:border-red-500 transition-colors"
+        >
+          Panduan Kalibrasi
+        </a>
+      </div>
+
+      <!-- Quick Helpful Links -->
+      <div class="pt-6 border-t border-[var(--color-hairline)]">
+        <span id="err-nav-label" class="text-[11px] text-[var(--color-mute)] block mb-2 font-medium">Navigasi Populer:</span>
+        <div class="flex flex-wrap items-center justify-center gap-3 text-xs">
+          <a id="err-link-about" href="/tentang" class="text-red-600 hover:underline">Tentang Kami</a>
+          <span class="text-[var(--color-hairline-strong)]">•</span>
+          <a id="err-link-contact" href="/contact" class="text-red-600 hover:underline">Hubungi Kami</a>
+          <span class="text-[var(--color-hairline-strong)]">•</span>
+          <a id="err-link-priv" href="/privacy-policy" class="text-red-600 hover:underline">Kebijakan Privasi</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer lang="id" />
+
+  <!-- Subpage Language Synchronization Script -->
+  <script is:inline>
+    (function () {
+      const DICT = {
+        id: {
+          h1: 'Halaman Tidak Ditemukan',
+          desc: 'Maaf, halaman atau rute yang Anda cari berada di luar jangkauan mistar pengukuran kami atau tautan telah dipindahkan.',
+          btnHome: 'Kembali ke Penggaris',
+          btnCal: 'Panduan Kalibrasi',
+          navLabel: 'Navigasi Populer:',
+          linkAbout: 'Tentang Kami',
+          linkContact: 'Hubungi Kami',
+          linkPriv: 'Kebijakan Privasi',
+          btnLabel: 'EN'
+        },
+        en: {
+          h1: 'Page Not Found',
+          desc: 'Sorry, the page you are looking for is beyond our measurement ruler or the link has moved.',
+          btnHome: 'Return to Online Ruler',
+          btnCal: 'Calibration Guide',
+          navLabel: 'Quick Navigation:',
+          linkAbout: 'About Us',
+          linkContact: 'Contact Us',
+          linkPriv: 'Privacy Policy',
+          btnLabel: 'ID'
+        }
+      };
+
+      function updatePage(lang) {
+        const d = DICT[lang] || DICT.id;
+        const h1 = document.getElementById('err-h1');
+        if (h1) h1.textContent = d.h1;
+        const desc = document.getElementById('err-desc');
+        if (desc) desc.textContent = d.desc;
+        const bHome = document.getElementById('btn-err-home-text');
+        if (bHome) bHome.textContent = d.btnHome;
+        const bCal = document.getElementById('btn-err-cal');
+        if (bCal) bCal.textContent = d.btnCal;
+        const navL = document.getElementById('err-nav-label');
+        if (navL) navL.textContent = d.navLabel;
+        const lAbout = document.getElementById('err-link-about');
+        if (lAbout) lAbout.textContent = d.linkAbout;
+        const lContact = document.getElementById('err-link-contact');
+        if (lContact) lContact.textContent = d.linkContact;
+        const lPriv = document.getElementById('err-link-priv');
+        if (lPriv) lPriv.textContent = d.linkPriv;
+
+        const langBtnLabel = document.getElementById('lang-btn-label');
+        if (langBtnLabel) langBtnLabel.textContent = d.btnLabel;
+      }
+
+      let currentLang = localStorage.getItem('onlinepenggaris_lang_v1') || 'id';
+      updatePage(currentLang);
+
+      const btnLang = document.getElementById('btn-lang-toggle');
+      if (btnLang) {
+        btnLang.addEventListener('click', function () {
+          currentLang = currentLang === 'id' ? 'en' : 'id';
+          localStorage.setItem('onlinepenggaris_lang_v1', currentLang);
+          updatePage(currentLang);
+        });
+      }
+    })();
+  </script>
+</BaseLayout>

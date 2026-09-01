@@ -12,18 +12,18 @@ import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout
-  title="Online Penggaris — Penggaris Online Akurat Seukuran Asli (cm, mm, inci)"
-  description="Penggaris online gratis akurat seukuran asli dalam cm, mm, dan inci. Kalibrasi layar otomatis, diagonal layar, atau kartu ATM/KTP untuk pengukuran presisi tanpa download aplikasi."
+  title="Penggaris Online — Ukur Panjang Akurat Seukuran Asli (cm, mm, inci) | onlinepenggaris.com"
+  description="Penggaris online gratis akurat seukuran asli di layar HP, laptop, dan monitor (skala 1:1 cm, mm, inci). Dilengkapi penunjuk / marker ukur interaktif dan kalibrasi layar instan."
   lang="id"
 >
   <!-- Fixed Top Navbar & Mobile Bottom Dock -->
   <Navbar lang="id" />
 
-  <!-- Main Document Flow (Navbar offset at pt-[52px]) -->
-  <main id="app-main" class="relative w-full overflow-x-hidden pt-[52px]">
+  <!-- Main Document Flow (Offset pt-[96px] on mobile for 44px edge bar, pt-[52px] on desktop) -->
+  <main id="app-main" class="relative w-full overflow-x-hidden pt-[96px] md:pt-[52px]">
     
     <!-- Ruler Measuring Workspace: Full-screen height hero area -->
-    <div id="ruler-workspace" class="relative w-full h-[calc(100vh-52px)] min-h-[500px] overflow-hidden bg-[var(--color-canvas-soft)]">
+    <div id="ruler-workspace" class="relative w-full h-[calc(100vh-96px)] md:h-[calc(100vh-52px)] min-h-[400px] overflow-hidden bg-[var(--color-canvas-soft)]">
       <!-- Ruler Canvas & Guides Overlay -->
       <RulerCanvas lang="id" />
 
@@ -57,6 +57,7 @@ import Footer from '../components/Footer.astro';
     saveCalibration,
     calculatePpiFromDiagonal,
     formatMeasurement,
+    convertPxToUnit,
     type MeasurementUnit,
     type CalibrationState,
     STORAGE_KEY_UNIT,
@@ -76,17 +77,24 @@ import Footer from '../components/Footer.astro';
     right: false,
   };
   let calState: CalibrationState = getSavedCalibration();
-  let currentLang: Language = 'id'; // Strictly default to Indonesian!
+  let currentLang: Language = 'id';
   let showGuides = false;
   let showCrosshair = false;
   let showGrid = false;
   let showCaliper = false;
+  let showMarker = true;
+  let markerPos = 180;
+  let isDraggingMarker = false;
   let caliperPoints = { p1: { x: 80, y: 140 }, p2: { x: 300, y: 140 } };
   let isDraggingCaliper: 'p1' | 'p2' | null = null;
   let guideLines: { id: string; type: 'h' | 'v'; pos: number }[] = [];
 
   // --- INITIALIZATION ---
   function initApp() {
+    if (typeof window !== 'undefined') {
+      markerPos = Math.min(Math.round(window.innerWidth * 0.45), 200);
+      if (markerPos < 120) markerPos = 120;
+    }
     loadSavedSettings();
     bindEvents();
     applyLanguage(currentLang);
@@ -102,11 +110,19 @@ import Footer from '../components/Footer.astro';
       if (savedUnit && ['cm', 'mm', 'in', 'px', 'pt'].includes(savedUnit)) {
         activeUnit = savedUnit;
       }
-      const savedLang = localStorage.getItem(STORAGE_KEY_LANG) as Language;
-      if (savedLang === 'en') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlLang = urlParams.get('lang');
+      if (urlLang === 'en') {
         currentLang = 'en';
+      } else if (urlLang === 'id') {
+        currentLang = 'id';
       } else {
-        currentLang = 'id'; // Default strictly Indonesian!
+        const savedLang = localStorage.getItem(STORAGE_KEY_LANG) as Language;
+        if (savedLang === 'en') {
+          currentLang = 'en';
+        } else {
+          currentLang = 'id'; // Default strictly Indonesian!
+        }
       }
     } catch (e) {
       currentLang = 'id';
@@ -489,6 +505,39 @@ import Footer from '../components/Footer.astro';
         if (faqA10) faqA10.textContent = 'Langkah tepat menggunakan penggaris: 1. Letakkan pangkal benda sejajar tepat pada garis angka 0 (nol), bukan di ujung fisik bingkai penggaris jika terdapat celah offset. 2. Posisikan mata tegak lurus (90°) tepat di atas garis ukur untuk mencegah kesalahan paralaks. 3. Catat angka utama (cm/inci) lalu jumlahkan dengan garis milimeter atau fraksi terdekat.';
       }
 
+      const seoMpaTitle = document.getElementById('seo-mpa-title');
+      if (seoMpaTitle) seoMpaTitle.textContent = lang === 'id' ? 'Pusat Informasi & Direktori Halaman (Multi-Page Navigation)' : 'Information Hub & Page Directory (Multi-Page Navigation)';
+      const seoMpaSub = document.getElementById('seo-mpa-sub');
+      if (seoMpaSub) seoMpaSub.textContent = lang === 'id' ? 'Jelajahi halaman panduan, kebijakan privasi, syarat penggunaan, dan kontak resmi kami:' : 'Explore our calibration guides, privacy policy, terms of service, and official contact:';
+
+      const mpaC1T = document.getElementById('mpa-c1-title');
+      if (mpaC1T) mpaC1T.textContent = lang === 'id' ? 'Panduan Kalibrasi' : 'Calibration Guide';
+      const mpaC1D = document.getElementById('mpa-c1-desc');
+      if (mpaC1D) mpaC1D.textContent = lang === 'id' ? 'Panduan lengkap langkah demi langkah kalibrasi layar HP, laptop, dan monitor.' : 'Step-by-step instructions to calibrate smartphones, laptops, and PC monitors.';
+      const mpaC1B = document.getElementById('mpa-c1-btn');
+      if (mpaC1B) mpaC1B.textContent = lang === 'id' ? 'Buka Panduan →' : 'Open Guide →';
+
+      const mpaC2T = document.getElementById('mpa-c2-title');
+      if (mpaC2T) mpaC2T.textContent = lang === 'id' ? 'Tentang Kami' : 'About Us';
+      const mpaC2D = document.getElementById('mpa-c2-desc');
+      if (mpaC2D) mpaC2D.textContent = lang === 'id' ? 'Visi pembuatan penggaris digital 1:1, prinsip akurasi, dan teknologi DPR/PPI.' : 'Our vision for 1:1 online measurement, precision principles, and DPR/PPI scaling.';
+      const mpaC2B = document.getElementById('mpa-c2-btn');
+      if (mpaC2B) mpaC2B.textContent = lang === 'id' ? 'Baca Tentang Kami →' : 'Read About Us →';
+
+      const mpaC3T = document.getElementById('mpa-c3-title');
+      if (mpaC3T) mpaC3T.textContent = lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy';
+      const mpaC3D = document.getElementById('mpa-c3-desc');
+      if (mpaC3D) mpaC3D.textContent = lang === 'id' ? 'Jaminan 100% privasi lokal di peramban tanpa pelacakan data sensitif.' : '100% local client-side processing guarantee with zero sensitive tracking.';
+      const mpaC3B = document.getElementById('mpa-c3-btn');
+      if (mpaC3B) mpaC3B.textContent = lang === 'id' ? 'Lihat Privasi →' : 'View Privacy →';
+
+      const mpaC4T = document.getElementById('mpa-c4-title');
+      if (mpaC4T) mpaC4T.textContent = lang === 'id' ? 'Hubungi Kami' : 'Contact Us';
+      const mpaC4D = document.getElementById('mpa-c4-desc');
+      if (mpaC4D) mpaC4D.textContent = lang === 'id' ? 'Saran fitur, feedback pengguna, dan pengajuan database layar perangkat.' : 'Feature suggestions, user feedback, and display database submissions.';
+      const mpaC4B = document.getElementById('mpa-c4-btn');
+      if (mpaC4B) mpaC4B.textContent = lang === 'id' ? 'Kirim Masukan →' : 'Send Feedback →';
+
       // 8. Footer Links & Copyright
       const fHome = document.getElementById('footer-link-home');
       if (fHome) fHome.textContent = t.footer.home;
@@ -559,6 +608,7 @@ import Footer from '../components/Footer.astro';
 
     updateEdgeButtonStyles();
     updateUnitButtonStyles();
+    updateMarker();
     updateCaliper();
     updateCardSimulator();
   }
@@ -705,6 +755,74 @@ import Footer from '../components/Footer.astro';
     });
   }
 
+  // --- INTERACTIVE MEASURING POINTER & MARKER ---
+  function updateMarker() {
+    const markerV = document.getElementById('interactive-marker-v');
+    const markerH = document.getElementById('interactive-marker-h');
+    const valV = document.getElementById('marker-value-v');
+    const valH = document.getElementById('marker-value-h');
+    const btnMarker = document.getElementById('btn-tool-marker');
+    const btnMobileMarker = document.getElementById('btn-mobile-tool-marker');
+
+    if (btnMarker) {
+      btnMarker.setAttribute('aria-pressed', showMarker ? 'true' : 'false');
+      btnMarker.className = showMarker
+        ? 'tool-btn px-2.5 py-1.5 rounded-lg border border-red-500 bg-red-600 text-white transition-all flex items-center gap-1.5 text-xs font-semibold shadow-sm'
+        : 'tool-btn px-2.5 py-1.5 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center gap-1.5 text-xs font-medium';
+    }
+
+    if (btnMobileMarker) {
+      btnMobileMarker.className = showMarker
+        ? 'p-2 rounded-xl border border-red-500 bg-red-600 text-white text-xs font-semibold flex flex-col items-center gap-1 shadow-sm'
+        : 'p-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-[var(--color-body)] text-xs font-medium flex flex-col items-center gap-1';
+    }
+
+    if (!showMarker) {
+      if (markerV) markerV.style.display = 'none';
+      if (markerH) markerH.style.display = 'none';
+      return;
+    }
+
+    const isVerticalEdge = activeEdges.left || activeEdges.right;
+    const primaryFormatted = formatMeasurement(markerPos, activeUnit, calState.ppi);
+
+    if (isVerticalEdge) {
+      if (markerV) markerV.style.display = 'none';
+      if (markerH) {
+        markerH.style.display = 'flex';
+        markerH.style.top = `${markerPos}px`;
+        const handleH = document.getElementById('marker-handle-h');
+        if (handleH) {
+          if (activeEdges.right && !activeEdges.left) {
+            handleH.style.left = 'auto';
+            handleH.style.right = '48px';
+          } else {
+            handleH.style.right = 'auto';
+            handleH.style.left = '48px';
+          }
+        }
+      }
+      if (valH) valH.textContent = primaryFormatted;
+    } else {
+      if (markerH) markerH.style.display = 'none';
+      if (markerV) {
+        markerV.style.display = 'flex';
+        markerV.style.left = `${markerPos}px`;
+        const handleV = document.getElementById('marker-handle-v');
+        if (handleV) {
+          if (activeEdges.bottom && !activeEdges.top) {
+            handleV.style.top = 'auto';
+            handleV.style.bottom = '48px';
+          } else {
+            handleV.style.bottom = 'auto';
+            handleV.style.top = '48px';
+          }
+        }
+      }
+      if (valV) valV.textContent = primaryFormatted;
+    }
+  }
+
   // --- CALIPER LOGIC ---
   function updateCaliper() {
     const hud = document.getElementById('caliper-hud');
@@ -831,17 +949,37 @@ import Footer from '../components/Footer.astro';
       }
     });
 
+    document.querySelectorAll('[data-edge-btn-mobile]').forEach(btn => {
+      const edge = btn.getAttribute('data-edge-btn-mobile');
+      let isActive = false;
+      if (edge === 'frame') {
+        isActive = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
+      } else if (edge && edge in activeEdges) {
+        isActive = !!activeEdges[edge as keyof typeof activeEdges];
+      }
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      btn.classList.toggle('active', isActive);
+    });
+
     const guidesBtn = document.getElementById('btn-tool-guides');
     if (guidesBtn) guidesBtn.setAttribute('aria-pressed', showGuides ? 'true' : 'false');
 
-    const crossBtn = document.getElementById('btn-tool-crosshair');
-    if (crossBtn) crossBtn.setAttribute('aria-pressed', showCrosshair ? 'true' : 'false');
-
-    const gridBtn = document.getElementById('btn-tool-grid');
-    if (gridBtn) gridBtn.setAttribute('aria-pressed', showGrid ? 'true' : 'false');
+    const mobileGuidesBtn = document.getElementById('btn-mobile-tool-guides');
+    if (mobileGuidesBtn) {
+      mobileGuidesBtn.className = showGuides
+        ? 'p-2 rounded-xl border border-red-500 bg-red-600 text-white text-xs font-semibold flex flex-col items-center gap-1 shadow-sm'
+        : 'p-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-[var(--color-body)] text-xs font-medium flex flex-col items-center gap-1';
+    }
 
     const caliperBtn = document.getElementById('btn-tool-caliper');
     if (caliperBtn) caliperBtn.setAttribute('aria-pressed', showCaliper ? 'true' : 'false');
+
+    const mobileCaliperBtn = document.getElementById('btn-mobile-tool-caliper');
+    if (mobileCaliperBtn) {
+      mobileCaliperBtn.className = showCaliper
+        ? 'p-2 rounded-xl border border-red-500 bg-red-600 text-white text-xs font-semibold flex flex-col items-center gap-1 shadow-sm'
+        : 'p-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-[var(--color-body)] text-xs font-medium flex flex-col items-center gap-1';
+    }
   }
 
   function updateUnitButtonStyles() {
@@ -896,67 +1034,97 @@ import Footer from '../components/Footer.astro';
       checkAutoDetection();
     });
 
-    // Mobile Tools Sheet Toggle
+    // Mobile Tools Sheet Toggle & Backdrop
     const mobileToolsBtn = document.getElementById('btn-mobile-tools-toggle');
-    const mobileDrawer = document.getElementById('mobile-tools-drawer');
-    const btnCloseDrawer = document.getElementById('btn-close-mobile-drawer');
+    const mobileSheet = document.getElementById('mobile-tools-sheet');
+    const btnCloseSheet = document.getElementById('btn-close-mobile-sheet');
 
     mobileToolsBtn?.addEventListener('click', () => {
-      if (mobileDrawer) mobileDrawer.style.display = 'flex';
-    });
-    btnCloseDrawer?.addEventListener('click', () => {
-      if (mobileDrawer) mobileDrawer.style.display = 'none';
-    });
-
-    // Mobile Drawer Action Triggers
-    document.getElementById('btn-drawer-caliper')?.addEventListener('click', () => {
-      showCaliper = true;
-      if (mobileDrawer) mobileDrawer.style.display = 'none';
-      updateCaliper();
+      if (mobileSheet) mobileSheet.style.display = 'flex';
       updateEdgeButtonStyles();
     });
-
-    document.getElementById('btn-drawer-grid')?.addEventListener('click', () => {
-      showGrid = !showGrid;
-      if (mobileDrawer) mobileDrawer.style.display = 'none';
-      renderAllRulers();
-      updateEdgeButtonStyles();
+    btnCloseSheet?.addEventListener('click', () => {
+      if (mobileSheet) mobileSheet.style.display = 'none';
+    });
+    mobileSheet?.addEventListener('click', (e) => {
+      if (e.target === mobileSheet) {
+        mobileSheet.style.display = 'none';
+      }
     });
 
-    document.getElementById('btn-drawer-silhouettes')?.addEventListener('click', () => {
-      if (mobileDrawer) mobileDrawer.style.display = 'none';
-      openModal('silhouettes-modal');
+    // Mobile Calibration Trigger inside drawer
+    document.getElementById('btn-mobile-open-calibrate')?.addEventListener('click', () => {
+      if (mobileSheet) mobileSheet.style.display = 'none';
+      openModal('calibration-modal');
     });
 
-    document.getElementById('btn-drawer-guides')?.addEventListener('click', () => {
-      showGuides = !showGuides;
-      if (mobileDrawer) mobileDrawer.style.display = 'none';
-      renderGuideLines();
-      updateEdgeButtonStyles();
-    });
-
-    document.getElementById('btn-drawer-howto')?.addEventListener('click', () => {
-      if (mobileDrawer) mobileDrawer.style.display = 'none';
-      openModal('howto-modal');
-    });
-
-    // Edge Placement Buttons (Desktop and Mobile)
-    document.querySelectorAll('[data-edge-btn]').forEach(btn => {
+    // Mobile Edge Buttons
+    document.querySelectorAll('[data-edge-btn-mobile]').forEach(btn => {
       btn.addEventListener('click', () => {
-        const edge = btn.getAttribute('data-edge-btn');
+        const edge = btn.getAttribute('data-edge-btn-mobile');
         if (edge === 'frame') {
           const isAll = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
           activeEdges = { top: !isAll, bottom: !isAll, left: !isAll, right: !isAll };
         } else if (edge && edge in activeEdges) {
-          activeEdges[edge as keyof typeof activeEdges] = !activeEdges[edge as keyof typeof activeEdges];
+          activeEdges = { top: false, bottom: false, left: false, right: false };
+          activeEdges[edge as keyof typeof activeEdges] = true;
+        }
+        const welcome = document.getElementById('welcome-state');
+        if (welcome) welcome.style.display = 'none';
+        if (mobileSheet) mobileSheet.style.display = 'none';
+        renderAllRulers();
+      });
+    });
+
+    // Mobile Drawer Tool Buttons
+    document.getElementById('btn-mobile-tool-marker')?.addEventListener('click', () => {
+      showMarker = !showMarker;
+      updateMarker();
+      if (mobileSheet) mobileSheet.style.display = 'none';
+    });
+
+    document.getElementById('btn-mobile-tool-caliper')?.addEventListener('click', () => {
+      showCaliper = !showCaliper;
+      updateCaliper();
+      updateEdgeButtonStyles();
+      if (mobileSheet) mobileSheet.style.display = 'none';
+    });
+
+    document.getElementById('btn-mobile-tool-guides')?.addEventListener('click', () => {
+      showGuides = !showGuides;
+      renderGuideLines();
+      updateEdgeButtonStyles();
+      if (mobileSheet) mobileSheet.style.display = 'none';
+    });
+
+    // Edge Placement Buttons (Desktop Navbar and Mobile Edge Bar)
+    document.querySelectorAll('[data-edge-btn], [data-edge-btn-mobile]').forEach(btn => {
+      const activateEdge = (e?: Event) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        const edge = btn.getAttribute('data-edge-btn') || btn.getAttribute('data-edge-btn-mobile');
+        if (edge === 'frame') {
+          const isAll = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
+          if (isAll) {
+            activeEdges = { top: true, bottom: false, left: false, right: false };
+          } else {
+            activeEdges = { top: true, bottom: true, left: true, right: true };
+          }
+        } else if (edge && edge in activeEdges) {
+          // Select single edge cleanly
+          activeEdges = { top: false, bottom: false, left: false, right: false };
+          activeEdges[edge as keyof typeof activeEdges] = true;
         }
         // Hide welcome banner once an edge is clicked
         const welcome = document.getElementById('welcome-state');
         if (welcome) welcome.style.display = 'none';
-        // Smoothly scroll to top workspace if scrolled down
-        window.scrollTo({ top: 0, behavior: 'smooth' });
         renderAllRulers();
-      });
+      };
+
+      btn.addEventListener('click', activateEdge);
+      btn.addEventListener('touchend', activateEdge, { passive: false });
     });
 
     // Quick Edge Buttons in Welcome Banner
@@ -1117,22 +1285,98 @@ import Footer from '../components/Footer.astro';
       }
     });
 
-    // Canvas click to place guide lines
-    document.getElementById('ruler-canvas-top')?.addEventListener('click', (e) => {
-      const wsRect = rulerWs?.getBoundingClientRect() || { left: 0 };
-      addGuideLine('v', e.clientX - wsRect.left);
+    // Marker Toggle Button
+    const btnToolMarker = document.getElementById('btn-tool-marker');
+    btnToolMarker?.addEventListener('click', () => {
+      showMarker = !showMarker;
+      updateMarker();
     });
-    document.getElementById('ruler-canvas-bottom')?.addEventListener('click', (e) => {
-      const wsRect = rulerWs?.getBoundingClientRect() || { left: 0 };
-      addGuideLine('v', e.clientX - wsRect.left);
+
+    const btnMobileMarker = document.getElementById('btn-mobile-tool-marker');
+    btnMobileMarker?.addEventListener('click', () => {
+      showMarker = !showMarker;
+      updateMarker();
+      const mobileDrawer = document.getElementById('mobile-tools-sheet');
+      if (mobileDrawer) mobileDrawer.style.display = 'none';
     });
-    document.getElementById('ruler-canvas-left')?.addEventListener('click', (e) => {
-      const wsRect = rulerWs?.getBoundingClientRect() || { top: 52 };
-      addGuideLine('h', e.clientY - wsRect.top);
+
+    // Copy Measurement when clicking on Point Tag
+    [document.getElementById('marker-handle-v'), document.getElementById('marker-handle-h')].forEach(el => {
+      el?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = activeEdges.left || activeEdges.right
+          ? document.getElementById('marker-value-h')?.textContent
+          : document.getElementById('marker-value-v')?.textContent;
+        if (val) {
+          navigator.clipboard.writeText(val);
+          const feedback = document.createElement('div');
+          feedback.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-red-600 text-white text-xs font-mono shadow-lg z-50 animate-bounce';
+          feedback.textContent = currentLang === 'id' ? '✓ Ukuran tersalin: ' + val : '✓ Copied: ' + val;
+          document.body.appendChild(feedback);
+          setTimeout(() => feedback.remove(), 1500);
+        }
+      });
     });
-    document.getElementById('ruler-canvas-right')?.addEventListener('click', (e) => {
-      const wsRect = rulerWs?.getBoundingClientRect() || { top: 52 };
-      addGuideLine('h', e.clientY - wsRect.top);
+
+    // Marker Drag Handles & Touch Zones
+    const handleV = document.getElementById('marker-handle-v');
+    const handleH = document.getElementById('marker-handle-h');
+    const touchZoneV = document.getElementById('marker-touch-zone-v');
+    const touchZoneH = document.getElementById('marker-touch-zone-h');
+
+    const onMarkerStart = (e: MouseEvent | TouchEvent) => {
+      isDraggingMarker = true;
+    };
+
+    [handleV, handleH, touchZoneV, touchZoneH].forEach(el => {
+      el?.addEventListener('mousedown', onMarkerStart);
+      el?.addEventListener('touchstart', onMarkerStart, { passive: true });
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDraggingMarker && rulerWs) {
+        const rect = rulerWs.getBoundingClientRect();
+        const isVerticalEdge = activeEdges.left || activeEdges.right;
+        markerPos = isVerticalEdge ? (e.clientY - rect.top) : (e.clientX - rect.left);
+        if (markerPos < 0) markerPos = 0;
+        updateMarker();
+      }
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (isDraggingMarker && rulerWs && e.touches[0]) {
+        const rect = rulerWs.getBoundingClientRect();
+        const isVerticalEdge = activeEdges.left || activeEdges.right;
+        markerPos = isVerticalEdge ? (e.touches[0].clientY - rect.top) : (e.touches[0].clientX - rect.left);
+        if (markerPos < 0) markerPos = 0;
+        updateMarker();
+      }
+    }, { passive: true });
+
+    window.addEventListener('mouseup', () => {
+      isDraggingMarker = false;
+    });
+    window.addEventListener('touchend', () => {
+      isDraggingMarker = false;
+    });
+
+    // Click on ruler canvases or surface to drop / move marker instantly
+    ['ruler-canvas-top', 'ruler-canvas-bottom', 'measuring-surface'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', (e: MouseEvent) => {
+        const wsRect = rulerWs?.getBoundingClientRect() || { left: 0, top: 52 };
+        markerPos = Math.max(0, e.clientX - wsRect.left);
+        showMarker = true;
+        updateMarker();
+      });
+    });
+
+    ['ruler-canvas-left', 'ruler-canvas-right'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', (e: MouseEvent) => {
+        const wsRect = rulerWs?.getBoundingClientRect() || { left: 0, top: 52 };
+        markerPos = Math.max(0, e.clientY - wsRect.top);
+        showMarker = true;
+        updateMarker();
+      });
     });
 
     // Modals open / close triggers

@@ -8,75 +8,106 @@ export interface Props {
 }
 
 const {
-  title = 'Online Penggaris — Penggaris Online Akurat Seukuran Asli (cm, mm, inches)',
-  description = 'Online Penggaris digital gratis akurat seukuran asli (actual size online ruler to scale). Dilengkapi penggaris online cm, mm, online penggaris inches (12 inch online ruler), gambar penggaris, jangka sorong, dan kalibrasi otomatis layar.',
+  title = 'Penggaris Online — Ukur Panjang Akurat Seukuran Asli (cm, mm, inci) | onlinepenggaris.com',
+  description = 'Penggaris online gratis akurat seukuran asli di layar HP, laptop, dan monitor PC (skala 1:1 cm, mm, inci). Dilengkapi penunjuk / marker ukur interaktif dan kalibrasi otomatis.',
   lang = 'id'
 } = Astro.props;
 
-const canonicalUrl = 'https://onlinepenggaris.com';
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '';
+const pageUrl = `https://onlinepenggaris.com${pathname || '/'}`;
+const pageEnUrl = `https://onlinepenggaris.com${pathname || '/'}?lang=en`;
 const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
 ---
 
 <!doctype html>
-<html lang={lang} class="dark">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Theme initialization script (prevents flash of wrong theme) -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X2ST24TC94"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-X2ST24TC94');
+    </script>
+
+    <!-- Theme initialization script (Defaults to clean white / light theme) -->
     <script is:inline>
       (function () {
         try {
           const savedTheme = localStorage.getItem('onlinepenggaris_theme_v1');
-          if (savedTheme === 'light') {
-            document.documentElement.classList.remove('dark');
-          } else if (savedTheme === 'dark') {
+          if (savedTheme === 'dark') {
             document.documentElement.classList.add('dark');
-          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.documentElement.classList.remove('dark');
           } else {
-            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('dark');
           }
+
+          // Language initialization (strictly defaults to 'id')
+          const urlParams = new URLSearchParams(window.location.search);
+          const urlLang = urlParams.get('lang');
+          let currentLang = 'id';
+          if (urlLang === 'en') {
+            currentLang = 'en';
+          } else if (urlLang === 'id') {
+            currentLang = 'id';
+          } else {
+            const savedLang = localStorage.getItem('onlinepenggaris_lang_v1');
+            if (savedLang === 'en') currentLang = 'en';
+          }
+          document.documentElement.lang = currentLang;
         } catch (e) {}
       })();
     </script>
 
-    <!-- Primary SEO Meta Tags -->
+    <!-- Primary SEO Meta Tags for Indonesian Ranking -->
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta
       name="keywords"
-      content="penggaris, Online Penggaris, online penggaris inches, penggaris online, penggaris busur, gambar penggaris, online ruler in cm, online ruler mm, penggaris digital, free online ruler, penggaris segitiga, online ruler in mm, online ruler camera, accurate online ruler, penggaris online cm, 12 inch online ruler, online ruler to scale, online ruler tool, actual size online ruler, penggaris online kamera, cara memunculkan penggaris di word, cara menampilkan penggaris di word, bahasa inggrisnya penggaris, cara memunculkan penggaris pada word, cara menggunakan penggaris, can I use my phone as a ruler, is there a ruler online, how to identify 1 inch, how to measure cm online, can a smart phone measure"
+      content="penggaris online, penggaris, penggaris digital, penggaris online cm, online penggaris, penggaris online mm, penggaris online inches, gambar penggaris, cara memunculkan penggaris di word, penggaris busur, penggaris segitiga, free online ruler, accurate online ruler, penggaris layar hp, penggaris layar laptop, online ruler in cm, online ruler in mm"
     />
     <meta name="author" content="Online Penggaris" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang="id" href={canonicalUrl} />
-    <link rel="alternate" hreflang="en" href={`${canonicalUrl}/?lang=en`} />
-    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    
+    <!-- Geo Target for Indonesia -->
+    <meta name="geo.region" content="ID" />
+    <meta name="geo.placename" content="Indonesia" />
+    <meta name="language" content="Indonesian" />
+
+    <link rel="canonical" href={pageUrl} />
+    
+    <!-- Hreflang Tags for ID -->
+    <link rel="alternate" hreflang="id" href={pageUrl} />
+    <link rel="alternate" hreflang="id-ID" href={pageUrl} />
+    <link rel="alternate" hreflang="en" href={pageEnUrl} />
+    <link rel="alternate" hreflang="x-default" href={pageUrl} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content="Online Penggaris — Penggaris Digital Online Akurat Seukuran Asli (cm, mm, inches)" />
-    <meta property="og:description" content="Penggaris online gratis akurat seukuran asli (actual size online ruler to scale) dalam cm, mm, dan inches. Dilengkapi penggaris busur, penggaris segitiga, dan jangka sorong digital." />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:title" content="Penggaris Online — Ukur Panjang Akurat Seukuran Asli (cm, mm, in)" />
+    <meta property="og:description" content="Penggaris online gratis akurat seukuran asli di layar HP dan laptop. Dilengkapi penunjuk / marker ukur dan kalibrasi layar 1:1." />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Online Penggaris - Accurate Free Online Ruler Actual Size to Scale" />
+    <meta property="og:image:alt" content="Penggaris Online - OnlinePenggaris.com" />
     <meta property="og:site_name" content="Online Penggaris" />
-    <meta property="og:locale" content={lang === 'id' ? 'id_ID' : 'en_US'} />
-    <meta property="og:locale:alternate" content={lang === 'id' ? 'en_US' : 'id_ID'} />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:locale:alternate" content="en_US" />
 
     <!-- Twitter Card -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalUrl} />
-    <meta property="twitter:title" content="Online Penggaris — Accurate Online Ruler Actual Size (cm, mm, inches)" />
-    <meta property="twitter:description" content="Online penggaris digital akurat seukuran asli (actual size to scale) untuk layar HP, laptop, dan monitor PC." />
+    <meta property="twitter:url" content={pageUrl} />
+    <meta property="twitter:title" content="Penggaris Online — Ukur Akurat Seukuran Asli (cm, mm, in)" />
+    <meta property="twitter:description" content="Penggaris online digital gratis untuk layar HP, laptop, dan monitor seukuran fisik asli." />
     <meta property="twitter:image" content={ogImageUrl} />
-    <meta property="twitter:image:alt" content="Online Penggaris - Accurate Free Online Ruler" />
+    <meta property="twitter:image:alt" content="Penggaris Online - OnlinePenggaris.com" />
 
     <!-- Favicon & PWA Icons -->
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -86,7 +117,7 @@ const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
     <meta name="apple-mobile-web-app-title" content="Penggaris" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Fonts: Inter & JetBrains Mono for Vercel-like typography -->
+    <!-- Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -96,37 +127,32 @@ const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Online Penggaris",
+        "name": "Penggaris Online",
         "alternateName": [
-          "Penggaris Online",
-          "Online Ruler Actual Size",
-          "Actual Size Online Ruler to Scale",
-          "Free Online Ruler",
-          "Penggaris Digital",
-          "12 Inch Online Ruler"
+          "Online Penggaris",
+          "Penggaris Digital Online",
+          "Penggaris Layar HP",
+          "Penggaris Online CM"
         ],
         "url": "https://onlinepenggaris.com",
-        "description": "Penggaris online gratis akurat seukuran asli (actual size online ruler to scale) dalam cm, mm, dan inches dengan kalibrasi otomatis, diagonal layar, dan kartu ATM/KTP.",
+        "description": "Penggaris online gratis akurat seukuran asli (skala 1:1) dalam cm, mm, dan inci dengan penunjuk / marker ukur presisi dan kalibrasi otomatis layar.",
         "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "All (Web Browser, iOS, Android, macOS, Windows, Linux)",
+        "operatingSystem": "All (Web Browser, Android, iOS, Windows, macOS)",
         "inLanguage": ["id", "en"],
         "isAccessibleForFree": true,
         "offers": {
           "@type": "Offer",
           "price": "0",
-          "priceCurrency": "USD"
+          "priceCurrency": "IDR"
         },
         "featureList": [
-          "Penggaris seukuran asli terkalibrasi layar (actual size online ruler to scale)",
-          "Penggaris online cm dan online ruler in mm",
-          "Online penggaris inches (12 inch online ruler)",
-          "3 Metode Kalibrasi: Deteksi Otomatis, Diagonal Layar, Kartu ATM",
-          "Posisi Penggaris Atas, Bawah, Kiri, Kanan & Bingkai 4 Sisi",
-          "Jangka Sorong Digital Interaktif (Two-Point Caliper)",
-          "Garis Panduan Magnetik & Crosshair Kursor",
-          "Bandingkan Gambar Penggaris dengan Siluet Objek Skala 1:1",
-          "Satuan cm, mm, in, px, pt",
-          "Mode Gelap / Terang & Layar Penuh"
+          "Penggaris online seukuran asli terkalibrasi layar 1:1",
+          "Penunjuk dan marker geser interaktif (interactive ruler pointer)",
+          "Penggaris online cm, mm, dan inci",
+          "3 Metode Kalibrasi: Otomatis, Diagonal Layar, dan Kartu ATM/KTP",
+          "Pilihan Posisi Penggaris: Atas, Bawah, Kiri, Kanan, 4 Sisi",
+          "Jangka Sorong Digital (Two-Point Caliper)",
+          "100% Gratis tanpa download aplikasi"
         ]
       }
     </script>
@@ -139,42 +165,26 @@ const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Can I use my phone as a ruler?",
+            "name": "Apakah penggaris online ini benar-benar akurat seukuran asli?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes, absolutely! By visiting OnlinePenggaris.com on your smartphone browser (iPhone or Android), your screen turns into an accurate 1:1 physical ruler. Simply calibrate with your screen size or a bank card, then place any small object directly against the screen glass to read its exact length in cm, mm, or inches."
+              "text": "Ya, 100% akurat. Setelah melakukan kalibrasi layar (menggunakan deteksi otomatis hardware, memasukkan ukuran diagonal layar dalam inci, atau mencocokkan kartu ATM/KTP fisik standar ISO), skala 1 cm, 1 mm, maupun 1 inci di layar kaca sama persis dengan penggaris fisik di dunia nyata."
             }
           },
           {
             "@type": "Question",
-            "name": "Is there a ruler online?",
+            "name": "Bagaimana cara mengukur dengan penunjuk / marker di penggaris online?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes, OnlinePenggaris.com is a free, instant online ruler that displays real actual size measurements to scale in your web browser without downloading or installing any software."
+              "text": "Cukup klik atau geser jari/kursor Anda pada garis penggaris di layar. Garis penunjuk (marker) merah akan otomatis mengikuti dan menampilkan hasil pengukuran panjang langsung secara instan dalam cm, mm, dan inci."
             }
           },
           {
             "@type": "Question",
-            "name": "How to identify 1 inch?",
+            "name": "Bisakah saya menggunakan HP sebagai penggaris?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "1 inch is exactly equal to 2.54 centimeters (25.4 mm). On OnlinePenggaris.com, switch the unit selector to 'in'. In everyday life, 1 inch roughly matches the distance from the top knuckle to the tip of an adult thumb, or the diameter of a standard US Quarter / Rp 1.000 coin."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How to measure cm online?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "To measure in centimeters online: 1. Select the 'cm' unit on OnlinePenggaris.com. 2. Verify calibration with the Auto-Detect method or a physical credit card. 3. Place your object flat against the screen aligned with the zero (0 cm) mark. 4. Read the corresponding number and millimeter subdivisions."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can a smart phone measure?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, modern smartphones can measure in two ways: 1. For small items (0-15 cm), use an actual-size on-screen ruler like OnlinePenggaris.com. 2. For large spaces and furniture (1-5 meters), use built-in Augmented Reality (AR) camera measurement apps (like iOS Measure or Android AR Ruler)."
+              "text": "Ya! Buka OnlinePenggaris.com di browser HP Anda (Android atau iPhone). Layar Anda akan langsung berubah menjadi penggaris digital seukuran nyata."
             }
           },
           {
@@ -182,15 +192,7 @@ const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
             "name": "Cara memunculkan penggaris di Word?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Untuk memunculkan penggaris di Microsoft Word: 1. Buka dokumen Word Anda. 2. Klik tab menu 'View' (Tampilan) pada pita menu atas. 3. Pada grup 'Show' (Tampilkan), centang kotak 'Ruler' (Penggaris). Penggaris horizontal dan vertikal akan langsung tampil di lembar kerja Anda."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Cara menampilkan penggaris di Word?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Cara cepat menampilkan penggaris di Word adalah dengan menekan tombol pintas keyboard 'Alt + W', kemudian tekan tombol 'R'. Anda juga dapat mengubah satuan penggaris (ke cm atau inci) melalui menu File > Options > Advanced > Display > Show measurements in units of."
+              "text": "Untuk memunculkan penggaris di Microsoft Word: 1. Buka dokumen Word. 2. Klik tab menu 'View' (Tampilan) pada pita atas. 3. Pada grup 'Show', centang kotak 'Ruler' (Penggaris). Penggaris horizontal dan vertikal akan langsung muncul."
             }
           },
           {
@@ -198,30 +200,14 @@ const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
             "name": "Bahasa Inggrisnya penggaris?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Bahasa Inggris dari kata 'penggaris' adalah 'Ruler' atau 'Straightedge' / 'Scale' (mistar). Untuk jenis penggaris lainnya: Penggaris busur derajat adalah 'Protractor', Penggaris segitiga adalah 'Set Square' atau 'Triangle Ruler', Penggaris gulung / meteran adalah 'Tape Measure', dan Jangka sorong adalah 'Caliper'."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Cara memunculkan penggaris pada Word jika hilang?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Jika penggaris pada Word hilang atau tidak terlihat: 1. Pastikan tampilan dokumen berada pada mode 'Print Layout' (tab View > Print Layout). 2. Centang opsi 'Ruler'. 3. Jika penggaris vertikal di samping kiri tetap tidak muncul, buka menu File > Options > Advanced, gulir ke bawah ke bagian 'Display', lalu centang kotak 'Show vertical ruler in Print Layout view'."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Cara menggunakan penggaris dengan benar?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Langkah menggunakan penggaris yang benar: 1. Tempatkan ujung awal benda tepat lurus sejajar dengan garis angka 0 (nol), bukan tepi kayu/plastik fisik jika terdapat celah offset. 2. Arahkan pandangan mata tegak lurus 90 derajat terhadap garis skala untuk menghindari kesalahan paralaks. 3. Baca satuan utama (cm atau inci) lalu hitung garis milimeter/pecahan di sebelahnya."
+              "text": "Bahasa Inggris dari penggaris adalah 'Ruler' atau 'Straightedge'. Penggaris busur adalah 'Protractor', penggaris segitiga adalah 'Set Square', dan jangka sorong adalah 'Caliper'."
             }
           }
         ]
       }
     </script>
   </head>
-  <body class="min-h-screen bg-[var(--color-canvas)] text-[var(--color-ink)] selection:bg-indigo-500/30">
+  <body class="min-h-screen bg-[var(--color-canvas)] text-[var(--color-ink)] selection:bg-red-500/20">
     <slot />
   </body>
 </html>

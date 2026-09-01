@@ -1,4 +1,10 @@
+# Online Penggaris Robots.txt
+# https://onlinepenggaris.com
+
 User-agent: *
 Allow: /
+Disallow: /404
+Disallow: /500
 
-Sitemap: https://onlinepenggaris.com/sitemap-index.xml
+# XML Sitemap Location
+Sitemap: https://onlinepenggaris.com/sitemap.xml

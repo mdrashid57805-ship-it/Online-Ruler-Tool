@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Home Page / Main Interactive Measuring Tool -->
+  <url>
+    <loc>https://onlinepenggaris.com/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+  </url>
+
+  <!-- Cara Kalibrasi (Calibration Guide) -->
+  <url>
+    <loc>https://onlinepenggaris.com/cara-kalibrasi/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/cara-kalibrasi/?lang=en"/>
+  </url>
+
+  <!-- Tentang Kami (About Us) -->
+  <url>
+    <loc>https://onlinepenggaris.com/tentang/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/tentang/?lang=en"/>
+  </url>
+
+  <!-- Hubungi Kami (Contact Us) -->
+  <url>
+    <loc>https://onlinepenggaris.com/contact/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/contact/?lang=en"/>
+  </url>
+
+  <!-- Kebijakan Privasi (Privacy Policy) -->
+  <url>
+    <loc>https://onlinepenggaris.com/privacy-policy/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/privacy-policy/?lang=en"/>
+  </url>
+
+  <!-- Syarat & Ketentuan (Terms of Service) -->
+  <url>
+    <loc>https://onlinepenggaris.com/terms/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/terms/?lang=en"/>
+  </url>
+
+</urlset>
