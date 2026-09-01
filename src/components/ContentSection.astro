@@ -1,0 +1,449 @@
+---
+export interface Props {
+  lang?: 'id' | 'en';
+}
+const { lang = 'id' } = Astro.props;
+---
+
+<section id="seo-content" class="relative z-10 bg-[var(--color-canvas)] border-t border-[var(--color-hairline)] py-16 px-4 sm:px-6">
+  <article class="max-w-4xl mx-auto space-y-12 text-[var(--color-ink)]">
+    
+    <!-- Hero Article Header -->
+    <header class="space-y-4 text-center sm:text-left">
+      <div id="seo-badge" class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold font-mono border border-indigo-500/20">
+        ALAT UKUR DIGITAL PRESISI 1:1
+      </div>
+      <h1 id="seo-h1" class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+        Online Penggaris — Penggaris Online Akurat Seukuran Asli (cm, mm, inches)
+      </h1>
+      <p id="seo-lead" class="text-sm sm:text-base text-[var(--color-body)] leading-relaxed">
+        <strong>Online Penggaris</strong> (<em>onlinepenggaris.com</em>) adalah alat ukur <strong>penggaris digital</strong> berbasis web (<strong>free online ruler</strong>) yang mengubah layar laptop, monitor PC, tablet, maupun smartphone Anda menjadi <strong>penggaris online akurat</strong> seukuran fisik nyata (<strong>actual size online ruler to scale</strong>). Dilengkapi pilihan <strong>penggaris online cm</strong>, <strong>online ruler in mm</strong>, <strong>online penggaris inches</strong> (skala <strong>12 inch online ruler</strong>), visual <strong>gambar penggaris</strong>, dan jangka sorong digital dua titik tanpa perlu instalasi aplikasi apapun.
+      </p>
+    </header>
+
+    <!-- SECTION 1: Mengapa Kalibrasi Sangat Penting untuk Penggaris Online Seukuran Asli -->
+    <section class="space-y-4">
+      <h2 id="seo-sec1-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
+        Mengapa Kalibrasi Kerapatan Piksel (PPI) Penting untuk Penggaris Digital?
+      </h2>
+      <p id="seo-sec1-p1" class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+        Setiap layar gawai memiliki kerapatan piksel fisik atau <em>Pixels Per Inch</em> (PPI) yang berlainan. Sebagai contoh, layar monitor desktop 24 inci standar memiliki kerapatan ~93 PPI, laptop 15.6 inci Full HD berada di ~141 PPI, sedangkan layar smartphone modern dan MacBook Retina mencapai 224 hingga 460+ PPI.
+      </p>
+      <p id="seo-sec1-p2" class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+        Banyak situs penggaris konvensional hanya mengandalkan nilai default 96 CSS PPI, yang menyebabkan hasil pengukuran meleset hingga 50% atau lebih pada layar resolusi tinggi. <strong>Online Penggaris</strong> memecahkan permasalahan ini dengan menghadirkan kalibrasi presisi berbasis <em>CSS-Level Device Pixel Ratio (DPR)</em>, memastikan bahwa 1 sentimeter atau 1 inci di layar kaca Anda 100% identik dengan <strong>penggaris</strong> fisik di dunia nyata (<strong>accurate online ruler</strong>).
+      </p>
+    </section>
+
+    <!-- SECTION 2: Pilihan Satuan Lengkap (CM, MM, Inches) -->
+    <section class="space-y-4">
+      <h2 id="seo-sec2-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
+        Pilihan Satuan Lengkap: Penggaris Online CM, MM, dan Inches
+      </h2>
+      <p id="seo-sec2-p1" class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+        Untuk memenuhi berbagai kebutuhan pengukuran teknis, kerajinan tangan, arsitektur, hingga edukasi sekolah, <strong>Online Penggaris</strong> menyediakan dukungan multi-satuan instan:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+        <div class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-mono font-bold text-xs">
+            CM
+          </div>
+          <h3 id="card-unit-cm-title" class="font-bold text-sm text-[var(--color-ink)]">Penggaris Online CM (Centimeter)</h3>
+          <p id="card-unit-cm-desc" class="text-xs text-[var(--color-body)] leading-relaxed">
+            Menampilkan penomoran skala sentimeter (1, 2, 3, 4... cm) dengan garis pembagi 1 mm dan tanda paruh 5 mm untuk pengukuran metrik harian.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-mono font-bold text-xs">
+            MM
+          </div>
+          <h3 id="card-unit-mm-title" class="font-bold text-sm text-[var(--color-ink)]">Online Ruler in MM (Millimeter)</h3>
+          <p id="card-unit-mm-desc" class="text-xs text-[var(--color-body)] leading-relaxed">
+            Menampilkan penomoran skala milimeter (10, 20, 30, 40... mm) seperti pada mistar teknik presisi untuk mengukur komponen mikro, baut, dan perhiasan.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-mono font-bold text-xs">
+            IN
+          </div>
+          <h3 id="card-unit-in-title" class="font-bold text-sm text-[var(--color-ink)]">Online Penggaris Inches (12 Inch)</h3>
+          <p id="card-unit-in-desc" class="text-xs text-[var(--color-body)] leading-relaxed">
+            Menampilkan fraksi imperial 1/8, 1/16, hingga 1/32 inci (<strong>12 inch online ruler</strong>) untuk standar internasional dan dokumen cetak.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Ragam Jenis Penggaris: Busur, Segitiga & Kamera Pengukur -->
+    <section class="space-y-4">
+      <h2 id="seo-sec3-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
+        Mengenal Ragam Penggaris: Penggaris Busur, Penggaris Segitiga & Penggaris Kamera
+      </h2>
+      <p id="seo-sec3-p1" class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+        Dalam aktivitas desain teknis dan pendidikan matematika, terdapat berbagai bentuk alat ukur:
+      </p>
+
+      <div class="space-y-3 text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+        <div class="p-4 rounded-xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-1.5">
+          <h3 id="sec3-busur-title" class="font-bold text-sm text-[var(--color-ink)]">📐 Penggaris Busur Derajat (Protractor 180° / 360°)</h3>
+          <p id="sec3-busur-desc">
+            <strong>Penggaris busur</strong> digunakan untuk mengukur dan menggambar sudut geometris secara akurat mulai dari 0° hingga 180°. Pada studio online kami, Anda dapat memanfaatkan kalkulasi trigonometri digital dan jangka sorong untuk mengukur kemiringan sudut objek.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-1.5">
+          <h3 id="sec3-segitiga-title" class="font-bold text-sm text-[var(--color-ink)]">📐 Penggaris Segitiga (Set Square 45° & 30°/60°)</h3>
+          <p id="sec3-segitiga-desc">
+            <strong>Penggaris segitiga</strong> merupakan alat wajib arsitek dan drafter untuk menarik garis tegak lurus (90°) dan sudut istimewa. Melalui fitur <em>Bingkai 4 Sisi (Full Frame)</em> dan <em>Matriks Grid</em>, layar perangkat Anda berubah menjadi meja gambar berpresisi tinggi.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-1.5">
+          <h3 id="sec3-kamera-title" class="font-bold text-sm text-[var(--color-ink)]">📷 Penggaris Online Kamera (Online Ruler Camera Tips)</h3>
+          <p id="sec3-kamera-desc">
+            Bagi pengguna smartphone yang mencari <strong>penggaris online kamera</strong> (<em>online ruler camera</em>), cara paling akurat untuk mengukur benda fisik adalah dengan menempelkan benda langsung pada kaca layar berpelindung sejajar dengan garis skala 1:1, atau menggunakan siluet referensi standar kami (seperti kartu KTP atau koin Rp 1.000) sebagai acuan pembanding.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: 3 Metode Kalibrasi Layar -->
+    <section class="space-y-4">
+      <h2 id="seo-sec4-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
+        3 Metode Kalibrasi Skala Layar 1:1 (Online Ruler to Scale)
+      </h2>
+      <p id="seo-sec4-p1" class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+        Untuk menjamin presisi sub-milimeter, <strong>Online Penggaris</strong> menyediakan 3 metode kalibrasi mudah yang dapat dipilih sesuai preferensi Anda:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+        <!-- Method 1 -->
+        <div class="p-5 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-mono font-bold text-xs">
+            01
+          </div>
+          <h3 id="seo-m1-title" class="font-bold text-sm text-[var(--color-ink)]">Deteksi Hardware Otomatis</h3>
+          <p id="seo-m1-text" class="text-xs text-[var(--color-body)] leading-relaxed">
+            Sistem secara instan membaca resolusi viewport, Device Pixel Ratio (DPR), dan mencocokkannya ke database spesifikasi pabrikan dari ratusan laptop, tablet, dan smartphone.
+          </p>
+        </div>
+
+        <!-- Method 2 -->
+        <div class="p-5 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-mono font-bold text-xs">
+            02
+          </div>
+          <h3 id="seo-m2-title" class="font-bold text-sm text-[var(--color-ink)]">Ukuran Diagonal Layar (Inci)</h3>
+          <p id="seo-m2-text" class="text-xs text-[var(--color-body)] leading-relaxed">
+            Cukup masukkan ukuran diagonal layar Anda dalam inci (misalnya 13.3", 14.0", 15.6", 24", atau 27"). Rumus geometris otomatis menghitung kerapatan PPI nyata.
+          </p>
+        </div>
+
+        <!-- Method 3 -->
+        <div class="p-5 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center font-mono font-bold text-xs">
+            03
+          </div>
+          <h3 id="seo-m3-title" class="font-bold text-sm text-[var(--color-ink)]">Kalibrasi Kartu ATM / KTP</h3>
+          <p id="seo-m3-text" class="text-xs text-[var(--color-body)] leading-relaxed">
+            Tempelkan kartu plastik standar ISO/IEC 7810 (panjang 85.60 mm) pada layar dan sesuaikan slider. Metode paling praktis tanpa perlu tahu spesifikasi layar!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: Tabel Kerapatan Piksel Layar Populer -->
+    <section class="space-y-4 pt-2">
+      <div class="flex items-center justify-between">
+        <h2 id="seo-table-title" class="text-lg sm:text-xl font-bold tracking-tight text-[var(--color-ink)]">
+          Tabel Kerapatan Piksel (PPI) Layar Populer
+        </h2>
+      </div>
+      <div class="overflow-x-auto rounded-2xl border border-[var(--color-hairline)] shadow-sm">
+        <table class="w-full text-left text-xs border-collapse font-sans">
+          <thead>
+            <tr class="bg-[var(--color-canvas-soft)] border-b border-[var(--color-hairline)] text-[var(--color-mute)] font-mono">
+              <th id="th-col-device" class="py-3 px-4 font-semibold">Tipe Perangkat</th>
+              <th id="th-col-diag" class="py-3 px-4 font-semibold">Ukuran Layar</th>
+              <th id="th-col-res" class="py-3 px-4 font-semibold">Resolusi Asli</th>
+              <th id="th-col-ppi" class="py-3 px-4 font-semibold">Factory PPI</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[var(--color-hairline)]">
+            <tr class="hover:bg-[var(--color-canvas-soft)] transition-colors">
+              <td class="py-2.5 px-4 font-medium">Apple MacBook Pro 14″ (M1/M2/M3/M4)</td>
+              <td class="py-2.5 px-4 font-mono">14.2″</td>
+              <td class="py-2.5 px-4 font-mono">3024 × 1964</td>
+              <td class="py-2.5 px-4 font-mono font-bold text-indigo-500">254 PPI</td>
+            </tr>
+            <tr class="hover:bg-[var(--color-canvas-soft)] transition-colors">
+              <td class="py-2.5 px-4 font-medium">Apple MacBook Air 13.6″ (M2/M3)</td>
+              <td class="py-2.5 px-4 font-mono">13.6″</td>
+              <td class="py-2.5 px-4 font-mono">2560 × 1664</td>
+              <td class="py-2.5 px-4 font-mono font-bold text-indigo-500">224 PPI</td>
+            </tr>
+            <tr class="hover:bg-[var(--color-canvas-soft)] transition-colors">
+              <td class="py-2.5 px-4 font-medium">Laptop Standar 14.0″ Full HD</td>
+              <td class="py-2.5 px-4 font-mono">14.0″</td>
+              <td class="py-2.5 px-4 font-mono">1920 × 1080</td>
+              <td class="py-2.5 px-4 font-mono font-bold text-indigo-500">157 PPI</td>
+            </tr>
+            <tr class="hover:bg-[var(--color-canvas-soft)] transition-colors">
+              <td class="py-2.5 px-4 font-medium">Laptop Standar 15.6″ Full HD</td>
+              <td class="py-2.5 px-4 font-mono">15.6″</td>
+              <td class="py-2.5 px-4 font-mono">1920 × 1080</td>
+              <td class="py-2.5 px-4 font-mono font-bold text-indigo-500">141 PPI</td>
+            </tr>
+            <tr class="hover:bg-[var(--color-canvas-soft)] transition-colors">
+              <td class="py-2.5 px-4 font-medium">Monitor PC 24″ Full HD</td>
+              <td class="py-2.5 px-4 font-mono">23.8″</td>
+              <td class="py-2.5 px-4 font-mono">1920 × 1080</td>
+              <td class="py-2.5 px-4 font-mono font-bold text-indigo-500">93 PPI</td>
+            </tr>
+            <tr class="hover:bg-[var(--color-canvas-soft)] transition-colors">
+              <td class="py-2.5 px-4 font-medium">Monitor PC 27″ QHD 1440p</td>
+              <td class="py-2.5 px-4 font-mono">27.0″</td>
+              <td class="py-2.5 px-4 font-mono">2560 × 1440</td>
+              <td class="py-2.5 px-4 font-mono font-bold text-indigo-500">109 PPI</td>
+            </tr>
+            <tr class="hover:bg-[var(--color-canvas-soft)] transition-colors">
+              <td class="py-2.5 px-4 font-medium">Apple iPhone 15 / 16 (Pro / Max)</td>
+              <td class="py-2.5 px-4 font-mono">6.1″ – 6.9″</td>
+              <td class="py-2.5 px-4 font-mono">2556 × 1179+</td>
+              <td class="py-2.5 px-4 font-mono font-bold text-indigo-500">460 PPI</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 6: Comprehensive FAQ Accordion (10 Questions) -->
+    <section class="space-y-4 pt-2">
+      <div class="space-y-1">
+        <h2 id="seo-faq-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
+          Pertanyaan yang Sering Diajukan (FAQ Penggaris Online)
+        </h2>
+        <p id="seo-faq-sub" class="text-xs text-[var(--color-mute)]">
+          Jawaban lengkap seputar penggaris digital online, kalibrasi smartphone, dan panduan penggaris Microsoft Word.
+        </p>
+      </div>
+
+      <div class="space-y-2.5">
+        
+        <!-- FAQ 1 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q1">Can I use my phone as a ruler? (Bisakah menggunakan HP sebagai penggaris?)</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a1" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            Ya, sangat bisa! Dengan membuka OnlinePenggaris.com di browser HP (iPhone maupun Android), layar Anda langsung menjadi penggaris fisik nyata skala 1:1. Cukup lakukan kalibrasi otomatis atau tempelkan kartu ATM/KTP fisik, lalu tempelkan benda yang ingin diukur langsung pada kaca layar untuk membaca panjangnya dalam cm, mm, atau inci.
+          </p>
+        </details>
+
+        <!-- FAQ 2 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q2">Is there a ruler online? (Apakah ada penggaris online?)</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a2" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            Ya, OnlinePenggaris.com adalah situs penggaris online gratis yang menampilkan mistar seukuran asli (actual size to scale) langsung di browser web Anda tanpa perlu mengunduh atau menginstal software apapun.
+          </p>
+        </details>
+
+        <!-- FAQ 3 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q3">How to identify 1 inch? (Bagaimana cara mengetahui ukuran 1 inci?)</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a3" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            1 inci (inch) setara tepat dengan 2.54 sentimeter (25.4 mm). Pada OnlinePenggaris.com, Anda cukup memilih satuan "in". Di dunia nyata, 1 inci kira-kira sebanding dengan panjang ruas ujung ibu jari orang dewasa atau diameter koin pecahan Rp 1.000 / US Quarter.
+          </p>
+        </details>
+
+        <!-- FAQ 4 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q4">How to measure cm online? (Bagaimana cara mengukur cm secara online?)</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a4" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            Cara mengukur sentimeter secara online: 1. Pilih satuan <strong>cm</strong> pada toolbar atas OnlinePenggaris.com. 2. Lakukan kalibrasi layar jika diperlukan. 3. Tempelkan benda yang ingin diukur sejajar dengan garis awal angka 0. 4. Baca garis tanda sentimeter dan milimeter yang bertepatan dengan ujung benda.
+          </p>
+        </details>
+
+        <!-- FAQ 5 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q5">Can a smart phone measure? (Apakah smartphone bisa mengukur?)</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a5" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            Ya, smartphone modern dapat mengukur benda dengan dua cara: 1. Untuk benda kecil berpresisi tinggi (0-15 cm), gunakan penggaris layar seukuran asli seperti OnlinePenggaris.com. 2. Untuk ruangan atau perabotan besar (1-5 meter), gunakan aplikasi kamera Augmented Reality (AR) bawaan smartphone (seperti fitur Measure di iOS atau Google AR Ruler di Android).
+          </p>
+        </details>
+
+        <!-- FAQ 6 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q6">Cara memunculkan penggaris di Word?</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a6" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            Langkah mudah memunculkan penggaris di Microsoft Word: 1. Buka dokumen Word Anda. 2. Klik tab menu <strong>View</strong> (Tampilan) pada bilah pita atas. 3. Pada grup pengaturan <strong>Show</strong> (Tampilkan), centang kotak <strong>Ruler</strong> (Penggaris). Penggaris horizontal di atas dan vertikal di kiri akan langsung muncul.
+          </p>
+        </details>
+
+        <!-- FAQ 7 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q7">Cara menampilkan penggaris di Word dengan tombol pintas?</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a7" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            Cara tercepat menampilkan penggaris di Word adalah dengan menekan tombol keyboard <strong>Alt + W</strong>, lalu tekan tombol <strong>R</strong>. Anda juga dapat mengubah format ukuran penggaris Word ke cm lewat menu <em>File > Options > Advanced > Display > Show measurements in units of: Centimeters</em>.
+          </p>
+        </details>
+
+        <!-- FAQ 8 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q8">Bahasa Inggrisnya penggaris?</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a8" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            Bahasa Inggris dari kata penggaris adalah <strong>"Ruler"</strong> atau <strong>"Straightedge" / "Scale"</strong> (mistar). Untuk jenis penggaris lainnya: Penggaris busur derajat disebut <strong>"Protractor"</strong>, Penggaris segitiga disebut <strong>"Set Square" / "Triangle Ruler"</strong>, Meteran gulung disebut <strong>"Tape Measure"</strong>, dan Jangka sorong disebut <strong>"Caliper"</strong>.
+          </p>
+        </details>
+
+        <!-- FAQ 9 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q9">Cara memunculkan penggaris pada Word jika tidak muncul / hilang?</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a9" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            Jika penggaris pada Word hilang: 1. Pastikan tampilan lembar kerja dalam mode <strong>Print Layout</strong> (klik tab <em>View > Print Layout</em>). 2. Centang kembali opsi <strong>Ruler</strong>. 3. Jika penggaris vertikal di samping kiri tidak tampak, buka menu <em>File > Options > Advanced</em>, gulir ke bagian <em>Display</em>, lalu centang kotak <em>"Show vertical ruler in Print Layout view"</em>.
+          </p>
+        </details>
+
+        <!-- FAQ 10 -->
+        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
+          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
+            <span id="faq-q10">Cara menggunakan penggaris dengan akurat?</span>
+            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
+          </summary>
+          <p id="faq-a10" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
+            Langkah tepat menggunakan penggaris: 1. Letakkan pangkal benda sejajar tepat pada garis angka 0 (nol), bukan di ujung fisik bingkai penggaris jika terdapat celah offset. 2. Posisikan mata tegak lurus (90°) tepat di atas garis ukur untuk mencegah kesalahan paralaks. 3. Catat angka utama (cm/inci) lalu jumlahkan dengan garis milimeter atau fraksi terdekat.
+          </p>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- SECTION 7: MPA Directory Showcase (Halaman Informasi & Navigasi Cepat) -->
+    <section class="space-y-4 pt-6 border-t border-[var(--color-hairline)]">
+      <div class="space-y-1 text-center sm:text-left">
+        <h2 id="seo-mpa-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
+          Pusat Informasi & Direktori Halaman (Multi-Page Navigation)
+        </h2>
+        <p id="seo-mpa-sub" class="text-xs text-[var(--color-mute)]">
+          Jelajahi halaman panduan, kebijakan privasi, syarat penggunaan, dan kontak resmi kami:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
+        
+        <!-- MPA Card 1: Cara Kalibrasi -->
+        <a
+          href="/cara-kalibrasi"
+          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
+        >
+          <div class="space-y-1.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+              📐
+            </div>
+            <h3 class="font-bold text-xs text-[var(--color-ink)] group-hover:text-indigo-500 transition-colors">
+              Panduan Kalibrasi
+            </h3>
+            <p class="text-[11px] text-[var(--color-mute)] leading-relaxed">
+              Panduan lengkap langkah demi langkah kalibrasi layar HP, laptop, dan monitor.
+            </p>
+          </div>
+          <span class="text-[10px] text-indigo-500 font-semibold font-mono flex items-center gap-1 pt-2">
+            Buka Panduan →
+          </span>
+        </a>
+
+        <!-- MPA Card 2: Tentang Kami -->
+        <a
+          href="/tentang"
+          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
+        >
+          <div class="space-y-1.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+              🏢
+            </div>
+            <h3 class="font-bold text-xs text-[var(--color-ink)] group-hover:text-indigo-500 transition-colors">
+              Tentang Kami
+            </h3>
+            <p class="text-[11px] text-[var(--color-mute)] leading-relaxed">
+              Visi pembuatan penggaris digital 1:1, prinsip akurasi, dan teknologi DPR/PPI.
+            </p>
+          </div>
+          <span class="text-[10px] text-indigo-500 font-semibold font-mono flex items-center gap-1 pt-2">
+            Baca Tentang Kami →
+          </span>
+        </a>
+
+        <!-- MPA Card 3: Kebijakan Privasi -->
+        <a
+          href="/privacy-policy"
+          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
+        >
+          <div class="space-y-1.5">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+              🔒
+            </div>
+            <h3 class="font-bold text-xs text-[var(--color-ink)] group-hover:text-emerald-500 transition-colors">
+              Kebijakan Privasi
+            </h3>
+            <p class="text-[11px] text-[var(--color-mute)] leading-relaxed">
+              Jaminan 100% privasi lokal di peramban tanpa pelacakan data sensitif.
+            </p>
+          </div>
+          <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold font-mono flex items-center gap-1 pt-2">
+            Lihat Privasi →
+          </span>
+        </a>
+
+        <!-- MPA Card 4: Syarat & Kontak -->
+        <a
+          href="/contact"
+          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
+        >
+          <div class="space-y-1.5">
+            <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
+              ✉️
+            </div>
+            <h3 class="font-bold text-xs text-[var(--color-ink)] group-hover:text-purple-500 transition-colors">
+              Hubungi Kami
+            </h3>
+            <p class="text-[11px] text-[var(--color-mute)] leading-relaxed">
+              Saran fitur, feedback pengguna, dan pengajuan database layar perangkat.
+            </p>
+          </div>
+          <span class="text-[10px] text-purple-500 font-semibold font-mono flex items-center gap-1 pt-2">
+            Kirim Masukan →
+          </span>
+        </a>
+
+      </div>
+    </section>
+
+  </article>
+</section>

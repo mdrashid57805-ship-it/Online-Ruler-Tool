@@ -1,0 +1,132 @@
+---
+export interface Props {
+  lang?: 'id' | 'en';
+}
+const { lang = 'id' } = Astro.props;
+---
+
+<div
+  id="howto-modal"
+  class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-md select-none transition-opacity duration-200"
+  style="display: none;"
+>
+  <div
+    class="bg-[var(--color-canvas)] rounded-2xl shadow-2xl border border-[var(--color-hairline)] w-full max-w-[480px] max-h-[88vh] flex flex-col overflow-hidden text-[var(--color-ink)]"
+  >
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between px-5 pt-5 pb-4 border-b border-[var(--color-hairline)] shrink-0">
+      <div>
+        <span id="howto-badge-text" class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest font-mono block">PANDUAN LENGKAP</span>
+        <h2 id="howto-title-text" class="text-base sm:text-lg font-bold tracking-tight">Cara Menggunakan Online Penggaris</h2>
+      </div>
+
+      <button
+        id="btn-close-howto-modal"
+        class="w-8 h-8 rounded-lg flex items-center justify-center text-[var(--color-mute)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-colors"
+        title="Tutup (Esc)"
+      >
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 1l12 12M13 1L1 13" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="p-5 overflow-y-auto space-y-5 text-xs text-[var(--color-body)] leading-relaxed">
+      
+      <!-- Step 1 -->
+      <div class="flex gap-3">
+        <div class="w-6 h-6 rounded-full bg-indigo-500/10 text-indigo-500 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
+          1
+        </div>
+        <div class="space-y-1">
+          <h4 id="howto-step1-title" class="font-bold text-[var(--color-ink)] text-sm">Kalibrasi Layar (Ukuran Asli 1:1)</h4>
+          <p id="howto-step1-desc">
+            Klik tombol <strong class="text-[var(--color-ink)]">Kalibrasi</strong> di toolbar atas. Pilih salah satu dari 3 metode: Deteksi Otomatis, Diagonal Layar, atau tempelkan kartu ATM/KTP fisik agar 1 cm di layar benar-benar sama dengan 1 cm fisik di dunia nyata.
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="flex gap-3">
+        <div class="w-6 h-6 rounded-full bg-indigo-500/10 text-indigo-500 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
+          2
+        </div>
+        <div class="space-y-1">
+          <h4 id="howto-step2-title" class="font-bold text-[var(--color-ink)] text-sm">Pilih Posisi Penggaris</h4>
+          <p id="howto-step2-desc">
+            Pilih sisi tepi layar yang diinginkan (Atas, Bawah, Kiri, Kanan, atau Bingkai 4 Sisi) agar Anda dapat menempelkan barang fisik langsung pada tepi bezel layar kaca Anda.
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="flex gap-3">
+        <div class="w-6 h-6 rounded-full bg-indigo-500/10 text-indigo-500 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
+          3
+        </div>
+        <div class="space-y-1">
+          <h4 id="howto-step3-title" class="font-bold text-[var(--color-ink)] text-sm">Garis Panduan & Jangka Sorong</h4>
+          <p id="howto-step3-desc">
+            <strong class="text-[var(--color-ink)]">Klik pada area penggaris</strong> untuk membuat garis panduan presisi, atau aktifkan <strong class="text-[var(--color-ink)]">Jangka Sorong (Caliper)</strong> untuk mengukur jarak antara dua titik secara akurat.
+          </p>
+        </div>
+      </div>
+
+      <!-- Keyboard Shortcuts -->
+      <div class="pt-3 border-t border-[var(--color-hairline)] space-y-2.5">
+        <h4 id="howto-shortcuts-title" class="font-bold text-[var(--color-ink)] text-sm">Tombol Pintas Keyboard (Shortcuts)</h4>
+        
+        <div class="space-y-1.5 font-mono text-[11px]">
+          <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
+            <span id="sc-label-guides" class="font-sans text-[var(--color-body)]">Garis Panduan</span>
+            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">G</kbd>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
+            <span id="sc-label-crosshair" class="font-sans text-[var(--color-body)]">Crosshair Kursor</span>
+            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">C</kbd>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
+            <span id="sc-label-grid" class="font-sans text-[var(--color-body)]">Matriks Grid</span>
+            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">M</kbd>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
+            <span id="sc-label-caliper" class="font-sans text-[var(--color-body)]">Jangka Sorong (Caliper)</span>
+            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">K</kbd>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
+            <span id="sc-label-fullscreen" class="font-sans text-[var(--color-body)]">Layar Penuh (Fullscreen)</span>
+            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">F</kbd>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
+            <span id="sc-label-theme" class="font-sans text-[var(--color-body)]">Mode Gelap / Terang</span>
+            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">D</kbd>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
+            <span id="sc-label-clear" class="font-sans text-[var(--color-body)]">Hapus Semua Panduan</span>
+            <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">Esc</kbd>
+          </div>
+          <div class="flex items-center justify-between py-1">
+            <span id="sc-label-units" class="font-sans text-[var(--color-body)]">Ganti Satuan (cm / mm / in)</span>
+            <div class="flex gap-1">
+              <kbd class="px-1.5 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">1</kbd>
+              <kbd class="px-1.5 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">2</kbd>
+              <kbd class="px-1.5 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">3</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="px-5 py-3 border-t border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] shrink-0">
+      <button
+        id="btn-close-howto-bottom"
+        class="w-full py-2.5 rounded-xl bg-[var(--color-primary)] text-[var(--color-on-primary)] font-semibold text-xs hover:opacity-90 transition-all shadow-md"
+      >
+        Mengerti, Mulai Mengukur
+      </button>
+    </div>
+  </div>
+</div>

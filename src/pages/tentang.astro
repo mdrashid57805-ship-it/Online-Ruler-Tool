@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Tentang Kami — Online Penggaris | Alat Ukur Digital Presisi 1:1"
+  description="Pelajari visi, teknologi kalibrasi kerapatan piksel, dan komitmen OnlinePenggaris.com dalam menyediakan penggaris online gratis akurat seukuran fisik asli."
+  lang="id"
+>
+  <Navbar lang="id" />
+
+  <main class="pt-24 pb-20 px-4 sm:px-6 max-w-4xl mx-auto text-[var(--color-ink)] space-y-10">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-[var(--color-mute)]" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-[var(--color-ink)] transition-colors">Beranda</a>
+      <span>/</span>
+      <span class="text-indigo-500 font-medium">Tentang Kami</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold font-mono">
+        TENTANG KAMI
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+        Tentang Online Penggaris (onlinepenggaris.com)
+      </h1>
+      <p class="text-sm sm:text-base text-[var(--color-body)] leading-relaxed">
+        Solusi pengukuran visual digital berpresisi tinggi yang dapat diakses langsung dari peramban web modern tanpa perlu download atau instalasi aplikasi.
+      </p>
+    </div>
+
+    <!-- Main Content Cards -->
+    <article class="space-y-8 text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+      
+      <!-- Section 1 -->
+      <section class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
+          <span>🎯</span> Visi & Latar Belakang
+        </h2>
+        <p>
+          Berapa kali Anda membutuhkan penggaris fisik untuk mengukur barang kecil di sekitar Anda—seperti baut, sekrup, perhiasan, lebar kartu nama, diameter kancing, atau pasfoto—namun tidak dapat menemukan penggaris mistar di dekat Anda?
+        </p>
+        <p>
+          <strong>Online Penggaris</strong> hadir untuk menjawab kebutuhan tersebut. Kami merancang alat ukur digital berbasis browser web yang mengubah layar smartphone, tablet, laptop, atau monitor komputer Anda menjadi mistar fisik seukuran nyata (<em>1:1 actual scale ruler</em>).
+        </p>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
+          <span>⚙️</span> Inovasi Kalibrasi CSS PPI & DPR
+        </h2>
+        <p>
+          Layar modern memiliki kerapatan piksel fisik (<em>PPI / Pixels Per Inch</em>) yang sangat bervariasi. Penggaris web biasa yang mengasumsikan standar 96 PPI akan menampilkan ukuran 1 cm yang salah pada layar resolusi tinggi (seperti MacBook Retina, smartphone Full HD, atau monitor 4K).
+        </p>
+        <p>
+          Sistem kami menghitung kerapatan piksel pada tingkat logika <strong>CSS Pixel Space</strong> yang dinormalisasi dengan <strong>Device Pixel Ratio (DPR)</strong>:
+        </p>
+        <div class="p-3 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] font-mono text-xs text-indigo-500 font-semibold">
+          CSS PPI = Kerapatan Piksel Pabrikan (Physical PPI) ÷ Device Pixel Ratio (DPR)
+        </div>
+        <p>
+          Dengan formula ini, setiap 1 sentimeter atau 1 inci yang digambar pada kanvas penggaris kami memiliki panjang fisik yang presisi dan cocok saat ditempelkan langsung pada layar kaca.
+        </p>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
+          <span>🌟</span> Keunggulan Utama Kami
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
+            <h3 class="font-bold text-xs text-[var(--color-ink)]">⚡ 3 Metode Kalibrasi</h3>
+            <p class="text-[11px]">Deteksi hardware otomatis, rumus diagonal layar (inci), atau pencocokan kartu ATM standar ISO.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
+            <h3 class="font-bold text-xs text-[var(--color-ink)]">📏 Jangka Sorong Digital (Caliper)</h3>
+            <p class="text-[11px]">Ukur jarak dua titik bebas di layar lengkap dengan pembacaan ΔX (lebar) dan ΔY (tinggi).</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
+            <h3 class="font-bold text-xs text-[var(--color-ink)]">📱 Ramah HP & Tablet</h3>
+            <p class="text-[11px]">Navigasi dock jempol satu tangan dan layout adaptif untuk smartphone iOS dan Android.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
+            <h3 class="font-bold text-xs text-[var(--color-ink)]">🔒 100% Privasi & Tanpa Iklan Mengganggu</h3>
+            <p class="text-[11px]">Semua kalkulasi diproses lokal di peramban Anda tanpa pengumpulan data pribadi.</p>
+          </div>
+        </div>
+      </section>
+
+    </article>
+
+    <!-- Return to Tool CTA -->
+    <div class="pt-4 text-center">
+      <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--color-primary)] text-[var(--color-on-primary)] font-semibold text-xs shadow-md hover:opacity-90 transition-all">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Kembali ke Alat Penggaris Online
+      </a>
+    </div>
+  </main>
+
+  <Footer lang="id" />
+</BaseLayout>

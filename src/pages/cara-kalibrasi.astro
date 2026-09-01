@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Cara Kalibrasi Penggaris Online — Panduan Presisi Ukuran Asli 1:1"
+  description="Panduan lengkap cara kalibrasi penggaris online di layar HP, laptop, dan monitor PC menggunakan deteksi hardware, diagonal layar, atau kartu ATM/KTP."
+  lang="id"
+>
+  <Navbar lang="id" />
+
+  <main class="pt-24 pb-20 px-4 sm:px-6 max-w-4xl mx-auto text-[var(--color-ink)] space-y-12">
+    <!-- Header -->
+    <div class="space-y-3 text-center sm:text-left">
+      <a href="/" class="inline-flex items-center gap-1.5 text-xs text-indigo-500 font-semibold hover:underline mb-2">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Kembali ke Penggaris
+      </a>
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+        Panduan Kalibrasi Layar Penggaris Online
+      </h1>
+      <p class="text-sm sm:text-base text-[var(--color-body)] leading-relaxed">
+        Mengapa kalibrasi sangat penting? Setiap layar memiliki kerapatan piksel (Pixels Per Inch / PPI) yang berbeda. Tanpa kalibrasi, 1 cm di layar hanyalah estimasi perkiraan. Ikuti panduan di bawah untuk mendapatkan akurasi 100% seukuran asli.
+      </p>
+    </div>
+
+    <!-- 3 Methods Detailed Walkthrough -->
+    <div class="space-y-8">
+      
+      <!-- Method 1 -->
+      <div class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3">
+        <div class="inline-block px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold font-mono">
+          METODE 1
+        </div>
+        <h2 class="text-xl font-bold">Deteksi Hardware Otomatis (Instan)</h2>
+        <p class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+          Sistem Online Penggaris membaca spesifikasi rasio piksel (DPR), resolusi layar, dan platform perangkat Anda, lalu mencocokkannya ke database spesifikasi pabrikan (Apple MacBook, iPhone, iPad, Dell XPS, Samsung Galaxy, dll).
+        </p>
+        <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-xs text-[var(--color-body)]">
+          <strong>Langkah:</strong> Buka menu <span class="text-indigo-500 font-semibold">Kalibrasi</span> &rarr; Pilih tab <span class="text-indigo-500 font-semibold">1. Auto-Detect</span> &rarr; Klik tombol <span class="text-indigo-500 font-semibold">Terapkan Kalibrasi Otomatis</span>.
+        </div>
+      </div>
+
+      <!-- Method 2 -->
+      <div class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3">
+        <div class="inline-block px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold font-mono">
+          METODE 2
+        </div>
+        <h2 class="text-xl font-bold">Diagonal Layar (Inci)</h2>
+        <p class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+          Ukuran diagonal layar adalah jarak lurus dari sudut kiri bawah ke sudut kanan atas layar aktif (dalam satuan inci). Rumus Pythagoras akan menghitung kerapatan piksel:
+        </p>
+        <div class="p-3 font-mono text-xs rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-indigo-500 font-semibold">
+          PPI = √(Lebar² + Tinggi²) / Diagonal_Inci
+        </div>
+        <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-xs text-[var(--color-body)]">
+          <strong>Langkah:</strong> Buka menu <span class="text-indigo-500 font-semibold">Kalibrasi</span> &rarr; Pilih tab <span class="text-indigo-500 font-semibold">2. Diagonal Layar</span> &rarr; Masukkan ukuran (misal 14.0", 15.6", atau 27") &rarr; Klik <span class="text-indigo-500 font-semibold">Terapkan</span>.
+        </div>
+      </div>
+
+      <!-- Method 3 -->
+      <div class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3">
+        <div class="inline-block px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold font-mono">
+          METODE 3
+        </div>
+        <h2 class="text-xl font-bold">Kalibrasi Kartu ATM / KTP (Paling Mudah)</h2>
+        <p class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+          Semua kartu bank (debit, kredit, e-Toll, SIM, KTP) di seluruh dunia mengikuti standar internasional <strong>ISO/IEC 7810 ID-1</strong> dengan dimensi presisi <strong>85.60 mm × 53.98 mm</strong>.
+        </p>
+        <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-xs text-[var(--color-body)]">
+          <strong>Langkah:</strong> Buka menu <span class="text-indigo-500 font-semibold">Kalibrasi</span> &rarr; Pilih tab <span class="text-indigo-500 font-semibold">3. Kartu ATM / KTP</span> &rarr; Tempelkan kartu fisik pada layar di samping kanan &rarr; Geser slider sampai ukuran kotak di layar sama persis dengan kartu Anda.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="p-8 rounded-2xl bg-indigo-600 text-white text-center space-y-3 shadow-xl">
+      <h3 class="text-xl font-bold">Siap Mengukur Objek Sekarang?</h3>
+      <p class="text-xs text-indigo-100 max-w-md mx-auto">
+        Buka alat penggaris dan gunakan jangka sorong atau garis panduan presisi kami.
+      </p>
+      <a href="/" class="inline-block px-6 py-2.5 rounded-full bg-white text-indigo-600 font-bold text-xs hover:bg-indigo-50 transition-colors shadow">
+        Buka Online Penggaris
+      </a>
+    </div>
+  </main>
+
+  <Footer lang="id" />
+</BaseLayout>

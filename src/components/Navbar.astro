@@ -1,0 +1,416 @@
+---
+export interface Props {
+  lang?: 'id' | 'en';
+}
+
+const { lang = 'id' } = Astro.props;
+---
+
+<!-- Fixed Top Navbar -->
+<header
+  id="app-navbar"
+  class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-[var(--color-hairline)] select-none text-[13px]"
+  style="height: 52px;"
+>
+  <div class="max-w-[1920px] mx-auto h-full px-2 sm:px-4 flex items-center justify-between gap-1.5 sm:gap-3">
+    
+    <!-- Left Section: Logo + Edge Placement (Desktop) -->
+    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-1.5 sm:gap-2 mr-0.5 sm:mr-1 text-[var(--color-ink)] font-semibold tracking-tight hover:opacity-85 transition-opacity shrink-0" title="Online Penggaris">
+        <div class="w-7 h-7 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center shadow-sm shrink-0">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <rect x="2" y="6" width="20" height="12" rx="2" />
+            <line x1="6" y1="6" x2="6" y2="12" />
+            <line x1="10" y1="6" x2="10" y2="9" />
+            <line x1="14" y1="6" x2="14" y2="12" />
+            <line x1="18" y1="6" x2="18" y2="9" />
+          </svg>
+        </div>
+        <span id="nav-logo-text" class="hidden sm:inline font-bold tracking-tight text-[13px] sm:text-[14px]">Online Penggaris</span>
+      </a>
+
+      <!-- Edge Placement Segmented Buttons (Desktop & Tablets) -->
+      <div class="hidden md:flex items-center bg-[var(--color-canvas-soft)] p-0.5 rounded-lg border border-[var(--color-hairline)] shrink-0" title="Pilih Posisi Penggaris">
+        <button
+          data-edge-btn="top"
+          class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
+          title="Penggaris Atas (Top)"
+          aria-pressed="true"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="12" height="4" rx="1" />
+            <line x1="5" y1="2" x2="5" y2="4.5" />
+            <line x1="8" y1="2" x2="8" y2="4" />
+            <line x1="11" y1="2" x2="11" y2="4.5" />
+          </svg>
+          <span id="nav-edge-top-text" class="hidden lg:inline text-[11px]">Atas</span>
+        </button>
+
+        <button
+          data-edge-btn="bottom"
+          class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
+          title="Penggaris Bawah (Bottom)"
+          aria-pressed="false"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="10" width="12" height="4" rx="1" />
+            <line x1="5" y1="11.5" x2="5" y2="14" />
+            <line x1="8" y1="12" x2="8" y2="14" />
+            <line x1="11" y1="11.5" x2="11" y2="14" />
+          </svg>
+          <span id="nav-edge-bottom-text" class="hidden lg:inline text-[11px]">Bawah</span>
+        </button>
+
+        <button
+          data-edge-btn="left"
+          class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
+          title="Penggaris Kiri (Left)"
+          aria-pressed="false"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="4" height="12" rx="1" />
+            <line x1="2" y1="5" x2="4.5" y2="5" />
+            <line x1="2" y1="8" x2="4.5" y2="8" />
+            <line x1="2" y1="11" x2="4.5" y2="11" />
+          </svg>
+          <span id="nav-edge-left-text" class="hidden lg:inline text-[11px]">Kiri</span>
+        </button>
+
+        <button
+          data-edge-btn="right"
+          class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
+          title="Penggaris Kanan (Right)"
+          aria-pressed="false"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="10" y="2" width="4" height="12" rx="1" />
+            <line x1="11.5" y1="5" x2="14" y2="5" />
+            <line x1="12" y1="8" x2="14" y2="8" />
+            <line x1="11.5" y1="11" x2="14" y2="11" />
+          </svg>
+          <span id="nav-edge-right-text" class="hidden lg:inline text-[11px]">Kanan</span>
+        </button>
+
+        <button
+          data-edge-btn="frame"
+          class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
+          title="Bingkai 4 Sisi (Full Frame)"
+          aria-pressed="false"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="12" height="12" rx="1.5" stroke-dasharray="2 2" />
+          </svg>
+          <span id="nav-edge-frame-text" class="hidden xl:inline text-[11px]">4 Sisi</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Section: Precision Tools (Desktop) -->
+    <div class="hidden lg:flex items-center gap-1 sm:gap-1.5 shrink-0">
+      <!-- Guides (G) -->
+      <button
+        id="btn-tool-guides"
+        class="tool-btn w-8 h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center"
+        title="Garis Panduan (G)"
+        aria-label="Garis Panduan"
+        aria-pressed="false"
+      >
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
+          <line x1="8" y1="1" x2="8" y2="15" stroke-dasharray="2 2" />
+          <line x1="1" y1="8" x2="15" y2="8" stroke-dasharray="2 2" />
+        </svg>
+      </button>
+
+      <!-- Crosshair (C) -->
+      <button
+        id="btn-tool-crosshair"
+        class="tool-btn w-8 h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center"
+        title="Crosshair Kursor (C)"
+        aria-label="Crosshair"
+        aria-pressed="false"
+      >
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
+          <circle cx="8" cy="8" r="3" />
+          <line x1="8" y1="1" x2="8" y2="4" />
+          <line x1="8" y1="12" x2="8" y2="15" />
+          <line x1="1" y1="8" x2="4" y2="8" />
+          <line x1="12" y1="8" x2="15" y2="8" />
+        </svg>
+      </button>
+
+      <!-- Matrix Grid (M) -->
+      <button
+        id="btn-tool-grid"
+        class="tool-btn w-8 h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center"
+        title="Matriks Grid (M)"
+        aria-label="Grid"
+        aria-pressed="false"
+      >
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
+          <rect x="2" y="2" width="12" height="12" rx="1" />
+          <line x1="6" y1="2" x2="6" y2="14" />
+          <line x1="10" y1="2" x2="10" y2="14" />
+          <line x1="2" y1="6" x2="14" y2="6" />
+          <line x1="2" y1="10" x2="14" y2="10" />
+        </svg>
+      </button>
+
+      <!-- Dual Caliper / Jangka Sorong (K) -->
+      <button
+        id="btn-tool-caliper"
+        class="tool-btn w-8 h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center"
+        title="Jangka Sorong / Caliper 2 Titik (K)"
+        aria-label="Caliper"
+        aria-pressed="false"
+      >
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 18h16M7 6v12M17 6v12" />
+        </svg>
+      </button>
+
+      <!-- Silhouettes / Object Scale (O) -->
+      <button
+        id="btn-tool-silhouettes"
+        class="tool-btn w-8 h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center"
+        title="Bandingkan Ukuran Objek (O)"
+        aria-label="Objek"
+        aria-pressed="false"
+      >
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <line x1="7" y1="15" x2="7" y2="15.01" />
+          <circle cx="15" cy="12" r="3" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Right Section: Units · Calibrate · Theme · Lang · Mobile Tools Trigger -->
+    <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+      <!-- Unit Segmented Switcher (Visible across phone & desktop) -->
+      <div id="unit-selector" class="flex items-center bg-[var(--color-canvas-soft)] p-0.5 rounded-lg border border-[var(--color-hairline)] shrink-0">
+        <button data-unit="cm" class="unit-btn active px-1.5 sm:px-2 py-1 rounded-[6px] text-xs font-semibold font-mono transition-all">cm</button>
+        <button data-unit="mm" class="unit-btn px-1.5 sm:px-2 py-1 rounded-[6px] text-xs font-medium font-mono text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all">mm</button>
+        <button data-unit="in" class="unit-btn px-1.5 sm:px-2 py-1 rounded-[6px] text-xs font-medium font-mono text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all">in</button>
+        <button data-unit="px" class="unit-btn hidden md:inline-block px-1.5 sm:px-2 py-1 rounded-[6px] text-xs font-medium font-mono text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all">px</button>
+        <button data-unit="pt" class="unit-btn hidden lg:inline-block px-1.5 sm:px-2 py-1 rounded-[6px] text-xs font-medium font-mono text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all">pt</button>
+      </div>
+
+      <!-- Calibrate Button with Live Indicator Badge -->
+      <button
+        id="btn-open-calibrate"
+        class="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] hover:bg-[var(--color-canvas)] text-[var(--color-ink)] text-xs font-medium transition-all shadow-sm group shrink-0"
+        title="Kalibrasi Skala Layar"
+      >
+        <span id="cal-nav-dot" class="w-2 h-2 rounded-full bg-emerald-500 shrink-0 group-hover:scale-125 transition-transform"></span>
+        <span id="nav-cal-text" class="hidden sm:inline font-semibold">Kalibrasi</span>
+        <span id="cal-nav-ppi" class="hidden xl:inline text-[11px] font-mono text-[var(--color-mute)]">(127 PPI)</span>
+      </button>
+
+      <!-- Theme Switcher (D) -->
+      <button
+        id="btn-theme-toggle"
+        class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center shrink-0"
+        title="Mode Gelap / Terang (D)"
+        aria-label="Tema"
+      >
+        <svg id="theme-icon-sun" class="hidden dark:block" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+        <svg id="theme-icon-moon" class="block dark:hidden" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      </button>
+
+      <!-- Language Toggle (ID / EN) -->
+      <button
+        id="btn-lang-toggle"
+        class="px-2 sm:px-2.5 py-1 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] text-xs font-bold font-mono hover:bg-[var(--color-canvas-soft)] transition-all flex items-center gap-1 shrink-0"
+        title="Ganti Bahasa / Switch Language"
+      >
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        </svg>
+        <span id="lang-btn-label">EN</span>
+      </button>
+
+      <!-- Mobile Tools Sheet Button (Visible only on phone/mobile) -->
+      <button
+        id="btn-mobile-tools-toggle"
+        class="lg:hidden w-7 h-7 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center shrink-0"
+        title="Menu Alat & Pengaturan"
+        aria-label="Menu Alat"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="12" cy="5" r="1"></circle>
+          <circle cx="12" cy="19" r="1"></circle>
+        </svg>
+      </button>
+
+      <!-- How to use / Shortcuts (H) (Desktop) -->
+      <button
+        id="btn-open-howto"
+        class="hidden sm:flex w-8 h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all items-center justify-center shrink-0"
+        title="Panduan & Tombol Pintas (H)"
+        aria-label="Panduan"
+      >
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Bottom Floating Action Bar (Phone Thumb Navigation) -->
+<nav
+  id="mobile-bottom-bar"
+  class="md:hidden fixed bottom-3 left-1/2 -translate-x-1/2 z-40 glass-panel border border-[var(--color-hairline-strong)] rounded-2xl p-1.5 shadow-2xl flex items-center gap-1 select-none max-w-[calc(100vw-24px)]"
+>
+  <!-- Edge Selectors (Mobile Thumb Bar) -->
+  <button
+    data-edge-btn="top"
+    class="edge-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-[var(--color-body)] flex flex-col items-center gap-0.5"
+    title="Penggaris Atas"
+  >
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="2" y="2" width="12" height="4" rx="1" />
+      <line x1="5" y1="2" x2="5" y2="4.5" />
+      <line x1="8" y1="2" x2="8" y2="4" />
+      <line x1="11" y1="2" x2="11" y2="4.5" />
+    </svg>
+    <span class="text-[10px] font-mono">Atas</span>
+  </button>
+
+  <button
+    data-edge-btn="bottom"
+    class="edge-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-[var(--color-body)] flex flex-col items-center gap-0.5"
+    title="Penggaris Bawah"
+  >
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="2" y="10" width="12" height="4" rx="1" />
+      <line x1="5" y1="11.5" x2="5" y2="14" />
+      <line x1="8" y1="12" x2="8" y2="14" />
+      <line x1="11" y1="11.5" x2="11" y2="14" />
+    </svg>
+    <span class="text-[10px] font-mono">Bawah</span>
+  </button>
+
+  <button
+    data-edge-btn="left"
+    class="edge-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-[var(--color-body)] flex flex-col items-center gap-0.5"
+    title="Penggaris Kiri"
+  >
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="2" y="2" width="4" height="12" rx="1" />
+      <line x1="2" y1="5" x2="4.5" y2="5" />
+      <line x1="2" y1="8" x2="4.5" y2="8" />
+      <line x1="2" y1="11" x2="4.5" y2="11" />
+    </svg>
+    <span class="text-[10px] font-mono">Kiri</span>
+  </button>
+
+  <button
+    data-edge-btn="right"
+    class="edge-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-[var(--color-body)] flex flex-col items-center gap-0.5"
+    title="Penggaris Kanan"
+  >
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="10" y="2" width="4" height="12" rx="1" />
+      <line x1="11.5" y1="5" x2="14" y2="5" />
+      <line x1="12" y1="8" x2="14" y2="8" />
+      <line x1="11.5" y1="11" x2="14" y2="11" />
+    </svg>
+    <span class="text-[10px] font-mono">Kanan</span>
+  </button>
+
+  <button
+    data-edge-btn="frame"
+    class="edge-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-[var(--color-body)] flex flex-col items-center gap-0.5"
+    title="4 Sisi (Full Frame)"
+  >
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="2" y="2" width="12" height="12" rx="1.5" stroke-dasharray="2 2" />
+    </svg>
+    <span class="text-[10px] font-mono">4 Sisi</span>
+  </button>
+</nav>
+
+<!-- Mobile Tools Drawer / Bottom Sheet Modal -->
+<div
+  id="mobile-tools-drawer"
+  class="lg:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm select-none flex flex-col justify-end transition-opacity"
+  style="display: none;"
+>
+  <div class="bg-[var(--color-canvas)] rounded-t-3xl border-t border-[var(--color-hairline)] p-5 space-y-4 max-h-[80vh] overflow-y-auto">
+    <!-- Header -->
+    <div class="flex items-center justify-between border-b border-[var(--color-hairline)] pb-3">
+      <div class="flex items-center gap-2">
+        <div class="w-2.5 h-2.5 rounded-full bg-indigo-500"></div>
+        <h3 id="mobile-tools-title" class="text-sm font-bold text-[var(--color-ink)]">Alat Pengukuran Studio</h3>
+      </div>
+      <button id="btn-close-mobile-drawer" class="w-8 h-8 rounded-full bg-[var(--color-canvas-soft)] flex items-center justify-center text-[var(--color-mute)] hover:text-[var(--color-ink)]">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l12 12M13 1L1 13"/></svg>
+      </button>
+    </div>
+
+    <!-- Precision Tools Grid -->
+    <div class="grid grid-cols-2 gap-2 text-xs">
+      <button id="btn-drawer-caliper" class="p-3 rounded-2xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-left space-y-1 hover:border-indigo-500">
+        <span class="font-bold block text-[var(--color-ink)]">📏 Jangka Sorong</span>
+        <span class="text-[11px] text-[var(--color-mute)] block">Ukur jarak 2 titik (Caliper)</span>
+      </button>
+
+      <button id="btn-drawer-grid" class="p-3 rounded-2xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-left space-y-1 hover:border-indigo-500">
+        <span class="font-bold block text-[var(--color-ink)]">▦ Matriks Grid</span>
+        <span class="text-[11px] text-[var(--color-mute)] block">Tampilkan kisi koordinat</span>
+      </button>
+
+      <button id="btn-drawer-silhouettes" class="p-3 rounded-2xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-left space-y-1 hover:border-indigo-500">
+        <span class="font-bold block text-[var(--color-ink)]">💳 Bandingkan Objek</span>
+        <span class="text-[11px] text-[var(--color-mute)] block">Siluet KTP/ATM skala 1:1</span>
+      </button>
+
+      <button id="btn-drawer-guides" class="p-3 rounded-2xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-left space-y-1 hover:border-indigo-500">
+        <span class="font-bold block text-[var(--color-ink)]">✛ Garis Panduan</span>
+        <span class="text-[11px] text-[var(--color-mute)] block">Tarik garis acuan magnetik</span>
+      </button>
+
+      <button id="btn-drawer-howto" class="p-3 rounded-2xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-left space-y-1 hover:border-indigo-500 col-span-2">
+        <span class="font-bold block text-[var(--color-ink)]">❓ Panduan Penggunaan</span>
+        <span class="text-[11px] text-[var(--color-mute)] block">Tips & cara kalibrasi akurat</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .unit-btn.active {
+    background-color: var(--color-canvas);
+    color: var(--color-primary);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  html.dark .unit-btn.active {
+    background-color: #1e2235;
+    color: #818cf8;
+  }
+  .edge-btn[aria-pressed="true"],
+  .tool-btn[aria-pressed="true"] {
+    background-color: var(--color-primary) !important;
+    color: var(--color-on-primary) !important;
+    border-color: var(--color-primary) !important;
+  }
+</style>

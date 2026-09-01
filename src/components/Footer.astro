@@ -1,0 +1,40 @@
+---
+export interface Props {
+  lang?: 'id' | 'en';
+}
+const { lang = 'id' } = Astro.props;
+---
+
+<footer class="relative z-10 bg-[var(--color-canvas)] border-t border-[var(--color-hairline)] py-10 px-4 sm:px-6 select-none text-xs text-[var(--color-mute)]">
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    
+    <!-- Brand -->
+    <div class="flex items-center gap-2.5">
+      <div class="w-6 h-6 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center shadow-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <rect x="2" y="6" width="20" height="12" rx="2" />
+          <line x1="6" y1="6" x2="6" y2="12" />
+          <line x1="12" y1="6" x2="12" y2="12" />
+          <line x1="18" y1="6" x2="18" y2="9" />
+        </svg>
+      </div>
+      <span class="font-bold text-[var(--color-ink)] text-sm">Online Penggaris</span>
+      <span class="text-[11px]">| onlinepenggaris.com</span>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-medium">
+      <a id="footer-link-home" href="/" class="hover:text-[var(--color-ink)] transition-colors">Beranda</a>
+      <a id="footer-link-cal" href="/cara-kalibrasi" class="hover:text-[var(--color-ink)] transition-colors">Cara Kalibrasi</a>
+      <a id="footer-link-about" href="/tentang" class="hover:text-[var(--color-ink)] transition-colors">Tentang Kami</a>
+      <a id="footer-link-privacy" href="/privacy-policy" class="hover:text-[var(--color-ink)] transition-colors">Kebijakan Privasi</a>
+      <a id="footer-link-terms" href="/terms" class="hover:text-[var(--color-ink)] transition-colors">Syarat & Ketentuan</a>
+      <a id="footer-link-contact" href="/contact" class="hover:text-[var(--color-ink)] transition-colors">Kontak</a>
+    </nav>
+
+    <!-- Copyright -->
+    <p id="footer-copyright" class="text-[11px] text-center md:text-right">
+      &copy; {new Date().getFullYear()} Online Penggaris. Gratis digunakan tanpa instalasi.
+    </p>
+  </div>
+</footer>

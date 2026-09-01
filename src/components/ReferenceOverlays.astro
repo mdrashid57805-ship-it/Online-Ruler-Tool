@@ -1,0 +1,76 @@
+---
+export interface Props {
+  lang?: 'id' | 'en';
+}
+const { lang = 'id' } = Astro.props;
+---
+
+<div
+  id="silhouettes-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-md select-none transition-opacity duration-200"
+  style="display: none;"
+>
+  <div class="bg-[var(--color-canvas)] rounded-2xl shadow-2xl border border-[var(--color-hairline)] w-full max-w-[520px] p-5 space-y-4 text-[var(--color-ink)]">
+    <div class="flex items-center justify-between border-b border-[var(--color-hairline)] pb-3">
+      <div class="flex items-center gap-2">
+        <div class="w-2.5 h-2.5 rounded-full bg-indigo-500"></div>
+        <h3 id="silhouettes-modal-title" class="text-sm sm:text-base font-bold text-[var(--color-ink)]">Bandingkan Ukuran Objek Fisik (Skala 1:1)</h3>
+      </div>
+      <button
+        id="btn-close-silhouettes"
+        class="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--color-mute)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-colors"
+        title="Tutup (Esc)"
+      >
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 1l12 12M13 1L1 13" />
+        </svg>
+      </button>
+    </div>
+
+    <p id="silhouettes-modal-desc" class="text-xs text-[var(--color-body)] leading-relaxed">
+      Pilih objek di bawah untuk menampilkan siluet ukuran sebenarnya di layar. Tempelkan objek fisik Anda pada layar untuk memeriksa presisi kalibrasi:
+    </p>
+
+    <!-- Silhouette Scale Item Previews -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+      <button data-obj="card" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
+        <span id="sil-obj-card" class="font-semibold block text-[var(--color-ink)] group-hover:text-indigo-500">Kartu ATM / KTP</span>
+        <span class="text-[10px] font-mono text-[var(--color-mute)]">85.60 × 53.98 mm</span>
+      </button>
+
+      <button data-obj="coin-idr" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
+        <span id="sil-obj-coin" class="font-semibold block text-[var(--color-ink)] group-hover:text-indigo-500">Koin Rp 1.000</span>
+        <span class="text-[10px] font-mono text-[var(--color-mute)]">Ø 24.15 mm</span>
+      </button>
+
+      <button data-obj="coin-usd" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
+        <span id="sil-obj-quarter" class="font-semibold block text-[var(--color-ink)] group-hover:text-indigo-500">US Quarter ($0.25)</span>
+        <span class="text-[10px] font-mono text-[var(--color-mute)]">Ø 24.26 mm</span>
+      </button>
+
+      <button data-obj="battery-aa" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
+        <span id="sil-obj-battery" class="font-semibold block text-[var(--color-ink)] group-hover:text-indigo-500">Baterai AA</span>
+        <span class="text-[10px] font-mono text-[var(--color-mute)]">50.50 × 14.50 mm</span>
+      </button>
+
+      <button data-obj="sim" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
+        <span id="sil-obj-sim" class="font-semibold block text-[var(--color-ink)] group-hover:text-indigo-500">Nano SIM Card</span>
+        <span class="text-[10px] font-mono text-[var(--color-mute)]">12.30 × 8.80 mm</span>
+      </button>
+
+      <button data-obj="banknote" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
+        <span id="sil-obj-note" class="font-semibold block text-[var(--color-ink)] group-hover:text-indigo-500">Uang Kertas (IDR)</span>
+        <span class="text-[10px] font-mono text-[var(--color-mute)]">121.0 × 65.0 mm</span>
+      </button>
+    </div>
+
+    <!-- Active Silhouette Canvas Box -->
+    <div class="p-4 rounded-xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] flex flex-col items-center justify-center min-h-[170px] overflow-hidden">
+      <div id="active-silhouette-box" class="border-2 border-dashed border-indigo-500 rounded-lg flex items-center justify-center transition-all bg-indigo-500/5 max-w-full">
+        <span id="silhouette-label" class="text-[11px] font-mono font-bold text-indigo-500 text-center px-2">
+          Pilih objek di atas
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

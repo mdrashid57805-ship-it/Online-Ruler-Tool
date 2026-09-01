@@ -1,0 +1,63 @@
+---
+export interface Props {
+  lang?: 'id' | 'en';
+}
+const { lang = 'id' } = Astro.props;
+---
+
+<div
+  id="caliper-hud"
+  class="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-40 glass-panel rounded-2xl shadow-2xl border border-[var(--color-hairline-strong)] px-3.5 sm:px-5 py-2.5 sm:py-3.5 flex items-center justify-between gap-2.5 sm:gap-4 text-xs select-none max-w-[calc(100vw-20px)] w-auto"
+  style="display: none;"
+>
+  <div class="flex items-center gap-1.5 sm:gap-2 pr-1.5 sm:pr-2 border-r border-[var(--color-hairline)] shrink-0">
+    <div class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-indigo-500 animate-pulse shrink-0"></div>
+    <span id="caliper-hud-title" class="font-bold text-[var(--color-ink)] hidden xs:inline">Caliper</span>
+  </div>
+
+  <!-- Distance Metric -->
+  <div class="flex items-center gap-2 sm:gap-3 font-mono">
+    <div>
+      <span id="hud-label-span" class="text-[9px] sm:text-[10px] text-[var(--color-mute)] block leading-none mb-0.5">Jarak</span>
+      <span id="hud-caliper-dist" class="text-xs sm:text-sm font-bold text-indigo-500">0.00 cm</span>
+    </div>
+
+    <div class="w-px h-5 sm:h-6 bg-[var(--color-hairline)]"></div>
+
+    <div>
+      <span id="hud-label-dx" class="text-[9px] sm:text-[10px] text-[var(--color-mute)] block leading-none mb-0.5">ΔX</span>
+      <span id="hud-caliper-dx" class="text-[11px] sm:text-xs font-semibold text-[var(--color-ink)]">0.00 cm</span>
+    </div>
+
+    <div>
+      <span id="hud-label-dy" class="text-[9px] sm:text-[10px] text-[var(--color-mute)] block leading-none mb-0.5">ΔY</span>
+      <span id="hud-caliper-dy" class="text-[11px] sm:text-xs font-semibold text-[var(--color-ink)]">0.00 cm</span>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-1 sm:gap-2 pl-1.5 sm:pr-0 sm:pl-2 border-l border-[var(--color-hairline)] shrink-0">
+    <!-- Copy Button -->
+    <button
+      id="btn-copy-caliper"
+      class="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[var(--color-primary)] text-[var(--color-on-primary)] font-semibold text-xs hover:opacity-90 transition-all flex items-center gap-1 shadow-sm shrink-0"
+      title="Salin hasil pengukuran"
+    >
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="9" y="9" width="13" height="13" rx="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </svg>
+      <span id="copy-caliper-text" class="hidden xs:inline">Salin</span>
+    </button>
+
+    <!-- Close Caliper Button -->
+    <button
+      id="btn-close-caliper-hud"
+      class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[var(--color-mute)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-colors shrink-0"
+      title="Tutup Jangka Sorong"
+    >
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M1 1l12 12M13 1L1 13" />
+      </svg>
+    </button>
+  </div>
+</div>

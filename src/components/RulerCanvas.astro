@@ -1,0 +1,145 @@
+---
+export interface Props {
+  lang?: 'id' | 'en';
+}
+const { lang = 'id' } = Astro.props;
+---
+
+<div id="ruler-viewport" class="relative w-full h-full overflow-hidden select-none" style="touch-action: none;">
+  <!-- Grid Matrix Canvas (Behind rulers) -->
+  <canvas
+    id="grid-canvas"
+    class="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-200"
+    style="display: none; z-index: 1;"
+  ></canvas>
+
+  <!-- Surface Area for guide placement and measuring -->
+  <div id="measuring-surface" class="absolute inset-0 z-[2] cursor-crosshair"></div>
+
+  <!-- Edge Rulers (Canvases) -->
+  <canvas
+    id="ruler-canvas-top"
+    class="edge-canvas absolute top-0 left-0 right-0 z-20 cursor-pointer shadow-sm"
+    style="height: 44px; width: 100%; display: block;"
+    title="Klik untuk membuat garis panduan vertikal"
+  ></canvas>
+
+  <canvas
+    id="ruler-canvas-bottom"
+    class="edge-canvas absolute bottom-0 left-0 right-0 z-20 cursor-pointer shadow-sm"
+    style="height: 44px; width: 100%; display: none;"
+    title="Klik untuk membuat garis panduan vertikal"
+  ></canvas>
+
+  <canvas
+    id="ruler-canvas-left"
+    class="edge-canvas absolute top-0 left-0 bottom-0 z-20 cursor-pointer shadow-sm"
+    style="width: 44px; height: 100%; display: none;"
+    title="Klik untuk membuat garis panduan horizontal"
+  ></canvas>
+
+  <canvas
+    id="ruler-canvas-right"
+    class="edge-canvas absolute top-0 right-0 bottom-0 z-20 cursor-pointer shadow-sm"
+    style="width: 44px; height: 100%; display: none;"
+    title="Klik untuk membuat garis panduan horizontal"
+  ></canvas>
+
+  <!-- Interactive Guide Lines Container -->
+  <div id="guides-container" class="absolute inset-0 pointer-events-auto z-10"></div>
+
+  <!-- Crosshair Overlay -->
+  <div id="crosshair-h" class="absolute left-0 right-0 h-px pointer-events-none" style="background: rgba(99, 102, 241, 0.6); display: none; z-index: 8;"></div>
+  <div id="crosshair-v" class="absolute top-0 bottom-0 w-px pointer-events-none" style="background: rgba(99, 102, 241, 0.6); display: none; z-index: 8;"></div>
+
+  <!-- Live Cursor Readout HUD Pill -->
+  <div
+    id="cursor-readout"
+    class="absolute pointer-events-none px-2.5 py-1 rounded-md text-[11px] font-mono text-white bg-indigo-600/90 shadow-md backdrop-blur-sm z-30"
+    style="display: none; transform: translate(14px, 14px);"
+  >
+    X: 0 | Y: 0
+  </div>
+
+  <!-- Two-Point Caliper Layer -->
+  <div id="caliper-container" class="absolute inset-0 pointer-events-none z-15" style="display: none;">
+    <svg id="caliper-svg" class="absolute inset-0 w-full h-full overflow-visible">
+      <!-- Connecting Line -->
+      <line id="caliper-line" x1="100" y1="150" x2="350" y2="150" stroke="#6366f1" stroke-width="2" stroke-dasharray="4 2" />
+      <!-- Projection Lines (ΔX and ΔY) -->
+      <path id="caliper-proj" d="M 100 150 L 350 150" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1" stroke-dasharray="2 2" />
+    </svg>
+
+    <!-- Handle A -->
+    <div
+      id="caliper-handle-a"
+      class="caliper-handle absolute pointer-events-auto w-6 h-6 -ml-3 -mt-3 rounded-full bg-indigo-600 border-2 border-white shadow-lg flex items-center justify-center cursor-grab active:cursor-grabbing hover:scale-125 transition-transform"
+      style="left: 100px; top: 150px;"
+      title="Titik A (Geser untuk mengukur)"
+    >
+      <span class="text-[9px] font-bold text-white font-mono">A</span>
+    </div>
+
+    <!-- Handle B -->
+    <div
+      id="caliper-handle-b"
+      class="caliper-handle absolute pointer-events-auto w-6 h-6 -ml-3 -mt-3 rounded-full bg-indigo-600 border-2 border-white shadow-lg flex items-center justify-center cursor-grab active:cursor-grabbing hover:scale-125 transition-transform"
+      style="left: 350px; top: 150px;"
+      title="Titik B (Geser untuk mengukur)"
+    >
+      <span class="text-[9px] font-bold text-white font-mono">B</span>
+    </div>
+
+    <!-- Midpoint Distance Badge -->
+    <div
+      id="caliper-badge"
+      class="absolute pointer-events-auto px-3 py-1 rounded-full text-xs font-mono font-bold text-white bg-indigo-600 shadow-md backdrop-blur-sm -translate-x-1/2 -translate-y-1/2 cursor-pointer hover:bg-indigo-700 transition-colors flex items-center gap-1.5"
+      style="left: 225px; top: 150px;"
+      title="Klik untuk menyalin pengukuran"
+    >
+      <span id="caliper-distance-text">0.00 cm</span>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="9" y="9" width="13" height="13" rx="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </svg>
+    </div>
+  </div>
+</div>
+
+<style>
+  .guide-line {
+    position: absolute;
+    z-index: 10;
+    transition: background-color 0.15s ease;
+  }
+  .guide-line.horizontal {
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #6366f1;
+    cursor: row-resize;
+  }
+  .guide-line.vertical {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: #6366f1;
+    cursor: col-resize;
+  }
+  .guide-badge {
+    position: absolute;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: #ffffff;
+    background-color: #4f46e5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    pointer-events: auto;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .guide-badge:hover {
+    background-color: #ef4444;
+  }
+</style>

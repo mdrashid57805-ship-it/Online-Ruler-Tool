@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Hubungi Kami — Online Penggaris | Kontak & Masukan Pengguna"
+  description="Hubungi tim OnlinePenggaris.com untuk saran fitur, pertanyaan kalibrasi, pelaporan bug, atau pengajuan spesifikasi tipe perangkat baru."
+  lang="id"
+>
+  <Navbar lang="id" />
+
+  <main class="pt-24 pb-20 px-4 sm:px-6 max-w-4xl mx-auto text-[var(--color-ink)] space-y-10">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-[var(--color-mute)]" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-[var(--color-ink)] transition-colors">Beranda</a>
+      <span>/</span>
+      <span class="text-indigo-500 font-medium">Hubungi Kami</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold font-mono">
+        BANTUAN & KONTAK
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+        Hubungi Tim Online Penggaris
+      </h1>
+      <p class="text-sm sm:text-base text-[var(--color-body)] leading-relaxed">
+        Punya ide perbaikan, ingin menambahkan model smartphone / laptop ke database kami, atau memerlukan bantuan teknis? Kami siap membantu.
+      </p>
+    </div>
+
+    <!-- Contact Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- Contact Info Card -->
+      <div class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-6 text-xs sm:text-sm">
+        <h2 class="text-base font-bold text-[var(--color-ink)] flex items-center gap-2">
+          <span>📬</span> Informasi Kontak Resmi
+        </h2>
+        
+        <div class="space-y-4">
+          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
+            <span class="text-[11px] text-[var(--color-mute)] block font-medium">Email Dukungan & Kerjasama:</span>
+            <a href="mailto:support@onlinepenggaris.com" class="font-mono text-sm font-bold text-indigo-500 hover:underline">
+              support@onlinepenggaris.com
+            </a>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
+            <span class="text-[11px] text-[var(--color-mute)] block font-medium">Situs Resmi:</span>
+            <span class="font-mono text-sm font-bold text-[var(--color-ink)]">https://onlinepenggaris.com</span>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] space-y-1">
+            <span class="text-[11px] text-[var(--color-mute)] block font-medium">Waktu Respons:</span>
+            <span class="text-xs text-[var(--color-body)] font-medium">Umumnya dibalas dalam 1x24 jam kerja.</span>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-[var(--color-ink)] leading-relaxed">
+          💡 <strong>Pengajuan Database Perangkat:</strong> Sertakan nama model HP / Laptop Anda, ukuran diagonal (inci), dan resolusi layar asli agar kami dapat menambahkannya ke database kalibrasi otomatis.
+        </div>
+      </div>
+
+      <!-- Quick Message Form -->
+      <div class="p-6 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-4">
+        <h2 class="text-base font-bold text-[var(--color-ink)] flex items-center gap-2">
+          <span>✍️</span> Kirim Pesan Cepat
+        </h2>
+
+        <form id="contact-form" class="space-y-3 text-xs" onsubmit="event.preventDefault(); alert('Terima kasih! Pesan Anda telah terkirim.');">
+          <div class="space-y-1">
+            <label for="contact-name" class="font-medium text-[var(--color-ink)] block">Nama Lengkap:</label>
+            <input
+              id="contact-name"
+              type="text"
+              required
+              placeholder="e.g. Budi Santoso"
+              class="w-full px-3 py-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="contact-email" class="font-medium text-[var(--color-ink)] block">Alamat Email:</label>
+            <input
+              id="contact-email"
+              type="email"
+              required
+              placeholder="nama@email.com"
+              class="w-full px-3 py-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="contact-topic" class="font-medium text-[var(--color-ink)] block">Topik:</label>
+            <select
+              id="contact-topic"
+              class="w-full px-3 py-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] focus:outline-none focus:border-indigo-500 font-sans"
+            >
+              <option value="feedback">Saran Fitur & Masukan</option>
+              <option value="device">Pengajuan Database Layar / Perangkat</option>
+              <option value="bug">Laporan Masalah / Bug Kalibrasi</option>
+              <option value="other">Pertanyaan Lainnya</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label for="contact-msg" class="font-medium text-[var(--color-ink)] block">Pesan:</label>
+            <textarea
+              id="contact-msg"
+              rows="3"
+              required
+              placeholder="Tuliskan masukan atau kendala Anda di sini..."
+              class="w-full px-3 py-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] focus:outline-none focus:border-indigo-500 resize-none"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-2.5 rounded-xl bg-[var(--color-primary)] text-[var(--color-on-primary)] font-semibold text-xs shadow-md hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Kirim Pesan Sekarang
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Return to Tool CTA -->
+    <div class="pt-4 text-center">
+      <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--color-primary)] text-[var(--color-on-primary)] font-semibold text-xs shadow-md hover:opacity-90 transition-all">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Kembali ke Alat Penggaris Online
+      </a>
+    </div>
+  </main>
+
+  <Footer lang="id" />
+</BaseLayout>

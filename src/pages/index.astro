@@ -1,11 +1,1456 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import RulerCanvas from '../components/RulerCanvas.astro';
+import CalibrationModal from '../components/CalibrationModal.astro';
+import CaliperHud from '../components/CaliperHud.astro';
+import ReferenceOverlays from '../components/ReferenceOverlays.astro';
+import HowToModal from '../components/HowToModal.astro';
+import WelcomeBanner from '../components/WelcomeBanner.astro';
+import ContentSection from '../components/ContentSection.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+  title="Online Penggaris — Penggaris Online Akurat Seukuran Asli (cm, mm, inci)"
+  description="Penggaris online gratis akurat seukuran asli dalam cm, mm, dan inci. Kalibrasi layar otomatis, diagonal layar, atau kartu ATM/KTP untuk pengukuran presisi tanpa download aplikasi."
+  lang="id"
+>
+  <!-- Fixed Top Navbar & Mobile Bottom Dock -->
+  <Navbar lang="id" />
+
+  <!-- Main Document Flow (Navbar offset at pt-[52px]) -->
+  <main id="app-main" class="relative w-full overflow-x-hidden pt-[52px]">
+    
+    <!-- Ruler Measuring Workspace: Full-screen height hero area -->
+    <div id="ruler-workspace" class="relative w-full h-[calc(100vh-52px)] min-h-[500px] overflow-hidden bg-[var(--color-canvas-soft)]">
+      <!-- Ruler Canvas & Guides Overlay -->
+      <RulerCanvas lang="id" />
+
+      <!-- Welcome State / Quick Edge Launcher -->
+      <WelcomeBanner lang="id" />
+    </div>
+
+    <!-- Two-Point Caliper Readout HUD (Fixed bottom pill) -->
+    <CaliperHud lang="id" />
+
+    <!-- Object Silhouettes Scale Comparison Modal -->
+    <ReferenceOverlays lang="id" />
+
+    <!-- Calibration Modal (3 Methods) -->
+    <CalibrationModal lang="id" />
+
+    <!-- Help & Shortcuts Modal -->
+    <HowToModal lang="id" />
+
+    <!-- Rich SEO Article, PPI Matrix & FAQ Section (Flows smoothly below ruler workspace) -->
+    <ContentSection lang="id" />
+  </main>
+
+  <!-- Site Footer -->
+  <Footer lang="id" />
+</BaseLayout>
+
+<script>
+  import {
+    getSavedCalibration,
+    saveCalibration,
+    calculatePpiFromDiagonal,
+    formatMeasurement,
+    type MeasurementUnit,
+    type CalibrationState,
+    STORAGE_KEY_UNIT,
+    STORAGE_KEY_THEME,
+    STORAGE_KEY_LANG,
+  } from '../lib/calibration';
+  import { detectCurrentDevice, DEVICE_DATABASE } from '../lib/devices';
+  import { renderRulerEdge, renderGridOverlay } from '../lib/rulerRenderer';
+  import { TRANSLATIONS, type Language } from '../lib/i18n';
+
+  // --- APPLICATION STATE ---
+  let activeUnit: MeasurementUnit = 'cm';
+  let activeEdges: { top: boolean; bottom: boolean; left: boolean; right: boolean } = {
+    top: true,
+    bottom: false,
+    left: false,
+    right: false,
+  };
+  let calState: CalibrationState = getSavedCalibration();
+  let currentLang: Language = 'id'; // Strictly default to Indonesian!
+  let showGuides = false;
+  let showCrosshair = false;
+  let showGrid = false;
+  let showCaliper = false;
+  let caliperPoints = { p1: { x: 80, y: 140 }, p2: { x: 300, y: 140 } };
+  let isDraggingCaliper: 'p1' | 'p2' | null = null;
+  let guideLines: { id: string; type: 'h' | 'v'; pos: number }[] = [];
+
+  // --- INITIALIZATION ---
+  function initApp() {
+    loadSavedSettings();
+    bindEvents();
+    applyLanguage(currentLang);
+    renderAllRulers();
+    updateCalibrationUI();
+    renderDeviceCatalog();
+    checkAutoDetection();
+  }
+
+  function loadSavedSettings() {
+    try {
+      const savedUnit = localStorage.getItem(STORAGE_KEY_UNIT) as MeasurementUnit;
+      if (savedUnit && ['cm', 'mm', 'in', 'px', 'pt'].includes(savedUnit)) {
+        activeUnit = savedUnit;
+      }
+      const savedLang = localStorage.getItem(STORAGE_KEY_LANG) as Language;
+      if (savedLang === 'en') {
+        currentLang = 'en';
+      } else {
+        currentLang = 'id'; // Default strictly Indonesian!
+      }
+    } catch (e) {
+      currentLang = 'id';
+    }
+  }
+
+  // --- DYNAMIC I18N BILINGUAL SWITCHER ---
+  function applyLanguage(lang: Language) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    const t = TRANSLATIONS[lang] || TRANSLATIONS.id;
+
+    try {
+      // 1. Navbar
+      const langLabel = document.getElementById('lang-btn-label');
+      if (langLabel) langLabel.textContent = lang === 'id' ? 'EN' : 'ID';
+
+      const navLogo = document.getElementById('nav-logo-text');
+      if (navLogo) navLogo.textContent = t.siteName;
+
+      const topText = document.getElementById('nav-edge-top-text');
+      if (topText) topText.textContent = lang === 'id' ? 'Atas' : 'Top';
+      const btmText = document.getElementById('nav-edge-bottom-text');
+      if (btmText) btmText.textContent = lang === 'id' ? 'Bawah' : 'Bottom';
+      const leftText = document.getElementById('nav-edge-left-text');
+      if (leftText) leftText.textContent = lang === 'id' ? 'Kiri' : 'Left';
+      const rightText = document.getElementById('nav-edge-right-text');
+      if (rightText) rightText.textContent = lang === 'id' ? 'Kanan' : 'Right';
+      const frameText = document.getElementById('nav-edge-frame-text');
+      if (frameText) frameText.textContent = lang === 'id' ? '4 Sisi' : '4-Way';
+      const navCal = document.getElementById('nav-cal-text');
+      if (navCal) navCal.textContent = lang === 'id' ? 'Kalibrasi' : 'Calibrate';
+
+      // 2. Welcome Banner
+      const wTitle = document.getElementById('welcome-title');
+      if (wTitle) wTitle.textContent = t.welcome.title;
+      const wSub = document.getElementById('welcome-subtitle');
+      if (wSub) wSub.textContent = t.welcome.subtitle;
+      const wTop = document.getElementById('welcome-quick-top-label');
+      if (wTop) wTop.textContent = t.welcome.top;
+      const wBtm = document.getElementById('welcome-quick-bottom-label');
+      if (wBtm) wBtm.textContent = t.welcome.bottom;
+      const wLeft = document.getElementById('welcome-quick-left-label');
+      if (wLeft) wLeft.textContent = t.welcome.left;
+      const wRight = document.getElementById('welcome-quick-right-label');
+      if (wRight) wRight.textContent = t.welcome.right;
+      const wChange = document.getElementById('welcome-change-device');
+      if (wChange) wChange.textContent = t.welcome.calWrongDevice;
+      const wHide = document.getElementById('btn-hide-welcome');
+      if (wHide) wHide.textContent = t.welcome.hideInfo;
+
+      // 3. Calibration Modal
+      const mBadge = document.getElementById('modal-badge-text');
+      if (mBadge) mBadge.textContent = t.calModal.badge;
+      const mTitle = document.getElementById('modal-title-text');
+      if (mTitle) mTitle.textContent = t.calModal.title;
+      const tabAuto = document.getElementById('tab-btn-auto-text');
+      if (tabAuto) tabAuto.textContent = t.calModal.tabAuto;
+      const tabDiag = document.getElementById('tab-btn-diagonal-text');
+      if (tabDiag) tabDiag.textContent = t.calModal.tabDiagonal;
+      const tabCard = document.getElementById('tab-btn-card-text');
+      if (tabCard) tabCard.textContent = t.calModal.tabCard;
+      const tabDev = document.getElementById('tab-btn-device-text');
+      if (tabDev) tabDev.textContent = t.calModal.tabDevice;
+
+      const autoPpiLabel = document.getElementById('auto-ppi-label');
+      if (autoPpiLabel) autoPpiLabel.textContent = lang === 'id' ? 'Hasil Kalibrasi Layar:' : 'Calibrated Screen PPI:';
+      const autoDesc = document.getElementById('auto-desc-text');
+      if (autoDesc) autoDesc.textContent = t.calModal.autoDesc;
+      const btnApplyAuto = document.getElementById('btn-apply-auto-text');
+      if (btnApplyAuto) btnApplyAuto.textContent = t.calModal.applyAuto;
+
+      const diagLabel = document.getElementById('diag-label-text');
+      if (diagLabel) diagLabel.textContent = t.calModal.diagonalLabel;
+      const diagDesc = document.getElementById('diag-desc-text');
+      if (diagDesc) diagDesc.textContent = t.calModal.diagonalDesc;
+      const btnApplyDiag = document.getElementById('btn-apply-diagonal');
+      if (btnApplyDiag) btnApplyDiag.textContent = t.calModal.diagonalApply;
+      const diagPresets = document.getElementById('diag-presets-label');
+      if (diagPresets) diagPresets.textContent = t.calModal.diagonalPresets;
+      const diagFormula = document.getElementById('diag-formula-label');
+      if (diagFormula) diagFormula.textContent = lang === 'id' ? 'Rumus Geometris:' : 'Geometric Formula:';
+      const diagResLabel = document.getElementById('diag-result-label');
+      if (diagResLabel) diagResLabel.textContent = lang === 'id' ? 'Estimasi Nilai PPI:' : 'Estimated PPI Value:';
+
+      const cardInstr = document.getElementById('card-instruction-text');
+      if (cardInstr) {
+        cardInstr.innerHTML = lang === 'id'
+          ? `👉 <strong>Tempelkan kartu fisik (KTP / ATM / Debit / SIM)</strong> pada layar Anda. Sesuaikan ukuran kotak di layar menggunakan slider di bawah sampai sama persis dengan kartu fisik (Standar ISO: <strong>85.60 × 53.98 mm</strong>).`
+          : `👉 <strong>Hold any physical card (Credit / Debit / ID card)</strong> against your screen. Adjust the slider below until the on-screen card matches the physical card exactly (ISO Standard: <strong>85.60 × 53.98 mm</strong>).`;
+      }
+      const cardRefLabel = document.getElementById('card-ref-label');
+      if (cardRefLabel) cardRefLabel.textContent = t.calModal.cardRefLabel;
+      const cardAdj = document.getElementById('card-adjust-label');
+      if (cardAdj) cardAdj.textContent = t.calModal.cardAdjustPpi;
+      const cardTip = document.getElementById('card-tip-text');
+      if (cardTip) {
+        cardTip.innerHTML = lang === 'id'
+          ? `💡 Tip: Anda juga dapat menggunakan <strong class="text-[var(--color-ink)]">tombol panah keyboard (← / →)</strong> untuk akurasi sub-piksel!`
+          : `💡 Tip: You can also use your <strong class="text-[var(--color-ink)]">keyboard arrow keys (← / →)</strong> for sub-pixel precision!`;
+      }
+      const btnApplyCard = document.getElementById('btn-apply-card-cal');
+      if (btnApplyCard) btnApplyCard.textContent = t.calModal.cardApply;
+      const devSearch = document.getElementById('device-search-input') as HTMLInputElement;
+      if (devSearch) devSearch.placeholder = t.calModal.deviceSearchPlaceholder;
+      const btnReset = document.getElementById('btn-reset-cal');
+      if (btnReset) btnReset.textContent = t.calModal.resetDefault;
+
+      const screenCardTitle = document.getElementById('screen-card-title');
+      if (screenCardTitle) screenCardTitle.textContent = lang === 'id' ? 'Tempelkan Kartu Fisik Di Sini' : 'Align Physical Card Here';
+
+      // 4. Caliper HUD
+      const caliperTitle = document.getElementById('caliper-hud-title');
+      if (caliperTitle) caliperTitle.textContent = t.caliper.title;
+      const labelSpan = document.getElementById('hud-label-span');
+      if (labelSpan) labelSpan.textContent = t.caliper.distance;
+      const labelDx = document.getElementById('hud-label-dx');
+      if (labelDx) labelDx.textContent = t.caliper.deltaX;
+      const labelDy = document.getElementById('hud-label-dy');
+      if (labelDy) labelDy.textContent = t.caliper.deltaY;
+      const copyCaliperText = document.getElementById('copy-caliper-text');
+      if (copyCaliperText) copyCaliperText.textContent = t.caliper.copyValue;
+
+      // 5. Silhouettes Modal
+      const silTitle = document.getElementById('silhouettes-modal-title');
+      if (silTitle) silTitle.textContent = lang === 'id' ? 'Bandingkan Ukuran Objek Fisik (Skala 1:1)' : 'Physical Object Scale Reference (1:1)';
+      const silDesc = document.getElementById('silhouettes-modal-desc');
+      if (silDesc) silDesc.textContent = lang === 'id'
+        ? 'Pilih objek di bawah untuk menampilkan siluet ukuran sebenarnya di layar. Tempelkan objek fisik Anda pada layar untuk memeriksa presisi kalibrasi:'
+        : 'Select an item below to render a 1:1 true-scale silhouette on your screen. Place physical objects directly on glass to verify calibration accuracy:';
+      const silCard = document.getElementById('sil-obj-card');
+      if (silCard) silCard.textContent = lang === 'id' ? 'Kartu ATM / KTP' : 'Credit Card / ID';
+      const silCoin = document.getElementById('sil-obj-coin');
+      if (silCoin) silCoin.textContent = lang === 'id' ? 'Koin Rp 1.000' : 'Rp 1,000 Coin';
+      const silQuarter = document.getElementById('sil-obj-quarter');
+      if (silQuarter) silQuarter.textContent = lang === 'id' ? 'US Quarter ($0.25)' : 'US Quarter ($0.25)';
+      const silBatt = document.getElementById('sil-obj-battery');
+      if (silBatt) silBatt.textContent = lang === 'id' ? 'Baterai AA' : 'AA Battery';
+      const silSim = document.getElementById('sil-obj-sim');
+      if (silSim) silSim.textContent = lang === 'id' ? 'Nano SIM Card' : 'Nano SIM Card';
+      const silNote = document.getElementById('sil-obj-note');
+      if (silNote) silNote.textContent = lang === 'id' ? 'Uang Kertas (IDR)' : 'Banknote (IDR)';
+
+      // 6. How-To Modal
+      const howtoBadge = document.getElementById('howto-badge-text');
+      if (howtoBadge) howtoBadge.textContent = t.howTo.badge;
+      const howtoTitle = document.getElementById('howto-title-text');
+      if (howtoTitle) howtoTitle.textContent = t.howTo.title;
+      const hStep1T = document.getElementById('howto-step1-title');
+      if (hStep1T) hStep1T.textContent = t.howTo.step1Title;
+      const hStep1D = document.getElementById('howto-step1-desc');
+      if (hStep1D) hStep1D.textContent = t.howTo.step1Desc;
+      const hStep2T = document.getElementById('howto-step2-title');
+      if (hStep2T) hStep2T.textContent = t.howTo.step2Title;
+      const hStep2D = document.getElementById('howto-step2-desc');
+      if (hStep2D) hStep2D.textContent = t.howTo.step2Desc;
+      const hStep3T = document.getElementById('howto-step3-title');
+      if (hStep3T) hStep3T.textContent = t.howTo.step3Title;
+      const hStep3D = document.getElementById('howto-step3-desc');
+      if (hStep3D) hStep3D.textContent = t.howTo.step3Desc;
+      const hShortcuts = document.getElementById('howto-shortcuts-title');
+      if (hShortcuts) hShortcuts.textContent = t.howTo.shortcutsTitle;
+
+      const scGuides = document.getElementById('sc-label-guides');
+      if (scGuides) scGuides.textContent = t.howTo.shortcutGuides;
+      const scCross = document.getElementById('sc-label-crosshair');
+      if (scCross) scCross.textContent = t.howTo.shortcutCrosshair;
+      const scGrid = document.getElementById('sc-label-grid');
+      if (scGrid) scGrid.textContent = t.howTo.shortcutGrid;
+      const scCaliper = document.getElementById('sc-label-caliper');
+      if (scCaliper) scCaliper.textContent = t.howTo.shortcutCaliper;
+      const scFull = document.getElementById('sc-label-fullscreen');
+      if (scFull) scFull.textContent = t.howTo.shortcutFullscreen;
+      const scTheme = document.getElementById('sc-label-theme');
+      if (scTheme) scTheme.textContent = t.howTo.shortcutTheme;
+      const scClear = document.getElementById('sc-label-clear');
+      if (scClear) scClear.textContent = t.howTo.shortcutClear;
+      const scUnits = document.getElementById('sc-label-units');
+      if (scUnits) scUnits.textContent = t.howTo.shortcutUnits;
+      const btnCloseHowto = document.getElementById('btn-close-howto-bottom');
+      if (btnCloseHowto) btnCloseHowto.textContent = t.howTo.gotIt;
+
+      const thPpi = document.getElementById('th-col-ppi');
+      if (thPpi) thPpi.textContent = lang === 'id' ? 'Kerapatan PPI' : 'Factory PPI';
+
+      // Mobile Tools Drawer
+      const mobTitle = document.getElementById('mobile-tools-title');
+      if (mobTitle) mobTitle.textContent = lang === 'id' ? 'Alat Pengukuran Studio' : 'Measuring Studio Tools';
+
+      // 7. SEO Content Section
+      const seoBadge = document.getElementById('seo-badge');
+      if (seoBadge) seoBadge.textContent = lang === 'id' ? 'ALAT UKUR DIGITAL PRESISI 1:1' : 'PRECISION 1:1 DIGITAL MEASURING STUDIO';
+      const seoH1 = document.getElementById('seo-h1');
+      if (seoH1) seoH1.textContent = lang === 'id' ? 'Online Penggaris — Penggaris Online Akurat Seukuran Asli (cm, mm, inches)' : 'Online Ruler — Accurate Free Online Ruler Actual Size to Scale (cm, mm, inches)';
+      const seoLead = document.getElementById('seo-lead');
+      if (seoLead) {
+        seoLead.innerHTML = lang === 'id'
+          ? `<strong>Online Penggaris</strong> (<em>onlinepenggaris.com</em>) adalah alat ukur <strong>penggaris digital</strong> berbasis web (<strong>free online ruler</strong>) yang mengubah layar laptop, monitor PC, tablet, maupun smartphone Anda menjadi <strong>penggaris online akurat</strong> seukuran fisik nyata (<strong>actual size online ruler to scale</strong>). Dilengkapi pilihan <strong>penggaris online cm</strong>, <strong>online ruler in mm</strong>, <strong>online penggaris inches</strong> (skala <strong>12 inch online ruler</strong>), visual <strong>gambar penggaris</strong>, dan jangka sorong digital dua titik tanpa perlu instalasi aplikasi apapun.`
+          : `<strong>Online Penggaris</strong> (<em>onlinepenggaris.com</em>) is a free browser-based <strong>digital ruler</strong> (<strong>free online ruler</strong>) that transforms your laptop, PC monitor, tablet, or smartphone into an <strong>accurate online ruler</strong> calibrated to 1:1 physical dimensions (<strong>actual size online ruler to scale</strong>). Featuring <strong>online ruler in cm</strong>, <strong>online ruler in mm</strong>, <strong>online ruler inches</strong> (standard <strong>12 inch online ruler</strong> scale), visual reference silhouettes, and digital two-point calipers without installing any software.`;
+      }
+
+      const sec1Title = document.getElementById('seo-sec1-title');
+      if (sec1Title) sec1Title.textContent = lang === 'id' ? 'Mengapa Kalibrasi Kerapatan Piksel (PPI) Penting untuk Penggaris Digital?' : 'Why Pixel Density (PPI) Calibration is Crucial for Actual Size Online Rulers';
+      const sec1P1 = document.getElementById('seo-sec1-p1');
+      if (sec1P1) sec1P1.textContent = lang === 'id'
+        ? 'Setiap layar gawai memiliki kerapatan piksel fisik atau Pixels Per Inch (PPI) yang berlainan. Sebagai contoh, layar monitor desktop 24 inci standar memiliki kerapatan ~93 PPI, laptop 15.6 inci Full HD berada di ~141 PPI, sedangkan layar smartphone modern dan MacBook Retina mencapai 224 hingga 460+ PPI.'
+        : 'Every display has a unique hardware pixel density (PPI). A standard 24" desktop monitor has ~93 PPI, a 15.6" Full HD laptop is ~141 PPI, while modern smartphone screens and Retina displays reach 224 to 460+ PPI.';
+      const sec1P2 = document.getElementById('seo-sec1-p2');
+      if (sec1P2) sec1P2.textContent = lang === 'id'
+        ? 'Banyak situs penggaris konvensional hanya mengandalkan nilai default 96 CSS PPI, yang menyebabkan hasil pengukuran meleset hingga 50% atau lebih pada layar resolusi tinggi. Online Penggaris memecahkan permasalahan ini dengan menghadirkan kalibrasi presisi berbasis CSS-Level Device Pixel Ratio (DPR), memastikan bahwa 1 sentimeter atau 1 inci di layar kaca Anda 100% identik dengan penggaris fisik di dunia nyata.'
+        : 'Most generic web rulers blindly assume a legacy 96 PPI default, causing measurements to be off by 50% or more on high-DPI screens. Online Penggaris eliminates distortion with CSS-level DPR normalization, guaranteeing that 1 cm or 1 inch on glass matches real physical rulers with sub-millimeter precision.';
+
+      const sec2Title = document.getElementById('seo-sec2-title');
+      if (sec2Title) sec2Title.textContent = lang === 'id' ? 'Pilihan Satuan Lengkap: Penggaris Online CM, MM, dan Inches' : 'Comprehensive Unit Options: Online Ruler in CM, MM, and Inches';
+      const sec2P1 = document.getElementById('seo-sec2-p1');
+      if (sec2P1) sec2P1.textContent = lang === 'id'
+        ? 'Untuk memenuhi berbagai kebutuhan pengukuran teknis, kerajinan tangan, arsitektur, hingga edukasi sekolah, Online Penggaris menyediakan dukungan multi-satuan instan:'
+        : 'To support engineering, crafting, digital design, and educational workflows, Online Penggaris offers instant multi-unit scaling:';
+
+      const unitCmTitle = document.getElementById('card-unit-cm-title');
+      if (unitCmTitle) unitCmTitle.textContent = lang === 'id' ? 'Penggaris Online CM (Centimeter)' : 'Online Ruler in CM (Centimeter)';
+      const unitCmDesc = document.getElementById('card-unit-cm-desc');
+      if (unitCmDesc) unitCmDesc.textContent = lang === 'id'
+        ? 'Menampilkan penomoran skala sentimeter (1, 2, 3, 4... cm) dengan garis pembagi 1 mm dan tanda paruh 5 mm untuk pengukuran metrik harian.'
+        : 'Renders crisp centimeter increments (1, 2, 3, 4... cm) with 1 mm sub-divisions and 5 mm half-marks for daily metric tasks.';
+
+      const unitMmTitle = document.getElementById('card-unit-mm-title');
+      if (unitMmTitle) unitMmTitle.textContent = lang === 'id' ? 'Online Ruler in MM (Millimeter)' : 'Online Ruler in MM (Millimeter)';
+      const unitMmDesc = document.getElementById('card-unit-mm-desc');
+      if (unitMmDesc) unitMmDesc.textContent = lang === 'id'
+        ? 'Menampilkan penomoran skala milimeter (10, 20, 30, 40... mm) seperti pada mistar teknik presisi untuk mengukur komponen mikro, baut, dan perhiasan.'
+        : 'Renders millimeter numbers (10, 20, 30, 40... mm) matching precision engineering rulers for micro-parts, jewelry, and screws.';
+
+      const unitInTitle = document.getElementById('card-unit-in-title');
+      if (unitInTitle) unitInTitle.textContent = lang === 'id' ? 'Online Penggaris Inches (12 Inch)' : 'Online Ruler Inches (12 Inch Scale)';
+      const unitInDesc = document.getElementById('card-unit-in-desc');
+      if (unitInDesc) unitInDesc.textContent = lang === 'id'
+        ? 'Menampilkan fraksi imperial 1/8, 1/16, hingga 1/32 inci (12 inch online ruler) untuk standar internasional dan dokumen cetak.'
+        : 'Features fractional imperial graduation (1/8, 1/16, and 1/32") representing an actual 12 inch online ruler on larger displays.';
+
+      const sec3Title = document.getElementById('seo-sec3-title');
+      if (sec3Title) sec3Title.textContent = lang === 'id' ? 'Mengenal Ragam Penggaris: Penggaris Busur, Penggaris Segitiga & Penggaris Kamera' : 'Ruler Types: Protractor, Triangle Set Square & Camera Measurement';
+      const sec3P1 = document.getElementById('seo-sec3-p1');
+      if (sec3P1) sec3P1.textContent = lang === 'id'
+        ? 'Dalam aktivitas desain teknis dan pendidikan matematika, terdapat berbagai bentuk alat ukur:'
+        : 'In technical drawing, architecture, and mathematics, different specialized instruments are used:';
+
+      const sec3BusurTitle = document.getElementById('sec3-busur-title');
+      if (sec3BusurTitle) sec3BusurTitle.textContent = lang === 'id' ? '📐 Penggaris Busur Derajat (Protractor 180° / 360°)' : '📐 Protractor (Busur Derajat 180° / 360°)';
+      const sec3BusurDesc = document.getElementById('sec3-busur-desc');
+      if (sec3BusurDesc) sec3BusurDesc.textContent = lang === 'id'
+        ? 'Penggaris busur digunakan untuk mengukur dan menggambar sudut geometris secara akurat mulai dari 0° hingga 180°. Pada studio online kami, Anda dapat memanfaatkan kalkulasi trigonometri digital dan jangka sorong untuk mengukur kemiringan sudut objek.'
+        : 'A protractor measures and draws geometric angles from 0° to 180°. In our online studio, you can leverage digital trigonometry and dual-point calipers to calculate precise angular orientation.';
+
+      const sec3SegitigaTitle = document.getElementById('sec3-segitiga-title');
+      if (sec3SegitigaTitle) sec3SegitigaTitle.textContent = lang === 'id' ? '📐 Penggaris Segitiga (Set Square 45° & 30°/60°)' : '📐 Triangle Set Square (Penggaris Segitiga 45° & 30°/60°)';
+      const sec3SegitigaDesc = document.getElementById('sec3-segitiga-desc');
+      if (sec3SegitigaDesc) sec3SegitigaDesc.textContent = lang === 'id'
+        ? 'Penggaris segitiga merupakan alat wajib arsitek dan drafter untuk menarik garis tegak lurus (90°) dan sudut istimewa. Melalui fitur Bingkai 4 Sisi (Full Frame) dan Matriks Grid, layar perangkat Anda berubah menjadi meja gambar berpresisi tinggi.'
+        : 'Set squares allow draftsmen to draw true perpendicular lines (90°) and special angles. With our 4-Way Full Frame and Grid Matrix overlays, your screen transforms into a drafting workbench.';
+
+      const sec3KameraTitle = document.getElementById('sec3-kamera-title');
+      if (sec3KameraTitle) sec3KameraTitle.textContent = lang === 'id' ? '📷 Penggaris Online Kamera (Online Ruler Camera Tips)' : '📷 Online Ruler Camera Tips (Penggaris Online Kamera)';
+      const sec3KameraDesc = document.getElementById('sec3-kamera-desc');
+      if (sec3KameraDesc) sec3KameraDesc.textContent = lang === 'id'
+        ? 'Bagi pengguna smartphone yang mencari penggaris online kamera (online ruler camera), cara paling akurat untuk mengukur benda fisik adalah dengan menempelkan benda langsung pada kaca layar berpelindung sejajar dengan garis skala 1:1, atau menggunakan siluet referensi standar kami (seperti kartu KTP atau koin Rp 1.000) sebagai acuan pembanding.'
+        : 'For smartphone users searching for online ruler camera tools, the most accurate method is placing objects directly against the screen glass along the 1:1 calibrated ruler edge, or using our built-in physical scale silhouettes (e.g. credit card or coin) as comparative references.';
+
+      const sec4Title = document.getElementById('seo-sec4-title');
+      if (sec4Title) sec4Title.textContent = lang === 'id' ? '3 Metode Kalibrasi Skala Layar 1:1 (Online Ruler to Scale)' : '3 Easy Methods to Calibrate Your Screen 1:1 (Online Ruler to Scale)';
+      const sec4P1 = document.getElementById('seo-sec4-p1');
+      if (sec4P1) sec4P1.textContent = lang === 'id'
+        ? 'Untuk menjamin presisi sub-milimeter, Online Penggaris menyediakan 3 metode kalibrasi mudah yang dapat dipilih sesuai preferensi Anda:'
+        : 'To guarantee sub-millimeter fidelity, Online Penggaris offers 3 straightforward calibration methods:';
+
+      const seoM1T = document.getElementById('seo-m1-title');
+      if (seoM1T) seoM1T.textContent = t.seo.method1Title;
+      const seoM1D = document.getElementById('seo-m1-text');
+      if (seoM1D) seoM1D.textContent = t.seo.method1Text;
+      const seoM2T = document.getElementById('seo-m2-title');
+      if (seoM2T) seoM2T.textContent = t.seo.method2Title;
+      const seoM2D = document.getElementById('seo-m2-text');
+      if (seoM2D) seoM2D.textContent = t.seo.method2Text;
+      const seoM3T = document.getElementById('seo-m3-title');
+      if (seoM3T) seoM3T.textContent = t.seo.method3Title;
+      const seoM3D = document.getElementById('seo-m3-text');
+      if (seoM3D) seoM3D.textContent = t.seo.method3Text;
+
+      const seoTableTitle = document.getElementById('seo-table-title');
+      if (seoTableTitle) seoTableTitle.textContent = t.seo.tableTitle;
+      const thDev = document.getElementById('th-col-device');
+      if (thDev) thDev.textContent = lang === 'id' ? 'Tipe Perangkat' : 'Device Model';
+      const thDiag = document.getElementById('th-col-diag');
+      if (thDiag) thDiag.textContent = lang === 'id' ? 'Ukuran Layar' : 'Screen Size';
+      const thRes = document.getElementById('th-col-res');
+      if (thRes) thRes.textContent = lang === 'id' ? 'Resolusi Asli' : 'Native Resolution';
+      const seoFaqTitle = document.getElementById('seo-faq-title');
+      if (seoFaqTitle) seoFaqTitle.textContent = t.seo.faqTitle;
+
+      const faqQ1 = document.getElementById('faq-q1');
+      const faqA1 = document.getElementById('faq-a1');
+      const faqQ2 = document.getElementById('faq-q2');
+      const faqA2 = document.getElementById('faq-a2');
+      const faqQ3 = document.getElementById('faq-q3');
+      const faqA3 = document.getElementById('faq-a3');
+      const faqQ4 = document.getElementById('faq-q4');
+      const faqA4 = document.getElementById('faq-a4');
+      const faqQ5 = document.getElementById('faq-q5');
+      const faqA5 = document.getElementById('faq-a5');
+      const faqQ6 = document.getElementById('faq-q6');
+      const faqA6 = document.getElementById('faq-a6');
+      const faqQ7 = document.getElementById('faq-q7');
+      const faqA7 = document.getElementById('faq-a7');
+      const faqQ8 = document.getElementById('faq-q8');
+      const faqA8 = document.getElementById('faq-a8');
+      const faqQ9 = document.getElementById('faq-q9');
+      const faqA9 = document.getElementById('faq-a9');
+      const faqQ10 = document.getElementById('faq-q10');
+      const faqA10 = document.getElementById('faq-a10');
+
+      if (lang === 'en') {
+        if (faqQ1) faqQ1.textContent = 'Can I use my phone as a ruler?';
+        if (faqA1) faqA1.textContent = 'Yes, absolutely! By opening OnlinePenggaris.com on your phone (iPhone or Android), your screen becomes an actual-size 1:1 physical ruler. Simply calibrate with your screen size or a physical bank card, then place small objects on screen to measure in cm, mm, or inches.';
+        
+        if (faqQ2) faqQ2.textContent = 'Is there a ruler online?';
+        if (faqA2) faqA2.textContent = 'Yes, OnlinePenggaris.com is a free, instant online ruler that displays real actual-size measurements to scale in your web browser without downloading or installing any software.';
+        
+        if (faqQ3) faqQ3.textContent = 'How to identify 1 inch?';
+        if (faqA3) faqA3.textContent = '1 inch is exactly equal to 2.54 centimeters (25.4 mm). On OnlinePenggaris.com, switch the unit to "in". Physically, 1 inch roughly matches the distance from the top knuckle to the tip of an adult thumb, or the diameter of a standard coin.';
+        
+        if (faqQ4) faqQ4.textContent = 'How to measure cm online?';
+        if (faqA4) faqA4.textContent = '1. Select the "cm" unit on OnlinePenggaris.com. 2. Verify calibration with the Auto-Detect method or a physical credit card. 3. Place your object flat against the screen aligned with zero (0 cm). 4. Read the centimeter number and millimeter tick marks.';
+        
+        if (faqQ5) faqQ5.textContent = 'Can a smart phone measure?';
+        if (faqA5) faqA5.textContent = 'Yes, modern smartphones can measure in two ways: 1. For small items (0-15 cm), use an actual-size on-screen ruler like OnlinePenggaris.com. 2. For rooms and furniture (1-5 meters), use built-in Augmented Reality (AR) camera measurement apps (like iOS Measure or Android AR Ruler).';
+        
+        if (faqQ6) faqQ6.textContent = 'How to show ruler in Microsoft Word? (Cara memunculkan penggaris di Word)';
+        if (faqA6) faqA6.textContent = 'To show the ruler in Word: 1. Open your Word document. 2. Click the "View" tab on the top ribbon. 3. In the "Show" group, check the "Ruler" checkbox. Horizontal and vertical rulers will appear instantly.';
+        
+        if (faqQ7) faqQ7.textContent = 'How to display ruler in Word with keyboard shortcuts? (Cara menampilkan penggaris di Word)';
+        if (faqA7) faqA7.textContent = 'Press the shortcut key "Alt + W", then press "R". You can also change the measurement units (cm or inches) under File > Options > Advanced > Display > Show measurements in units of.';
+        
+        if (faqQ8) faqQ8.textContent = 'What is the English word for penggaris? (Bahasa Inggrisnya penggaris)';
+        if (faqA8) faqA8.textContent = 'The English translation for "penggaris" is "Ruler" or "Scale". Specialized terms: Protractor (penggaris busur), Set Square / Triangle Ruler (penggaris segitiga), Tape Measure (meteran gulung), and Caliper (jangka sorong).';
+        
+        if (faqQ9) faqQ9.textContent = 'How to fix missing ruler in Word? (Cara memunculkan penggaris pada Word)';
+        if (faqA9) faqA9.textContent = '1. Ensure document view is set to "Print Layout" (View > Print Layout). 2. Check the "Ruler" box. 3. If the left vertical ruler is missing, go to File > Options > Advanced > Display, and enable "Show vertical ruler in Print Layout view".';
+        
+        if (faqQ10) faqQ10.textContent = 'How to use a ruler accurately? (Cara menggunakan penggaris)';
+        if (faqA10) faqA10.textContent = '1. Align the base of the object with the 0 (zero) line mark, not the outer casing edge if there is an offset gap. 2. Look straight down at a 90-degree angle to eliminate parallax distortion. 3. Read the major number and add the fractional millimeter/subdivision marks.';
+      } else {
+        if (faqQ1) faqQ1.textContent = 'Can I use my phone as a ruler? (Bisakah menggunakan HP sebagai penggaris?)';
+        if (faqA1) faqA1.textContent = 'Ya, sangat bisa! Dengan membuka OnlinePenggaris.com di browser HP (iPhone maupun Android), layar Anda langsung menjadi penggaris fisik nyata skala 1:1. Cukup lakukan kalibrasi otomatis atau tempelkan kartu ATM/KTP fisik, lalu tempelkan benda yang ingin diukur langsung pada kaca layar untuk membaca panjangnya dalam cm, mm, atau inci.';
+        
+        if (faqQ2) faqQ2.textContent = 'Is there a ruler online? (Apakah ada penggaris online?)';
+        if (faqA2) faqA2.textContent = 'Ya, OnlinePenggaris.com adalah situs penggaris online gratis yang menampilkan mistar seukuran asli (actual size to scale) langsung di browser web Anda tanpa perlu mengunduh atau menginstal software apapun.';
+        
+        if (faqQ3) faqQ3.textContent = 'How to identify 1 inch? (Bagaimana cara mengetahui ukuran 1 inci?)';
+        if (faqA3) faqA3.textContent = '1 inci (inch) setara tepat dengan 2.54 sentimeter (25.4 mm). Pada OnlinePenggaris.com, Anda cukup memilih satuan "in". Di dunia nyata, 1 inci kira-kira sebanding dengan panjang ruas ujung ibu jari orang dewasa atau diameter koin pecahan Rp 1.000 / US Quarter.';
+        
+        if (faqQ4) faqQ4.textContent = 'How to measure cm online? (Bagaimana cara mengukur cm secara online?)';
+        if (faqA4) faqA4.textContent = 'Cara mengukur sentimeter secara online: 1. Pilih satuan cm pada toolbar atas OnlinePenggaris.com. 2. Lakukan kalibrasi layar jika diperlukan. 3. Tempelkan benda yang ingin diukur sejajar dengan garis awal angka 0. 4. Baca garis tanda sentimeter dan milimeter yang bertepatan dengan ujung benda.';
+        
+        if (faqQ5) faqQ5.textContent = 'Can a smart phone measure? (Apakah smartphone bisa mengukur?)';
+        if (faqA5) faqA5.textContent = 'Ya, smartphone modern dapat mengukur benda dengan dua cara: 1. Untuk benda kecil berpresisi tinggi (0-15 cm), gunakan penggaris layar seukuran asli seperti OnlinePenggaris.com. 2. Untuk ruangan atau perabotan besar (1-5 meter), gunakan aplikasi kamera Augmented Reality (AR) bawaan smartphone (seperti fitur Measure di iOS atau Google AR Ruler di Android).';
+        
+        if (faqQ6) faqQ6.textContent = 'Cara memunculkan penggaris di Word?';
+        if (faqA6) faqA6.textContent = 'Langkah mudah memunculkan penggaris di Microsoft Word: 1. Buka dokumen Word Anda. 2. Klik tab menu View (Tampilan) pada bilah pita atas. 3. Pada grup pengaturan Show (Tampilkan), centang kotak Ruler (Penggaris). Penggaris horizontal di atas dan vertikal di kiri akan langsung muncul.';
+        
+        if (faqQ7) faqQ7.textContent = 'Cara menampilkan penggaris di Word dengan tombol pintas?';
+        if (faqA7) faqA7.textContent = 'Cara tercepat menampilkan penggaris di Word adalah dengan menekan tombol keyboard Alt + W, lalu tekan tombol R. Anda juga dapat mengubah format ukuran penggaris Word ke cm lewat menu File > Options > Advanced > Display > Show measurements in units of: Centimeters.';
+        
+        if (faqQ8) faqQ8.textContent = 'Bahasa Inggrisnya penggaris?';
+        if (faqA8) faqA8.textContent = 'Bahasa Inggris dari kata penggaris adalah "Ruler" atau "Straightedge" / "Scale" (mistar). Untuk jenis penggaris lainnya: Penggaris busur derajat disebut "Protractor", Penggaris segitiga disebut "Set Square" / "Triangle Ruler", Meteran gulung disebut "Tape Measure", dan Jangka sorong disebut "Caliper".';
+        
+        if (faqQ9) faqQ9.textContent = 'Cara memunculkan penggaris pada Word jika tidak muncul / hilang?';
+        if (faqA9) faqA9.textContent = 'Jika penggaris pada Word hilang: 1. Pastikan tampilan lembar kerja dalam mode Print Layout (klik tab View > Print Layout). 2. Centang kembali opsi Ruler. 3. Jika penggaris vertikal di samping kiri tidak tampak, buka menu File > Options > Advanced, gulir ke bagian Display, lalu centang kotak "Show vertical ruler in Print Layout view".';
+        
+        if (faqQ10) faqQ10.textContent = 'Cara menggunakan penggaris dengan akurat?';
+        if (faqA10) faqA10.textContent = 'Langkah tepat menggunakan penggaris: 1. Letakkan pangkal benda sejajar tepat pada garis angka 0 (nol), bukan di ujung fisik bingkai penggaris jika terdapat celah offset. 2. Posisikan mata tegak lurus (90°) tepat di atas garis ukur untuk mencegah kesalahan paralaks. 3. Catat angka utama (cm/inci) lalu jumlahkan dengan garis milimeter atau fraksi terdekat.';
+      }
+
+      // 8. Footer Links & Copyright
+      const fHome = document.getElementById('footer-link-home');
+      if (fHome) fHome.textContent = t.footer.home;
+      const fCal = document.getElementById('footer-link-cal');
+      if (fCal) fCal.textContent = t.footer.calGuide;
+      const fAbout = document.getElementById('footer-link-about');
+      if (fAbout) fAbout.textContent = t.footer.about;
+      const fPrivacy = document.getElementById('footer-link-privacy');
+      if (fPrivacy) fPrivacy.textContent = t.footer.privacy;
+      const fTerms = document.getElementById('footer-link-terms');
+      if (fTerms) fTerms.textContent = t.footer.terms;
+      const fContact = document.getElementById('footer-link-contact');
+      if (fContact) fContact.textContent = t.footer.contact;
+      const fCopy = document.getElementById('footer-copyright');
+      if (fCopy) fCopy.textContent = t.footer.copyright;
+
+    } catch (err) {
+      console.error('Error applying translations:', err);
+    }
+
+    updateCalibrationUI();
+  }
+
+  // --- RULER RENDERING ENGINE ---
+  function renderAllRulers() {
+    const isDark = document.documentElement.classList.contains('dark');
+
+    const topCanvas = document.getElementById('ruler-canvas-top') as HTMLCanvasElement;
+    const bottomCanvas = document.getElementById('ruler-canvas-bottom') as HTMLCanvasElement;
+    const leftCanvas = document.getElementById('ruler-canvas-left') as HTMLCanvasElement;
+    const rightCanvas = document.getElementById('ruler-canvas-right') as HTMLCanvasElement;
+    const gridCanvas = document.getElementById('grid-canvas') as HTMLCanvasElement;
+
+    if (topCanvas && activeEdges.top) {
+      topCanvas.style.display = 'block';
+      renderRulerEdge({ canvas: topCanvas, edge: 'top', unit: activeUnit, ppi: calState.ppi, isDark });
+    } else if (topCanvas) {
+      topCanvas.style.display = 'none';
+    }
+
+    if (bottomCanvas && activeEdges.bottom) {
+      bottomCanvas.style.display = 'block';
+      renderRulerEdge({ canvas: bottomCanvas, edge: 'bottom', unit: activeUnit, ppi: calState.ppi, isDark });
+    } else if (bottomCanvas) {
+      bottomCanvas.style.display = 'none';
+    }
+
+    if (leftCanvas && activeEdges.left) {
+      leftCanvas.style.display = 'block';
+      renderRulerEdge({ canvas: leftCanvas, edge: 'left', unit: activeUnit, ppi: calState.ppi, isDark });
+    } else if (leftCanvas) {
+      leftCanvas.style.display = 'none';
+    }
+
+    if (rightCanvas && activeEdges.right) {
+      rightCanvas.style.display = 'block';
+      renderRulerEdge({ canvas: rightCanvas, edge: 'right', unit: activeUnit, ppi: calState.ppi, isDark });
+    } else if (rightCanvas) {
+      rightCanvas.style.display = 'none';
+    }
+
+    if (gridCanvas && showGrid) {
+      gridCanvas.style.display = 'block';
+      renderGridOverlay(gridCanvas, activeUnit, calState.ppi, isDark);
+    } else if (gridCanvas) {
+      gridCanvas.style.display = 'none';
+    }
+
+    updateEdgeButtonStyles();
+    updateUnitButtonStyles();
+    updateCaliper();
+    updateCardSimulator();
+  }
+
+  // --- CALIBRATION UI UPDATES ---
+  function updateCalibrationUI() {
+    const navDot = document.getElementById('cal-nav-dot');
+    const navPpi = document.getElementById('cal-nav-ppi');
+    const welcomeDot = document.getElementById('welcome-status-dot');
+    const welcomeText = document.getElementById('welcome-status-text');
+    const modalActiveBadge = document.getElementById('modal-active-ppi-badge');
+    const cardPpiDisplay = document.getElementById('card-ppi-display');
+    const cardSlider = document.getElementById('card-ppi-slider') as HTMLInputElement;
+
+    const ppiRounded = Math.round(calState.ppi * 10) / 10;
+
+    if (navDot) {
+      navDot.className = calState.isCalibrated
+        ? 'w-2 h-2 rounded-full bg-emerald-500 shrink-0 group-hover:scale-125 transition-transform'
+        : 'w-2 h-2 rounded-full bg-amber-500 shrink-0 group-hover:scale-125 transition-transform';
+    }
+    if (navPpi) {
+      navPpi.textContent = `(${ppiRounded} PPI)`;
+    }
+    if (welcomeDot) {
+      welcomeDot.className = calState.isCalibrated ? 'w-2 h-2 rounded-full bg-emerald-500' : 'w-2 h-2 rounded-full bg-amber-500';
+    }
+    if (welcomeText) {
+      welcomeText.textContent = calState.isCalibrated
+        ? (currentLang === 'id' ? `Terkalibrasi: ${calState.deviceName} (${ppiRounded} PPI)` : `Calibrated: ${calState.deviceName} (${ppiRounded} PPI)`)
+        : (currentLang === 'id' ? `Estimasi Layar: ${calState.deviceName} (${ppiRounded} PPI)` : `Display Estimate: ${calState.deviceName} (${ppiRounded} PPI)`);
+    }
+    if (modalActiveBadge) {
+      modalActiveBadge.textContent = `${currentLang === 'id' ? 'Aktif' : 'Active'}: ${ppiRounded} PPI (${calState.deviceName})`;
+    }
+    if (cardPpiDisplay) {
+      cardPpiDisplay.textContent = `${ppiRounded} PPI`;
+    }
+    if (cardSlider) {
+      cardSlider.value = `${ppiRounded}`;
+    }
+  }
+
+  function updateCardSimulator() {
+    const cardBox = document.getElementById('modal-card-box');
+    const dimsLabel = document.getElementById('screen-card-dims');
+    if (!cardBox) return;
+
+    // Card width: 85.60 mm -> CSS pixels = (85.60 / 25.4) * calState.ppi
+    const cardWidthPx = Math.round((85.60 / 25.4) * calState.ppi);
+    const cardHeightPx = Math.round((53.98 / 25.4) * calState.ppi);
+
+    cardBox.style.width = `${cardWidthPx}px`;
+    cardBox.style.height = `${cardHeightPx}px`;
+
+    if (dimsLabel) {
+      dimsLabel.textContent = `85.60 × 53.98 mm (${cardWidthPx} × ${cardHeightPx} px)`;
+    }
+  }
+
+  function checkAutoDetection() {
+    const detected = detectCurrentDevice();
+    const badge = document.getElementById('auto-confidence-badge');
+    const title = document.getElementById('auto-device-title');
+    const specs = document.getElementById('auto-device-specs');
+    const ppiVal = document.getElementById('auto-ppi-val');
+
+    if (detected.match) {
+      if (title) title.textContent = detected.match.name;
+      if (specs) {
+        specs.textContent = `Resolusi: ${detected.match.width}×${detected.match.height} px | Diagonal: ${detected.match.diagonal}″ | DPR: ${detected.match.dpr}x`;
+      }
+      if (ppiVal) ppiVal.textContent = `${detected.estimatedPpi} PPI`;
+
+      if (badge) {
+        if (detected.confidence === 'exact') {
+          badge.textContent = currentLang === 'id' ? 'Kecocokan Pabrikan Sangat Akurat (100%)' : 'Exact Factory Match (100%)';
+          badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 inline-block mb-1';
+        } else {
+          badge.textContent = currentLang === 'id' ? 'Kecocokan Profil Layar Tinggi' : 'High Confidence Profile';
+          badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-indigo-500/10 text-indigo-500 inline-block mb-1';
+        }
+      }
+    } else {
+      const sw = typeof screen !== 'undefined' ? screen.width : 1920;
+      const sh = typeof screen !== 'undefined' ? screen.height : 1080;
+      const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
+      if (title) title.textContent = currentLang === 'id' ? `Layar Standar (${sw * dpr} × ${sh * dpr} px)` : `Standard Display (${sw * dpr} × ${sh * dpr} px)`;
+      if (specs) specs.textContent = `DPR: ${dpr}x | Viewport: ${sw}×${sh} px`;
+      if (ppiVal) ppiVal.textContent = `${detected.estimatedPpi} PPI`;
+      if (badge) {
+        badge.textContent = currentLang === 'id' ? 'Estimasi Standar' : 'Standard Fallback';
+        badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-amber-500/10 text-amber-500 inline-block mb-1';
+      }
+    }
+  }
+
+  function renderDeviceCatalog(filterCat = 'all', searchQuery = '') {
+    const listContainer = document.getElementById('device-catalog-list');
+    if (!listContainer) return;
+
+    listContainer.innerHTML = '';
+    const query = searchQuery.toLowerCase().trim();
+
+    const filtered = DEVICE_DATABASE.filter(dev => {
+      const matchesCat = filterCat === 'all' || dev.category === filterCat;
+      const matchesQuery = !query || dev.name.toLowerCase().includes(query) || dev.id.includes(query);
+      return matchesCat && matchesQuery;
+    });
+
+    if (filtered.length === 0) {
+      listContainer.innerHTML = `<p class="text-xs text-[var(--color-mute)] py-4 text-center">${currentLang === 'id' ? 'Tidak ada perangkat yang cocok.' : 'No matching devices found.'}</p>`;
+      return;
+    }
+
+    filtered.forEach(dev => {
+      const cssPpi = Math.round((dev.ppi / dev.dpr) * 10) / 10;
+      const card = document.createElement('div');
+      card.className = 'p-2.5 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] hover:border-indigo-500 hover:bg-[var(--color-canvas)] transition-all flex items-center justify-between cursor-pointer group';
+      card.innerHTML = `
+        <div>
+          <span class="text-xs font-semibold text-[var(--color-ink)] group-hover:text-indigo-500 block">${dev.name}</span>
+          <span class="text-[10px] font-mono text-[var(--color-mute)]">${dev.diagonal}″ • ${dev.width}×${dev.height} px • DPR ${dev.dpr}x</span>
+        </div>
+        <div class="text-right">
+          <span class="text-xs font-mono font-bold text-indigo-500 block">${cssPpi} PPI</span>
+          <span class="text-[9px] text-[var(--color-mute)] font-medium">${currentLang === 'id' ? 'Pilih' : 'Select'}</span>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        calState = {
+          ppi: cssPpi,
+          method: 'device',
+          deviceName: dev.name,
+          isCalibrated: true,
+          calibratedAt: new Date().toISOString(),
+        };
+        saveCalibration(calState);
+        updateCalibrationUI();
+        renderAllRulers();
+        closeModal('calibration-modal');
+      });
+      listContainer.appendChild(card);
+    });
+  }
+
+  // --- CALIPER LOGIC ---
+  function updateCaliper() {
+    const hud = document.getElementById('caliper-hud');
+    const container = document.getElementById('caliper-container');
+    const line = document.getElementById('caliper-line');
+    const proj = document.getElementById('caliper-proj');
+    const handleA = document.getElementById('caliper-handle-a');
+    const handleB = document.getElementById('caliper-handle-b');
+    const badge = document.getElementById('caliper-badge');
+    const distText = document.getElementById('caliper-distance-text');
+    const hudDist = document.getElementById('hud-caliper-dist');
+    const hudDx = document.getElementById('hud-caliper-dx');
+    const hudDy = document.getElementById('hud-caliper-dy');
+
+    if (!showCaliper) {
+      if (hud) hud.style.display = 'none';
+      if (container) container.style.display = 'none';
+      return;
+    }
+
+    if (hud) hud.style.display = 'flex';
+    if (container) container.style.display = 'block';
+
+    const { p1, p2 } = caliperPoints;
+
+    if (handleA) {
+      handleA.style.left = `${p1.x}px`;
+      handleA.style.top = `${p1.y}px`;
+    }
+    if (handleB) {
+      handleB.style.left = `${p2.x}px`;
+      handleB.style.top = `${p2.y}px`;
+    }
+
+    if (line) {
+      line.setAttribute('x1', `${p1.x}`);
+      line.setAttribute('y1', `${p1.y}`);
+      line.setAttribute('x2', `${p2.x}`);
+      line.setAttribute('y2', `${p2.y}`);
+    }
+
+    if (proj) {
+      proj.setAttribute('d', `M ${p1.x} ${p1.y} L ${p2.x} ${p1.y} L ${p2.x} ${p2.y}`);
+    }
+
+    const midX = (p1.x + p2.x) / 2;
+    const midY = (p1.y + p2.y) / 2;
+
+    if (badge) {
+      badge.style.left = `${midX}px`;
+      badge.style.top = `${midY}px`;
+    }
+
+    const dxPx = Math.abs(p2.x - p1.x);
+    const dyPx = Math.abs(p2.y - p1.y);
+    const distPx = Math.sqrt(dxPx * dxPx + dyPx * dyPx);
+
+    const formattedDist = formatMeasurement(distPx, activeUnit, calState.ppi);
+    const formattedDx = formatMeasurement(dxPx, activeUnit, calState.ppi);
+    const formattedDy = formatMeasurement(dyPx, activeUnit, calState.ppi);
+
+    if (distText) distText.textContent = formattedDist;
+    if (hudDist) hudDist.textContent = formattedDist;
+    if (hudDx) hudDx.textContent = formattedDx;
+    if (hudDy) hudDy.textContent = formattedDy;
+  }
+
+  // --- GUIDE LINES ---
+  function addGuideLine(type: 'h' | 'v', pos: number) {
+    const id = `guide-${Date.now()}`;
+    guideLines.push({ id, type, pos });
+    renderGuideLines();
+  }
+
+  function renderGuideLines() {
+    const container = document.getElementById('guides-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (!showGuides && guideLines.length === 0) return;
+
+    guideLines.forEach(g => {
+      const line = document.createElement('div');
+      line.className = `guide-line ${g.type === 'h' ? 'horizontal' : 'vertical'}`;
+      if (g.type === 'h') {
+        line.style.top = `${g.pos}px`;
+      } else {
+        line.style.left = `${g.pos}px`;
+      }
+
+      const badge = document.createElement('div');
+      badge.className = 'guide-badge';
+      const formatted = formatMeasurement(g.pos, activeUnit, calState.ppi);
+      badge.textContent = `${formatted} (${currentLang === 'id' ? 'Klik untuk hapus' : 'Click to delete'})`;
+
+      if (g.type === 'h') {
+        badge.style.left = '50px';
+        badge.style.top = '-20px';
+      } else {
+        badge.style.left = '6px';
+        badge.style.top = '60px';
+      }
+
+      badge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        guideLines = guideLines.filter(item => item.id !== g.id);
+        renderGuideLines();
+      });
+
+      line.appendChild(badge);
+      container.appendChild(line);
+    });
+  }
+
+  // --- BUTTON STATE STYLING ---
+  function updateEdgeButtonStyles() {
+    document.querySelectorAll('[data-edge-btn]').forEach(btn => {
+      const edge = btn.getAttribute('data-edge-btn');
+      if (edge === 'frame') {
+        const isFrame = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
+        btn.setAttribute('aria-pressed', isFrame ? 'true' : 'false');
+      } else if (edge && edge in activeEdges) {
+        btn.setAttribute('aria-pressed', activeEdges[edge as keyof typeof activeEdges] ? 'true' : 'false');
+      }
+    });
+
+    const guidesBtn = document.getElementById('btn-tool-guides');
+    if (guidesBtn) guidesBtn.setAttribute('aria-pressed', showGuides ? 'true' : 'false');
+
+    const crossBtn = document.getElementById('btn-tool-crosshair');
+    if (crossBtn) crossBtn.setAttribute('aria-pressed', showCrosshair ? 'true' : 'false');
+
+    const gridBtn = document.getElementById('btn-tool-grid');
+    if (gridBtn) gridBtn.setAttribute('aria-pressed', showGrid ? 'true' : 'false');
+
+    const caliperBtn = document.getElementById('btn-tool-caliper');
+    if (caliperBtn) caliperBtn.setAttribute('aria-pressed', showCaliper ? 'true' : 'false');
+  }
+
+  function updateUnitButtonStyles() {
+    document.querySelectorAll('.unit-btn').forEach(btn => {
+      const u = btn.getAttribute('data-unit');
+      if (u === activeUnit) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  function openModal(id: string) {
+    const m = document.getElementById(id);
+    if (m) m.style.display = 'flex';
+  }
+
+  function closeModal(id: string) {
+    const m = document.getElementById(id);
+    if (m) m.style.display = 'none';
+  }
+
+  // --- EVENT LISTENERS BINDINGS ---
+  function bindEvents() {
+    // Window Resize
+    window.addEventListener('resize', () => {
+      renderAllRulers();
+      checkAutoDetection();
+    });
+
+    // Theme Toggle
+    const themeBtn = document.getElementById('btn-theme-toggle');
+    themeBtn?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      try {
+        localStorage.setItem(STORAGE_KEY_THEME, isDark ? 'dark' : 'light');
+      } catch (e) {}
+      renderAllRulers();
+    });
+
+    // Language Toggle Button (Switches between ID and EN)
+    const langBtn = document.getElementById('btn-lang-toggle');
+    langBtn?.addEventListener('click', () => {
+      const nextLang: Language = currentLang === 'id' ? 'en' : 'id';
+      applyLanguage(nextLang);
+      try {
+        localStorage.setItem(STORAGE_KEY_LANG, nextLang);
+      } catch (e) {}
+      renderAllRulers();
+      renderDeviceCatalog();
+      checkAutoDetection();
+    });
+
+    // Mobile Tools Sheet Toggle
+    const mobileToolsBtn = document.getElementById('btn-mobile-tools-toggle');
+    const mobileDrawer = document.getElementById('mobile-tools-drawer');
+    const btnCloseDrawer = document.getElementById('btn-close-mobile-drawer');
+
+    mobileToolsBtn?.addEventListener('click', () => {
+      if (mobileDrawer) mobileDrawer.style.display = 'flex';
+    });
+    btnCloseDrawer?.addEventListener('click', () => {
+      if (mobileDrawer) mobileDrawer.style.display = 'none';
+    });
+
+    // Mobile Drawer Action Triggers
+    document.getElementById('btn-drawer-caliper')?.addEventListener('click', () => {
+      showCaliper = true;
+      if (mobileDrawer) mobileDrawer.style.display = 'none';
+      updateCaliper();
+      updateEdgeButtonStyles();
+    });
+
+    document.getElementById('btn-drawer-grid')?.addEventListener('click', () => {
+      showGrid = !showGrid;
+      if (mobileDrawer) mobileDrawer.style.display = 'none';
+      renderAllRulers();
+      updateEdgeButtonStyles();
+    });
+
+    document.getElementById('btn-drawer-silhouettes')?.addEventListener('click', () => {
+      if (mobileDrawer) mobileDrawer.style.display = 'none';
+      openModal('silhouettes-modal');
+    });
+
+    document.getElementById('btn-drawer-guides')?.addEventListener('click', () => {
+      showGuides = !showGuides;
+      if (mobileDrawer) mobileDrawer.style.display = 'none';
+      renderGuideLines();
+      updateEdgeButtonStyles();
+    });
+
+    document.getElementById('btn-drawer-howto')?.addEventListener('click', () => {
+      if (mobileDrawer) mobileDrawer.style.display = 'none';
+      openModal('howto-modal');
+    });
+
+    // Edge Placement Buttons (Desktop and Mobile)
+    document.querySelectorAll('[data-edge-btn]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const edge = btn.getAttribute('data-edge-btn');
+        if (edge === 'frame') {
+          const isAll = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
+          activeEdges = { top: !isAll, bottom: !isAll, left: !isAll, right: !isAll };
+        } else if (edge && edge in activeEdges) {
+          activeEdges[edge as keyof typeof activeEdges] = !activeEdges[edge as keyof typeof activeEdges];
+        }
+        // Hide welcome banner once an edge is clicked
+        const welcome = document.getElementById('welcome-state');
+        if (welcome) welcome.style.display = 'none';
+        // Smoothly scroll to top workspace if scrolled down
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        renderAllRulers();
+      });
+    });
+
+    // Quick Edge Buttons in Welcome Banner
+    document.querySelectorAll('[data-quick-edge]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const edge = btn.getAttribute('data-quick-edge');
+        if (edge && edge in activeEdges) {
+          activeEdges = { top: false, bottom: false, left: false, right: false };
+          activeEdges[edge as keyof typeof activeEdges] = true;
+          const welcome = document.getElementById('welcome-state');
+          if (welcome) welcome.style.display = 'none';
+          renderAllRulers();
+        }
+      });
+    });
+
+    // Hide Welcome Banner
+    document.getElementById('btn-hide-welcome')?.addEventListener('click', () => {
+      const welcome = document.getElementById('welcome-state');
+      if (welcome) welcome.style.display = 'none';
+    });
+
+    // Unit Switcher (cm, mm, in, px, pt)
+    document.querySelectorAll('.unit-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const u = btn.getAttribute('data-unit') as MeasurementUnit;
+        if (u) {
+          activeUnit = u;
+          try {
+            localStorage.setItem(STORAGE_KEY_UNIT, activeUnit);
+          } catch (e) {}
+          renderAllRulers();
+        }
+      });
+    });
+
+    // Tool Toggles
+    document.getElementById('btn-tool-guides')?.addEventListener('click', () => {
+      showGuides = !showGuides;
+      renderGuideLines();
+      updateEdgeButtonStyles();
+    });
+
+    document.getElementById('btn-tool-crosshair')?.addEventListener('click', () => {
+      showCrosshair = !showCrosshair;
+      const chH = document.getElementById('crosshair-h');
+      const chV = document.getElementById('crosshair-v');
+      const readout = document.getElementById('cursor-readout');
+      if (chH) chH.style.display = showCrosshair ? 'block' : 'none';
+      if (chV) chV.style.display = showCrosshair ? 'block' : 'none';
+      if (readout) readout.style.display = showCrosshair ? 'block' : 'none';
+      updateEdgeButtonStyles();
+    });
+
+    document.getElementById('btn-tool-grid')?.addEventListener('click', () => {
+      showGrid = !showGrid;
+      renderAllRulers();
+      updateEdgeButtonStyles();
+    });
+
+    document.getElementById('btn-tool-caliper')?.addEventListener('click', () => {
+      showCaliper = !showCaliper;
+      updateCaliper();
+      updateEdgeButtonStyles();
+    });
+
+    document.getElementById('btn-close-caliper-hud')?.addEventListener('click', () => {
+      showCaliper = false;
+      updateCaliper();
+      updateEdgeButtonStyles();
+    });
+
+    document.getElementById('btn-copy-caliper')?.addEventListener('click', () => {
+      const hudDist = document.getElementById('hud-caliper-dist')?.textContent;
+      if (hudDist) {
+        navigator.clipboard.writeText(hudDist);
+        const copyText = document.getElementById('copy-caliper-text');
+        if (copyText) {
+          copyText.textContent = currentLang === 'id' ? 'Tersalin!' : 'Copied!';
+          setTimeout(() => {
+            if (copyText) copyText.textContent = currentLang === 'id' ? 'Salin' : 'Copy';
+          }, 1500);
+        }
+      }
+    });
+
+    document.getElementById('caliper-badge')?.addEventListener('click', () => {
+      const distText = document.getElementById('caliper-distance-text')?.textContent;
+      if (distText) {
+        navigator.clipboard.writeText(distText);
+      }
+    });
+
+    // Caliper drag handles (Pointer & Touch support)
+    const handleA = document.getElementById('caliper-handle-a');
+    const handleB = document.getElementById('caliper-handle-b');
+    const rulerWs = document.getElementById('ruler-workspace');
+
+    handleA?.addEventListener('pointerdown', (e) => {
+      isDraggingCaliper = 'p1';
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    });
+
+    handleB?.addEventListener('pointerdown', (e) => {
+      isDraggingCaliper = 'p2';
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (isDraggingCaliper && rulerWs) {
+        const rect = rulerWs.getBoundingClientRect();
+        const x = Math.max(10, Math.min(rect.width - 10, e.clientX - rect.left));
+        const y = Math.max(10, Math.min(rect.height - 10, e.clientY - rect.top));
+
+        if (isDraggingCaliper === 'p1') {
+          caliperPoints.p1 = { x, y };
+        } else if (isDraggingCaliper === 'p2') {
+          caliperPoints.p2 = { x, y };
+        }
+        updateCaliper();
+      }
+
+      // Crosshair Movement
+      if (showCrosshair && rulerWs) {
+        const rect = rulerWs.getBoundingClientRect();
+        if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+          const chH = document.getElementById('crosshair-h');
+          const chV = document.getElementById('crosshair-v');
+          const readout = document.getElementById('cursor-readout');
+
+          const relY = e.clientY - rect.top;
+          const relX = e.clientX - rect.left;
+
+          if (chH) chH.style.top = `${relY}px`;
+          if (chV) chV.style.left = `${relX}px`;
+
+          if (readout) {
+            readout.style.left = `${relX}px`;
+            readout.style.top = `${relY}px`;
+            const formattedX = formatMeasurement(relX, activeUnit, calState.ppi);
+            const formattedY = formatMeasurement(relY, activeUnit, calState.ppi);
+            readout.textContent = `X: ${formattedX} | Y: ${formattedY}`;
+          }
+        }
+      }
+    });
+
+    window.addEventListener('pointerup', () => {
+      isDraggingCaliper = null;
+    });
+
+    // Fullscreen Toggle
+    document.getElementById('btn-fullscreen-toggle')?.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    // Canvas click to place guide lines
+    document.getElementById('ruler-canvas-top')?.addEventListener('click', (e) => {
+      const wsRect = rulerWs?.getBoundingClientRect() || { left: 0 };
+      addGuideLine('v', e.clientX - wsRect.left);
+    });
+    document.getElementById('ruler-canvas-bottom')?.addEventListener('click', (e) => {
+      const wsRect = rulerWs?.getBoundingClientRect() || { left: 0 };
+      addGuideLine('v', e.clientX - wsRect.left);
+    });
+    document.getElementById('ruler-canvas-left')?.addEventListener('click', (e) => {
+      const wsRect = rulerWs?.getBoundingClientRect() || { top: 52 };
+      addGuideLine('h', e.clientY - wsRect.top);
+    });
+    document.getElementById('ruler-canvas-right')?.addEventListener('click', (e) => {
+      const wsRect = rulerWs?.getBoundingClientRect() || { top: 52 };
+      addGuideLine('h', e.clientY - wsRect.top);
+    });
+
+    // Modals open / close triggers
+    document.getElementById('btn-open-calibrate')?.addEventListener('click', () => openModal('calibration-modal'));
+    document.getElementById('btn-welcome-cal-status')?.addEventListener('click', () => openModal('calibration-modal'));
+    document.getElementById('welcome-change-device')?.addEventListener('click', () => openModal('calibration-modal'));
+    document.getElementById('btn-close-cal-modal')?.addEventListener('click', () => closeModal('calibration-modal'));
+
+    document.getElementById('btn-open-howto')?.addEventListener('click', () => openModal('howto-modal'));
+    document.getElementById('btn-close-howto-modal')?.addEventListener('click', () => closeModal('howto-modal'));
+    document.getElementById('btn-close-howto-bottom')?.addEventListener('click', () => closeModal('howto-modal'));
+
+    document.getElementById('btn-tool-silhouettes')?.addEventListener('click', () => openModal('silhouettes-modal'));
+    document.getElementById('btn-close-silhouettes')?.addEventListener('click', () => closeModal('silhouettes-modal'));
+
+    // Calibration modal tabs
+    document.querySelectorAll('[data-cal-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-cal-tab');
+        document.querySelectorAll('.cal-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        document.querySelectorAll('.cal-panel').forEach(p => ((p as HTMLElement).style.display = 'none'));
+        const activePanel = document.getElementById(`tab-panel-${tab}`);
+        if (activePanel) activePanel.style.display = 'block';
+      });
+    });
+
+    // Calibration Method 1: Apply Auto
+    document.getElementById('btn-apply-auto')?.addEventListener('click', () => {
+      const detected = detectCurrentDevice();
+      calState = {
+        ppi: detected.estimatedPpi,
+        method: 'auto',
+        deviceName: detected.match ? detected.match.name : (currentLang === 'id' ? `Layar Terdeteksi (~${Math.round(detected.estimatedPpi)} PPI)` : `Detected Screen (~${Math.round(detected.estimatedPpi)} PPI)`),
+        isCalibrated: true,
+        calibratedAt: new Date().toISOString(),
+      };
+      saveCalibration(calState);
+      updateCalibrationUI();
+      renderAllRulers();
+      closeModal('calibration-modal');
+    });
+
+    // Calibration Method 2: Diagonal
+    const diagInput = document.getElementById('diagonal-input-val') as HTMLInputElement;
+    const diagCalcRes = document.getElementById('diagonal-calc-result');
+
+    function updateDiagonalPreview() {
+      const val = parseFloat(diagInput?.value || '0');
+      if (val > 0) {
+        const ppi = calculatePpiFromDiagonal(val);
+        if (diagCalcRes) diagCalcRes.textContent = `${ppi.toFixed(1)} PPI`;
+      }
+    }
+
+    diagInput?.addEventListener('input', updateDiagonalPreview);
+
+    document.querySelectorAll('.diag-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const d = chip.getAttribute('data-diag');
+        if (d && diagInput) {
+          diagInput.value = d;
+          updateDiagonalPreview();
+        }
+      });
+    });
+
+    document.getElementById('btn-apply-diagonal')?.addEventListener('click', () => {
+      const val = parseFloat(diagInput?.value || '0');
+      if (val >= 4 && val <= 100) {
+        const ppi = calculatePpiFromDiagonal(val);
+        calState = {
+          ppi,
+          method: 'diagonal',
+          deviceName: `Diagonal ${val}″`,
+          isCalibrated: true,
+          calibratedAt: new Date().toISOString(),
+        };
+        saveCalibration(calState);
+        updateCalibrationUI();
+        renderAllRulers();
+        closeModal('calibration-modal');
+      }
+    });
+
+    // Calibration Method 3: Credit Card Slider & Nudging
+    const cardSlider = document.getElementById('card-ppi-slider') as HTMLInputElement;
+    const cardPpiDisplay = document.getElementById('card-ppi-display');
+
+    cardSlider?.addEventListener('input', (e) => {
+      const newPpi = parseFloat((e.target as HTMLInputElement).value);
+      calState.ppi = newPpi;
+      if (cardPpiDisplay) cardPpiDisplay.textContent = `${newPpi.toFixed(1)} PPI`;
+      updateCardSimulator();
+    });
+
+    document.getElementById('btn-card-minus')?.addEventListener('click', () => {
+      if (cardSlider) {
+        const val = Math.max(50, parseFloat(cardSlider.value) - 0.5);
+        cardSlider.value = `${val}`;
+        calState.ppi = val;
+        if (cardPpiDisplay) cardPpiDisplay.textContent = `${val.toFixed(1)} PPI`;
+        updateCardSimulator();
+      }
+    });
+
+    document.getElementById('btn-card-plus')?.addEventListener('click', () => {
+      if (cardSlider) {
+        const val = Math.min(260, parseFloat(cardSlider.value) + 0.5);
+        cardSlider.value = `${val}`;
+        calState.ppi = val;
+        if (cardPpiDisplay) cardPpiDisplay.textContent = `${val.toFixed(1)} PPI`;
+        updateCardSimulator();
+      }
+    });
+
+    document.getElementById('btn-apply-card-cal')?.addEventListener('click', () => {
+      calState.isCalibrated = true;
+      calState.method = 'card';
+      calState.deviceName = currentLang === 'id' ? 'Kalibrasi Kartu Fisik' : 'Physical Card Calibrated';
+      calState.calibratedAt = new Date().toISOString();
+      saveCalibration(calState);
+      updateCalibrationUI();
+      renderAllRulers();
+      closeModal('calibration-modal');
+    });
+
+    // Reset Calibration
+    document.getElementById('btn-reset-cal')?.addEventListener('click', () => {
+      calState = {
+        ppi: 96,
+        method: 'custom',
+        deviceName: currentLang === 'id' ? 'Standar Default (96 PPI)' : 'Default Standard (96 PPI)',
+        isCalibrated: false,
+        calibratedAt: new Date().toISOString(),
+      };
+      saveCalibration(calState);
+      updateCalibrationUI();
+      renderAllRulers();
+      closeModal('calibration-modal');
+    });
+
+    // Device Catalog Search & Categories
+    const searchInput = document.getElementById('device-search-input') as HTMLInputElement;
+    let activeCat = 'all';
+
+    searchInput?.addEventListener('input', (e) => {
+      renderDeviceCatalog(activeCat, (e.target as HTMLInputElement).value);
+    });
+
+    document.querySelectorAll('.cat-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCat = btn.getAttribute('data-cat') || 'all';
+        renderDeviceCatalog(activeCat, searchInput?.value || '');
+      });
+    });
+
+    // Silhouette Item Selector
+    document.querySelectorAll('.obj-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const obj = btn.getAttribute('data-obj');
+        const box = document.getElementById('active-silhouette-box');
+        const label = document.getElementById('silhouette-label');
+        if (!box) return;
+
+        let wMm = 85.6;
+        let hMm = 53.98;
+        let name = currentLang === 'id' ? 'Kartu ATM / KTP' : 'Credit Card / ID';
+
+        if (obj === 'coin-idr') {
+          wMm = 24.15;
+          hMm = 24.15;
+          name = currentLang === 'id' ? 'Koin Rp 1.000 (Ø 24.15 mm)' : 'Rp 1,000 Coin (Ø 24.15 mm)';
+        } else if (obj === 'coin-usd') {
+          wMm = 24.26;
+          hMm = 24.26;
+          name = currentLang === 'id' ? 'US Quarter $0.25 (Ø 24.26 mm)' : 'US Quarter $0.25 (Ø 24.26 mm)';
+        } else if (obj === 'battery-aa') {
+          wMm = 50.5;
+          hMm = 14.5;
+          name = currentLang === 'id' ? 'Baterai AA (50.50 × 14.50 mm)' : 'AA Battery (50.50 × 14.50 mm)';
+        } else if (obj === 'sim') {
+          wMm = 12.3;
+          hMm = 8.8;
+          name = currentLang === 'id' ? 'Nano SIM Card (12.30 × 8.80 mm)' : 'Nano SIM Card (12.30 × 8.80 mm)';
+        } else if (obj === 'banknote') {
+          wMm = 121.0;
+          hMm = 65.0;
+          name = currentLang === 'id' ? 'Uang Kertas IDR (121.0 × 65.0 mm)' : 'IDR Banknote (121.0 × 65.0 mm)';
+        }
+
+        const wPx = Math.round((wMm / 25.4) * calState.ppi);
+        const hPx = Math.round((hMm / 25.4) * calState.ppi);
+
+        box.style.width = `${wPx}px`;
+        box.style.height = `${hPx}px`;
+        if (obj === 'coin-idr' || obj === 'coin-usd') {
+          box.style.borderRadius = '9999px';
+        } else {
+          box.style.borderRadius = '8px';
+        }
+
+        if (label) label.textContent = `${name} (${wPx}×${hPx} px)`;
+      });
+    });
+
+    // Global Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
+        return;
+      }
+
+      switch (e.key) {
+        case '1':
+          activeUnit = 'cm';
+          renderAllRulers();
+          break;
+        case '2':
+          activeUnit = 'mm';
+          renderAllRulers();
+          break;
+        case '3':
+          activeUnit = 'in';
+          renderAllRulers();
+          break;
+        case 'g':
+        case 'G':
+          showGuides = !showGuides;
+          renderGuideLines();
+          updateEdgeButtonStyles();
+          break;
+        case 'c':
+        case 'C':
+          showCrosshair = !showCrosshair;
+          const chH = document.getElementById('crosshair-h');
+          const chV = document.getElementById('crosshair-v');
+          const readout = document.getElementById('cursor-readout');
+          if (chH) chH.style.display = showCrosshair ? 'block' : 'none';
+          if (chV) chV.style.display = showCrosshair ? 'block' : 'none';
+          if (readout) readout.style.display = showCrosshair ? 'block' : 'none';
+          updateEdgeButtonStyles();
+          break;
+        case 'm':
+        case 'M':
+          showGrid = !showGrid;
+          renderAllRulers();
+          updateEdgeButtonStyles();
+          break;
+        case 'k':
+        case 'K':
+          showCaliper = !showCaliper;
+          updateCaliper();
+          updateEdgeButtonStyles();
+          break;
+        case 'f':
+        case 'F':
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          } else {
+            document.exitFullscreen().catch(() => {});
+          }
+          break;
+        case 'd':
+        case 'D':
+          const isDark = document.documentElement.classList.toggle('dark');
+          try {
+            localStorage.setItem(STORAGE_KEY_THEME, isDark ? 'dark' : 'light');
+          } catch (err) {}
+          renderAllRulers();
+          break;
+        case 'h':
+        case 'H':
+          openModal('howto-modal');
+          break;
+        case 'Escape':
+          closeModal('calibration-modal');
+          closeModal('howto-modal');
+          closeModal('silhouettes-modal');
+          const mobDrawer = document.getElementById('mobile-tools-drawer');
+          if (mobDrawer) mobDrawer.style.display = 'none';
+          guideLines = [];
+          renderGuideLines();
+          break;
+        case 'ArrowLeft':
+        case 'ArrowDown':
+          if (document.getElementById('tab-panel-card')?.style.display === 'block') {
+            const val = Math.max(50, calState.ppi - 0.2);
+            calState.ppi = val;
+            const slider = document.getElementById('card-ppi-slider') as HTMLInputElement;
+            if (slider) slider.value = `${val}`;
+            const disp = document.getElementById('card-ppi-display');
+            if (disp) disp.textContent = `${val.toFixed(1)} PPI`;
+            updateCardSimulator();
+          }
+          break;
+        case 'ArrowRight':
+        case 'ArrowUp':
+          if (document.getElementById('tab-panel-card')?.style.display === 'block') {
+            const val = Math.min(260, calState.ppi + 0.2);
+            calState.ppi = val;
+            const slider = document.getElementById('card-ppi-slider') as HTMLInputElement;
+            if (slider) slider.value = `${val}`;
+            const disp = document.getElementById('card-ppi-display');
+            if (disp) disp.textContent = `${val.toFixed(1)} PPI`;
+            updateCardSimulator();
+          }
+          break;
+      }
+    });
+  }
+
+  // Run on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
+  }
+</script>
