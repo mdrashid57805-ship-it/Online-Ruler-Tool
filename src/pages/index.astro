@@ -83,8 +83,10 @@ import Footer from '../components/Footer.astro';
   let showGrid = false;
   let showCaliper = false;
   let showMarker = true;
-  let markerPos = 180;
-  let isDraggingMarker = false;
+  let markerPosX = 180;
+  let markerPosY = 180;
+  let isDraggingMarkerV = false;
+  let isDraggingMarkerH = false;
   let caliperPoints = { p1: { x: 80, y: 140 }, p2: { x: 300, y: 140 } };
   let isDraggingCaliper: 'p1' | 'p2' | null = null;
   let guideLines: { id: string; type: 'h' | 'v'; pos: number }[] = [];
@@ -92,8 +94,10 @@ import Footer from '../components/Footer.astro';
   // --- INITIALIZATION ---
   function initApp() {
     if (typeof window !== 'undefined') {
-      markerPos = Math.min(Math.round(window.innerWidth * 0.45), 200);
-      if (markerPos < 120) markerPos = 120;
+      markerPosX = Math.min(Math.round(window.innerWidth * 0.45), 200);
+      if (markerPosX < 120) markerPosX = 120;
+      markerPosY = Math.min(Math.round(window.innerHeight * 0.35), 200);
+      if (markerPosY < 120) markerPosY = 120;
     }
     loadSavedSettings();
     bindEvents();
@@ -155,6 +159,16 @@ import Footer from '../components/Footer.astro';
       if (frameText) frameText.textContent = lang === 'id' ? '4 Sisi' : '4-Way';
       const navCal = document.getElementById('nav-cal-text');
       if (navCal) navCal.textContent = lang === 'id' ? 'Kalibrasi' : 'Calibrate';
+
+      // Mobile Edge Bar dynamic labels
+      document.querySelectorAll('[data-edge-btn-mobile]').forEach(btn => {
+        const edge = btn.getAttribute('data-edge-btn-mobile');
+        if (edge === 'top') btn.textContent = lang === 'id' ? 'Atas' : 'Top';
+        if (edge === 'bottom') btn.textContent = lang === 'id' ? 'Bawah' : 'Bottom';
+        if (edge === 'left') btn.textContent = lang === 'id' ? 'Kiri' : 'Left';
+        if (edge === 'right') btn.textContent = lang === 'id' ? 'Kanan' : 'Right';
+        if (edge === 'frame') btn.textContent = lang === 'id' ? '4 Sisi' : '4-Way';
+      });
 
       // 2. Welcome Banner
       const wTitle = document.getElementById('welcome-title');
@@ -783,31 +797,14 @@ import Footer from '../components/Footer.astro';
       return;
     }
 
-    const isVerticalEdge = activeEdges.left || activeEdges.right;
-    const primaryFormatted = formatMeasurement(markerPos, activeUnit, calState.ppi);
+    const hasHorizontalEdge = activeEdges.top || activeEdges.bottom;
+    const hasVerticalEdge = activeEdges.left || activeEdges.right;
 
-    if (isVerticalEdge) {
-      if (markerV) markerV.style.display = 'none';
-      if (markerH) {
-        markerH.style.display = 'flex';
-        markerH.style.top = `${markerPos}px`;
-        const handleH = document.getElementById('marker-handle-h');
-        if (handleH) {
-          if (activeEdges.right && !activeEdges.left) {
-            handleH.style.left = 'auto';
-            handleH.style.right = '48px';
-          } else {
-            handleH.style.right = 'auto';
-            handleH.style.left = '48px';
-          }
-        }
-      }
-      if (valH) valH.textContent = primaryFormatted;
-    } else {
-      if (markerH) markerH.style.display = 'none';
+    // 1. Horizontal rulers (Top or Bottom active) -> Vertical Line (markerV) moves on X-axis
+    if (hasHorizontalEdge) {
       if (markerV) {
         markerV.style.display = 'flex';
-        markerV.style.left = `${markerPos}px`;
+        markerV.style.left = `${markerPosX}px`;
         const handleV = document.getElementById('marker-handle-v');
         if (handleV) {
           if (activeEdges.bottom && !activeEdges.top) {
@@ -819,7 +816,30 @@ import Footer from '../components/Footer.astro';
           }
         }
       }
-      if (valV) valV.textContent = primaryFormatted;
+      if (valV) valV.textContent = formatMeasurement(markerPosX, activeUnit, calState.ppi);
+    } else {
+      if (markerV) markerV.style.display = 'none';
+    }
+
+    // 2. Vertical rulers (Left or Right active) -> Horizontal Line (markerH) moves on Y-axis
+    if (hasVerticalEdge) {
+      if (markerH) {
+        markerH.style.display = 'flex';
+        markerH.style.top = `${markerPosY}px`;
+        const handleH = document.getElementById('marker-handle-h');
+        if (handleH) {
+          if (activeEdges.right && !activeEdges.left) {
+            handleH.style.left = 'auto';
+            handleH.style.right = '48px';
+          } else {
+            handleH.style.right = 'auto';
+            handleH.style.left = '48px';
+          }
+        }
+      }
+      if (valH) valH.textContent = formatMeasurement(markerPosY, activeUnit, calState.ppi);
+    } else {
+      if (markerH) markerH.style.display = 'none';
     }
   }
 
@@ -939,11 +959,13 @@ import Footer from '../components/Footer.astro';
 
   // --- BUTTON STATE STYLING ---
   function updateEdgeButtonStyles() {
+    const isAll = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
+
     document.querySelectorAll('[data-edge-btn]').forEach(btn => {
       const edge = btn.getAttribute('data-edge-btn');
       let isActive = false;
       if (edge === 'frame') {
-        isActive = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
+        isActive = isAll;
       } else if (edge && edge in activeEdges) {
         isActive = !!activeEdges[edge as keyof typeof activeEdges];
       }
@@ -955,7 +977,7 @@ import Footer from '../components/Footer.astro';
       const edge = btn.getAttribute('data-edge-btn-mobile');
       let isActive = false;
       if (edge === 'frame') {
-        isActive = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
+        isActive = isAll;
       } else if (edge && edge in activeEdges) {
         isActive = !!activeEdges[edge as keyof typeof activeEdges];
       }
@@ -1060,21 +1082,44 @@ import Footer from '../components/Footer.astro';
       openModal('calibration-modal');
     });
 
+    // Edge Placement Handler (Desktop & Mobile Unified)
+    const handleEdgeClick = (edge: string) => {
+      if (edge === 'frame') {
+        const isAll = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
+        if (isAll) {
+          activeEdges = { top: true, bottom: false, left: false, right: false };
+        } else {
+          activeEdges = { top: true, bottom: true, left: true, right: true };
+        }
+      } else if (edge && edge in activeEdges) {
+        const k = edge as keyof typeof activeEdges;
+        const currentVal = activeEdges[k];
+        const activeCount = Object.values(activeEdges).filter(Boolean).length;
+
+        // If clicking the only active edge, keep it active (ensure at least 1 edge is visible)
+        if (currentVal && activeCount === 1) {
+          activeEdges[k] = true;
+        } else {
+          activeEdges[k] = !currentVal;
+        }
+      }
+
+      // Hide welcome banner once an edge is clicked
+      const welcome = document.getElementById('welcome-state');
+      if (welcome) welcome.style.display = 'none';
+
+      const mobileSheet = document.getElementById('mobile-tools-sheet');
+      if (mobileSheet) mobileSheet.style.display = 'none';
+
+      renderAllRulers();
+    };
+
     // Mobile Edge Buttons
     document.querySelectorAll('[data-edge-btn-mobile]').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const edge = btn.getAttribute('data-edge-btn-mobile');
-        if (edge === 'frame') {
-          const isAll = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
-          activeEdges = { top: !isAll, bottom: !isAll, left: !isAll, right: !isAll };
-        } else if (edge && edge in activeEdges) {
-          activeEdges = { top: false, bottom: false, left: false, right: false };
-          activeEdges[edge as keyof typeof activeEdges] = true;
-        }
-        const welcome = document.getElementById('welcome-state');
-        if (welcome) welcome.style.display = 'none';
-        if (mobileSheet) mobileSheet.style.display = 'none';
-        renderAllRulers();
+        if (edge) handleEdgeClick(edge);
       });
     });
 
@@ -1099,34 +1144,13 @@ import Footer from '../components/Footer.astro';
       if (mobileSheet) mobileSheet.style.display = 'none';
     });
 
-    // Edge Placement Buttons (Desktop Navbar and Mobile Edge Bar)
-    document.querySelectorAll('[data-edge-btn], [data-edge-btn-mobile]').forEach(btn => {
-      const activateEdge = (e?: Event) => {
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        const edge = btn.getAttribute('data-edge-btn') || btn.getAttribute('data-edge-btn-mobile');
-        if (edge === 'frame') {
-          const isAll = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
-          if (isAll) {
-            activeEdges = { top: true, bottom: false, left: false, right: false };
-          } else {
-            activeEdges = { top: true, bottom: true, left: true, right: true };
-          }
-        } else if (edge && edge in activeEdges) {
-          // Select single edge cleanly
-          activeEdges = { top: false, bottom: false, left: false, right: false };
-          activeEdges[edge as keyof typeof activeEdges] = true;
-        }
-        // Hide welcome banner once an edge is clicked
-        const welcome = document.getElementById('welcome-state');
-        if (welcome) welcome.style.display = 'none';
-        renderAllRulers();
-      };
-
-      btn.addEventListener('click', activateEdge);
-      btn.addEventListener('touchend', activateEdge, { passive: false });
+    // Edge Placement Buttons (Desktop Navbar)
+    document.querySelectorAll('[data-edge-btn]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const edge = btn.getAttribute('data-edge-btn');
+        if (edge) handleEdgeClick(edge);
+      });
     });
 
     // Quick Edge Buttons in Welcome Banner
@@ -1303,21 +1327,30 @@ import Footer from '../components/Footer.astro';
     });
 
     // Copy Measurement when clicking on Point Tag
-    [document.getElementById('marker-handle-v'), document.getElementById('marker-handle-h')].forEach(el => {
-      el?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const val = activeEdges.left || activeEdges.right
-          ? document.getElementById('marker-value-h')?.textContent
-          : document.getElementById('marker-value-v')?.textContent;
-        if (val) {
-          navigator.clipboard.writeText(val);
-          const feedback = document.createElement('div');
-          feedback.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-red-600 text-white text-xs font-mono shadow-lg z-50 animate-bounce';
-          feedback.textContent = currentLang === 'id' ? '✓ Ukuran tersalin: ' + val : '✓ Copied: ' + val;
-          document.body.appendChild(feedback);
-          setTimeout(() => feedback.remove(), 1500);
-        }
-      });
+    document.getElementById('marker-handle-v')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const val = document.getElementById('marker-value-v')?.textContent;
+      if (val) {
+        navigator.clipboard.writeText(val);
+        const feedback = document.createElement('div');
+        feedback.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-red-600 text-white text-xs font-mono shadow-lg z-50 animate-bounce';
+        feedback.textContent = currentLang === 'id' ? '✓ Ukuran X tersalin: ' + val : '✓ Copied X: ' + val;
+        document.body.appendChild(feedback);
+        setTimeout(() => feedback.remove(), 1500);
+      }
+    });
+
+    document.getElementById('marker-handle-h')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const val = document.getElementById('marker-value-h')?.textContent;
+      if (val) {
+        navigator.clipboard.writeText(val);
+        const feedback = document.createElement('div');
+        feedback.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-red-600 text-white text-xs font-mono shadow-lg z-50 animate-bounce';
+        feedback.textContent = currentLang === 'id' ? '✓ Ukuran Y tersalin: ' + val : '✓ Copied Y: ' + val;
+        document.body.appendChild(feedback);
+        setTimeout(() => feedback.remove(), 1500);
+      }
     });
 
     // Marker Drag Handles & Touch Zones
@@ -1326,47 +1359,58 @@ import Footer from '../components/Footer.astro';
     const touchZoneV = document.getElementById('marker-touch-zone-v');
     const touchZoneH = document.getElementById('marker-touch-zone-h');
 
-    const onMarkerStart = (e: MouseEvent | TouchEvent) => {
-      isDraggingMarker = true;
-    };
+    [handleV, touchZoneV].forEach(el => {
+      el?.addEventListener('mousedown', () => { isDraggingMarkerV = true; });
+      el?.addEventListener('touchstart', () => { isDraggingMarkerV = true; }, { passive: true });
+    });
 
-    [handleV, handleH, touchZoneV, touchZoneH].forEach(el => {
-      el?.addEventListener('mousedown', onMarkerStart);
-      el?.addEventListener('touchstart', onMarkerStart, { passive: true });
+    [handleH, touchZoneH].forEach(el => {
+      el?.addEventListener('mousedown', () => { isDraggingMarkerH = true; });
+      el?.addEventListener('touchstart', () => { isDraggingMarkerH = true; }, { passive: true });
     });
 
     window.addEventListener('mousemove', (e) => {
-      if (isDraggingMarker && rulerWs) {
+      if (rulerWs) {
         const rect = rulerWs.getBoundingClientRect();
-        const isVerticalEdge = activeEdges.left || activeEdges.right;
-        markerPos = isVerticalEdge ? (e.clientY - rect.top) : (e.clientX - rect.left);
-        if (markerPos < 0) markerPos = 0;
-        updateMarker();
+        if (isDraggingMarkerV) {
+          markerPosX = Math.max(0, e.clientX - rect.left);
+          updateMarker();
+        }
+        if (isDraggingMarkerH) {
+          markerPosY = Math.max(0, e.clientY - rect.top);
+          updateMarker();
+        }
       }
     });
 
     window.addEventListener('touchmove', (e) => {
-      if (isDraggingMarker && rulerWs && e.touches[0]) {
+      if (rulerWs && e.touches[0]) {
         const rect = rulerWs.getBoundingClientRect();
-        const isVerticalEdge = activeEdges.left || activeEdges.right;
-        markerPos = isVerticalEdge ? (e.touches[0].clientY - rect.top) : (e.touches[0].clientX - rect.left);
-        if (markerPos < 0) markerPos = 0;
-        updateMarker();
+        if (isDraggingMarkerV) {
+          markerPosX = Math.max(0, e.touches[0].clientX - rect.left);
+          updateMarker();
+        }
+        if (isDraggingMarkerH) {
+          markerPosY = Math.max(0, e.touches[0].clientY - rect.top);
+          updateMarker();
+        }
       }
     }, { passive: true });
 
     window.addEventListener('mouseup', () => {
-      isDraggingMarker = false;
+      isDraggingMarkerV = false;
+      isDraggingMarkerH = false;
     });
     window.addEventListener('touchend', () => {
-      isDraggingMarker = false;
+      isDraggingMarkerV = false;
+      isDraggingMarkerH = false;
     });
 
     // Click on ruler canvases or surface to drop / move marker instantly
-    ['ruler-canvas-top', 'ruler-canvas-bottom', 'measuring-surface'].forEach(id => {
+    ['ruler-canvas-top', 'ruler-canvas-bottom'].forEach(id => {
       document.getElementById(id)?.addEventListener('click', (e: MouseEvent) => {
         const wsRect = rulerWs?.getBoundingClientRect() || { left: 0, top: 52 };
-        markerPos = Math.max(0, e.clientX - wsRect.left);
+        markerPosX = Math.max(0, e.clientX - wsRect.left);
         showMarker = true;
         updateMarker();
       });
@@ -1375,10 +1419,18 @@ import Footer from '../components/Footer.astro';
     ['ruler-canvas-left', 'ruler-canvas-right'].forEach(id => {
       document.getElementById(id)?.addEventListener('click', (e: MouseEvent) => {
         const wsRect = rulerWs?.getBoundingClientRect() || { left: 0, top: 52 };
-        markerPos = Math.max(0, e.clientY - wsRect.top);
+        markerPosY = Math.max(0, e.clientY - wsRect.top);
         showMarker = true;
         updateMarker();
       });
+    });
+
+    document.getElementById('measuring-surface')?.addEventListener('click', (e: MouseEvent) => {
+      const wsRect = rulerWs?.getBoundingClientRect() || { left: 0, top: 52 };
+      markerPosX = Math.max(0, e.clientX - wsRect.left);
+      markerPosY = Math.max(0, e.clientY - wsRect.top);
+      showMarker = true;
+      updateMarker();
     });
 
     // Modals open / close triggers
@@ -1606,6 +1658,31 @@ import Footer from '../components/Footer.astro';
         case '3':
           activeUnit = 'in';
           renderAllRulers();
+          break;
+        case 't':
+        case 'T':
+          handleEdgeClick('top');
+          break;
+        case 'b':
+        case 'B':
+          handleEdgeClick('bottom');
+          break;
+        case 'l':
+        case 'L':
+          handleEdgeClick('left');
+          break;
+        case 'r':
+        case 'R':
+          handleEdgeClick('right');
+          break;
+        case 'a':
+        case 'A':
+          handleEdgeClick('frame');
+          break;
+        case 'p':
+        case 'P':
+          showMarker = !showMarker;
+          updateMarker();
           break;
         case 'g':
         case 'G':
