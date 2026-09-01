@@ -358,18 +358,60 @@ const { lang = 'id' } = Astro.props;
 </div>
 
 <style>
+  /* Unit Switcher Buttons */
+  .unit-btn {
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+  }
+  .unit-btn:hover {
+    color: var(--color-ink);
+  }
+  .unit-btn:active {
+    transform: scale(0.95);
+  }
   .unit-btn.active {
     background-color: #dc2626 !important;
     color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(220, 38, 38, 0.3);
   }
+
+  /* Desktop Edge Buttons */
+  .edge-btn {
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+  }
+  .edge-btn:hover {
+    color: var(--color-ink);
+    background-color: var(--color-canvas-soft);
+  }
+  .edge-btn:active {
+    transform: scale(0.95);
+  }
+  .edge-btn.active,
+  .edge-btn[aria-pressed="true"] {
+    background-color: #dc2626 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border-color: #dc2626 !important;
+    box-shadow: 0 1px 3px rgba(220, 38, 38, 0.3);
+  }
+
+  /* Mobile Edge Buttons */
   .mobile-edge-btn {
     background-color: var(--color-canvas);
     color: var(--color-body);
     border-color: var(--color-hairline);
     cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
   }
   .mobile-edge-btn:hover {
     color: var(--color-ink);
+  }
+  .mobile-edge-btn:active {
+    transform: scale(0.95);
   }
   .mobile-edge-btn.active,
   .mobile-edge-btn[aria-pressed="true"] {
@@ -378,6 +420,17 @@ const { lang = 'id' } = Astro.props;
     border-color: #dc2626 !important;
     font-weight: 700 !important;
   }
+
+  /* Tool Toggles & Actions */
+  .tool-btn {
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+  }
+  .tool-btn:active {
+    transform: scale(0.95);
+  }
+  .tool-btn.active,
   .tool-btn[aria-pressed="true"] {
     background-color: #dc2626 !important;
     color: #ffffff !important;

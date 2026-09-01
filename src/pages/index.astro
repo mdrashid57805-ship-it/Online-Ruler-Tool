@@ -941,12 +941,14 @@ import Footer from '../components/Footer.astro';
   function updateEdgeButtonStyles() {
     document.querySelectorAll('[data-edge-btn]').forEach(btn => {
       const edge = btn.getAttribute('data-edge-btn');
+      let isActive = false;
       if (edge === 'frame') {
-        const isFrame = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
-        btn.setAttribute('aria-pressed', isFrame ? 'true' : 'false');
+        isActive = activeEdges.top && activeEdges.bottom && activeEdges.left && activeEdges.right;
       } else if (edge && edge in activeEdges) {
-        btn.setAttribute('aria-pressed', activeEdges[edge as keyof typeof activeEdges] ? 'true' : 'false');
+        isActive = !!activeEdges[edge as keyof typeof activeEdges];
       }
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      btn.classList.toggle('active', isActive);
     });
 
     document.querySelectorAll('[data-edge-btn-mobile]').forEach(btn => {
