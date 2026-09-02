@@ -170,6 +170,40 @@ import Footer from '../components/Footer.astro';
         if (edge === 'frame') btn.textContent = lang === 'id' ? '4 Sisi' : '4-Way';
       });
 
+      // Mobile 3-dot drawer dynamic labels
+      const mSheetTitle = document.getElementById('mobile-sheet-title');
+      if (mSheetTitle) mSheetTitle.textContent = lang === 'id' ? 'Alat & Pengaturan' : 'Tools & Settings';
+      const mToolsLabel = document.getElementById('mobile-sheet-tools-label');
+      if (mToolsLabel) mToolsLabel.textContent = lang === 'id' ? 'Fitur Pengukuran:' : 'Measurement Tools:';
+
+      const mMarkerTitle = document.getElementById('mobile-marker-row-title');
+      if (mMarkerTitle) {
+        mMarkerTitle.textContent = lang === 'id' ? 'Tampilkan / Sembunyikan Titik Ukur' : 'Show / Hide Measurement Marker';
+      }
+      const mMarkerStatus = document.getElementById('mobile-marker-row-status');
+      if (mMarkerStatus) {
+        mMarkerStatus.textContent = lang === 'id'
+          ? (showMarker ? 'Status: Aktif (Tampil)' : 'Status: Nonaktif (Sembunyi)')
+          : (showMarker ? 'Status: Active (Visible)' : 'Status: Inactive (Hidden)');
+        mMarkerStatus.className = showMarker
+          ? 'text-[11px] text-red-600 dark:text-red-400 font-medium'
+          : 'text-[11px] text-[var(--color-mute)] font-medium';
+      }
+
+      const mCaliperLabel = document.getElementById('mobile-caliper-label');
+      if (mCaliperLabel) mCaliperLabel.textContent = lang === 'id' ? 'Jangka Sorong (Caliper)' : 'Digital Caliper';
+      const mCalLabel = document.getElementById('mobile-calibrate-label');
+      if (mCalLabel) mCalLabel.textContent = lang === 'id' ? 'Kalibrasi Skala Layar (1:1)' : 'Calibrate Screen (1:1)';
+      const mLinkCal = document.getElementById('mobile-link-cal');
+      if (mLinkCal) mLinkCal.textContent = lang === 'id' ? '📐 Panduan Kalibrasi Layar' : '📐 Calibration Guide';
+      const mLinkAbout = document.getElementById('mobile-link-about');
+      if (mLinkAbout) mLinkAbout.textContent = lang === 'id' ? 'ℹ️ Tentang Online Penggaris' : 'ℹ️ About Online Penggaris';
+      const mLinkContact = document.getElementById('mobile-link-contact');
+      if (mLinkContact) mLinkContact.textContent = lang === 'id' ? '✉️ Hubungi Kami' : '✉️ Contact Us';
+
+      const navMarkerText = document.getElementById('nav-marker-text');
+      if (navMarkerText) navMarkerText.textContent = lang === 'id' ? (showMarker ? 'Titik Ukur' : 'Titik Ukur (Mati)') : (showMarker ? 'Marker' : 'Marker (Off)');
+
       // 2. Welcome Banner
       const wTitle = document.getElementById('welcome-title');
       if (wTitle) wTitle.textContent = t.welcome.title;
@@ -330,109 +364,68 @@ import Footer from '../components/Footer.astro';
       const seoBadge = document.getElementById('seo-badge');
       if (seoBadge) seoBadge.textContent = lang === 'id' ? 'ALAT UKUR DIGITAL PRESISI 1:1' : 'PRECISION 1:1 DIGITAL MEASURING STUDIO';
       const seoH1 = document.getElementById('seo-h1');
-      if (seoH1) seoH1.textContent = lang === 'id' ? 'Online Penggaris — Penggaris Online Akurat Seukuran Asli (cm, mm, inches)' : 'Online Ruler — Accurate Free Online Ruler Actual Size to Scale (cm, mm, inches)';
+      if (seoH1) seoH1.textContent = lang === 'id' ? 'Online Penggaris — Penggaris Digital Akurat (cm, mm, inci)' : 'Online Ruler — Accurate Digital Ruler (cm, mm, inches)';
       const seoLead = document.getElementById('seo-lead');
       if (seoLead) {
         seoLead.innerHTML = lang === 'id'
-          ? `<strong>Online Penggaris</strong> (<em>onlinepenggaris.com</em>) adalah alat ukur <strong>penggaris digital</strong> berbasis web (<strong>free online ruler</strong>) yang mengubah layar laptop, monitor PC, tablet, maupun smartphone Anda menjadi <strong>penggaris online akurat</strong> seukuran fisik nyata (<strong>actual size online ruler to scale</strong>). Dilengkapi pilihan <strong>penggaris online cm</strong>, <strong>online ruler in mm</strong>, <strong>online penggaris inches</strong> (skala <strong>12 inch online ruler</strong>), visual <strong>gambar penggaris</strong>, dan jangka sorong digital dua titik tanpa perlu instalasi aplikasi apapun.`
-          : `<strong>Online Penggaris</strong> (<em>onlinepenggaris.com</em>) is a free browser-based <strong>digital ruler</strong> (<strong>free online ruler</strong>) that transforms your laptop, PC monitor, tablet, or smartphone into an <strong>accurate online ruler</strong> calibrated to 1:1 physical dimensions (<strong>actual size online ruler to scale</strong>). Featuring <strong>online ruler in cm</strong>, <strong>online ruler in mm</strong>, <strong>online ruler inches</strong> (standard <strong>12 inch online ruler</strong> scale), visual reference silhouettes, and digital two-point calipers without installing any software.`;
+          ? '<strong>Online Penggaris</strong> adalah alat ukur digital gratis berbasis web yang mengubah layar HP, tablet, laptop, atau monitor Anda menjadi penggaris seukuran fisik asli (skala 1:1). Anda dapat langsung mengukur objek secara presisi dalam sentimeter (cm), milimeter (mm), dan inci (inches) tanpa perlu menginstal aplikasi apa pun.'
+          : '<strong>Online Penggaris</strong> is a free, browser-based digital ruler that turns your phone, tablet, laptop, or monitor into an actual-size ruler (1:1 scale). Measure any small object accurately in centimeters, millimeters, or inches directly on your screen without installing apps.';
       }
 
-      const sec1Title = document.getElementById('seo-sec1-title');
-      if (sec1Title) sec1Title.textContent = lang === 'id' ? 'Mengapa Kalibrasi Kerapatan Piksel (PPI) Penting untuk Penggaris Digital?' : 'Why Pixel Density (PPI) Calibration is Crucial for Actual Size Online Rulers';
-      const sec1P1 = document.getElementById('seo-sec1-p1');
-      if (sec1P1) sec1P1.textContent = lang === 'id'
-        ? 'Setiap layar gawai memiliki kerapatan piksel fisik atau Pixels Per Inch (PPI) yang berlainan. Sebagai contoh, layar monitor desktop 24 inci standar memiliki kerapatan ~93 PPI, laptop 15.6 inci Full HD berada di ~141 PPI, sedangkan layar smartphone modern dan MacBook Retina mencapai 224 hingga 460+ PPI.'
-        : 'Every display has a unique hardware pixel density (PPI). A standard 24" desktop monitor has ~93 PPI, a 15.6" Full HD laptop is ~141 PPI, while modern smartphone screens and Retina displays reach 224 to 460+ PPI.';
-      const sec1P2 = document.getElementById('seo-sec1-p2');
-      if (sec1P2) sec1P2.textContent = lang === 'id'
-        ? 'Banyak situs penggaris konvensional hanya mengandalkan nilai default 96 CSS PPI, yang menyebabkan hasil pengukuran meleset hingga 50% atau lebih pada layar resolusi tinggi. Online Penggaris memecahkan permasalahan ini dengan menghadirkan kalibrasi presisi berbasis CSS-Level Device Pixel Ratio (DPR), memastikan bahwa 1 sentimeter atau 1 inci di layar kaca Anda 100% identik dengan penggaris fisik di dunia nyata.'
-        : 'Most generic web rulers blindly assume a legacy 96 PPI default, causing measurements to be off by 50% or more on high-DPI screens. Online Penggaris eliminates distortion with CSS-level DPR normalization, guaranteeing that 1 cm or 1 inch on glass matches real physical rulers with sub-millimeter precision.';
-
       const sec2Title = document.getElementById('seo-sec2-title');
-      if (sec2Title) sec2Title.textContent = lang === 'id' ? 'Pilihan Satuan Lengkap: Penggaris Online CM, MM, dan Inches' : 'Comprehensive Unit Options: Online Ruler in CM, MM, and Inches';
+      if (sec2Title) sec2Title.textContent = lang === 'id' ? 'Pilihan Satuan: CM, MM, dan Inci' : 'Unit Options: CM, MM, and Inches';
       const sec2P1 = document.getElementById('seo-sec2-p1');
       if (sec2P1) sec2P1.textContent = lang === 'id'
-        ? 'Untuk memenuhi berbagai kebutuhan pengukuran teknis, kerajinan tangan, arsitektur, hingga edukasi sekolah, Online Penggaris menyediakan dukungan multi-satuan instan:'
-        : 'To support engineering, crafting, digital design, and educational workflows, Online Penggaris offers instant multi-unit scaling:';
+        ? 'Pilih satuan ukur yang Anda butuhkan secara instan:'
+        : 'Select your required measurement units instantly:';
 
       const unitCmTitle = document.getElementById('card-unit-cm-title');
-      if (unitCmTitle) unitCmTitle.textContent = lang === 'id' ? 'Penggaris Online CM (Centimeter)' : 'Online Ruler in CM (Centimeter)';
+      if (unitCmTitle) unitCmTitle.textContent = lang === 'id' ? 'Sentimeter (cm)' : 'Centimeter (cm)';
       const unitCmDesc = document.getElementById('card-unit-cm-desc');
       if (unitCmDesc) unitCmDesc.textContent = lang === 'id'
-        ? 'Menampilkan penomoran skala sentimeter (1, 2, 3, 4... cm) dengan garis pembagi 1 mm dan tanda paruh 5 mm untuk pengukuran metrik harian.'
-        : 'Renders crisp centimeter increments (1, 2, 3, 4... cm) with 1 mm sub-divisions and 5 mm half-marks for daily metric tasks.';
+        ? 'Skala metrik sentimeter standar dengan pembagi 1 mm dan tanda 5 mm untuk pengukuran sehari-hari.'
+        : 'Standard centimeter metric graduations with 1 mm divisions and 5 mm half-marks for daily tasks.';
 
       const unitMmTitle = document.getElementById('card-unit-mm-title');
-      if (unitMmTitle) unitMmTitle.textContent = lang === 'id' ? 'Online Ruler in MM (Millimeter)' : 'Online Ruler in MM (Millimeter)';
+      if (unitMmTitle) unitMmTitle.textContent = lang === 'id' ? 'Milimeter (mm)' : 'Millimeter (mm)';
       const unitMmDesc = document.getElementById('card-unit-mm-desc');
       if (unitMmDesc) unitMmDesc.textContent = lang === 'id'
-        ? 'Menampilkan penomoran skala milimeter (10, 20, 30, 40... mm) seperti pada mistar teknik presisi untuk mengukur komponen mikro, baut, dan perhiasan.'
-        : 'Renders millimeter numbers (10, 20, 30, 40... mm) matching precision engineering rulers for micro-parts, jewelry, and screws.';
+        ? 'Skala milimeter presisi untuk mengukur objek kecil, baut, perhiasan, dan komponen teknik.'
+        : 'High-precision millimeter scale for measuring micro components, jewelry, screws, and technical parts.';
 
       const unitInTitle = document.getElementById('card-unit-in-title');
-      if (unitInTitle) unitInTitle.textContent = lang === 'id' ? 'Online Penggaris Inches (12 Inch)' : 'Online Ruler Inches (12 Inch Scale)';
+      if (unitInTitle) unitInTitle.textContent = lang === 'id' ? 'Inci (Inches)' : 'Inches (in)';
       const unitInDesc = document.getElementById('card-unit-in-desc');
       if (unitInDesc) unitInDesc.textContent = lang === 'id'
-        ? 'Menampilkan fraksi imperial 1/8, 1/16, hingga 1/32 inci (12 inch online ruler) untuk standar internasional dan dokumen cetak.'
-        : 'Features fractional imperial graduation (1/8, 1/16, and 1/32") representing an actual 12 inch online ruler on larger displays.';
-
-      const sec3Title = document.getElementById('seo-sec3-title');
-      if (sec3Title) sec3Title.textContent = lang === 'id' ? 'Mengenal Ragam Penggaris: Penggaris Busur, Penggaris Segitiga & Penggaris Kamera' : 'Ruler Types: Protractor, Triangle Set Square & Camera Measurement';
-      const sec3P1 = document.getElementById('seo-sec3-p1');
-      if (sec3P1) sec3P1.textContent = lang === 'id'
-        ? 'Dalam aktivitas desain teknis dan pendidikan matematika, terdapat berbagai bentuk alat ukur:'
-        : 'In technical drawing, architecture, and mathematics, different specialized instruments are used:';
-
-      const sec3BusurTitle = document.getElementById('sec3-busur-title');
-      if (sec3BusurTitle) sec3BusurTitle.textContent = lang === 'id' ? '📐 Penggaris Busur Derajat (Protractor 180° / 360°)' : '📐 Protractor (Busur Derajat 180° / 360°)';
-      const sec3BusurDesc = document.getElementById('sec3-busur-desc');
-      if (sec3BusurDesc) sec3BusurDesc.textContent = lang === 'id'
-        ? 'Penggaris busur digunakan untuk mengukur dan menggambar sudut geometris secara akurat mulai dari 0° hingga 180°. Pada studio online kami, Anda dapat memanfaatkan kalkulasi trigonometri digital dan jangka sorong untuk mengukur kemiringan sudut objek.'
-        : 'A protractor measures and draws geometric angles from 0° to 180°. In our online studio, you can leverage digital trigonometry and dual-point calipers to calculate precise angular orientation.';
-
-      const sec3SegitigaTitle = document.getElementById('sec3-segitiga-title');
-      if (sec3SegitigaTitle) sec3SegitigaTitle.textContent = lang === 'id' ? '📐 Penggaris Segitiga (Set Square 45° & 30°/60°)' : '📐 Triangle Set Square (Penggaris Segitiga 45° & 30°/60°)';
-      const sec3SegitigaDesc = document.getElementById('sec3-segitiga-desc');
-      if (sec3SegitigaDesc) sec3SegitigaDesc.textContent = lang === 'id'
-        ? 'Penggaris segitiga merupakan alat wajib arsitek dan drafter untuk menarik garis tegak lurus (90°) dan sudut istimewa. Melalui fitur Bingkai 4 Sisi (Full Frame) dan Matriks Grid, layar perangkat Anda berubah menjadi meja gambar berpresisi tinggi.'
-        : 'Set squares allow draftsmen to draw true perpendicular lines (90°) and special angles. With our 4-Way Full Frame and Grid Matrix overlays, your screen transforms into a drafting workbench.';
-
-      const sec3KameraTitle = document.getElementById('sec3-kamera-title');
-      if (sec3KameraTitle) sec3KameraTitle.textContent = lang === 'id' ? '📷 Penggaris Online Kamera (Online Ruler Camera Tips)' : '📷 Online Ruler Camera Tips (Penggaris Online Kamera)';
-      const sec3KameraDesc = document.getElementById('sec3-kamera-desc');
-      if (sec3KameraDesc) sec3KameraDesc.textContent = lang === 'id'
-        ? 'Bagi pengguna smartphone yang mencari penggaris online kamera (online ruler camera), cara paling akurat untuk mengukur benda fisik adalah dengan menempelkan benda langsung pada kaca layar berpelindung sejajar dengan garis skala 1:1, atau menggunakan siluet referensi standar kami (seperti kartu KTP atau koin Rp 1.000) sebagai acuan pembanding.'
-        : 'For smartphone users searching for online ruler camera tools, the most accurate method is placing objects directly against the screen glass along the 1:1 calibrated ruler edge, or using our built-in physical scale silhouettes (e.g. credit card or coin) as comparative references.';
+        ? 'Skala imperial dengan fraksi 1/8, 1/16, hingga 1/32 inci untuk standar internasional dan format cetak.'
+        : 'Imperial fractional scale with 1/8, 1/16, and 1/32" graduations for international standards.';
 
       const sec4Title = document.getElementById('seo-sec4-title');
-      if (sec4Title) sec4Title.textContent = lang === 'id' ? '3 Metode Kalibrasi Skala Layar 1:1 (Online Ruler to Scale)' : '3 Easy Methods to Calibrate Your Screen 1:1 (Online Ruler to Scale)';
+      if (sec4Title) sec4Title.textContent = lang === 'id' ? '3 Metode Kalibrasi Skala Layar (1:1)' : '3 Screen Calibration Methods (1:1 Scale)';
       const sec4P1 = document.getElementById('seo-sec4-p1');
       if (sec4P1) sec4P1.textContent = lang === 'id'
-        ? 'Untuk menjamin presisi sub-milimeter, Online Penggaris menyediakan 3 metode kalibrasi mudah yang dapat dipilih sesuai preferensi Anda:'
-        : 'To guarantee sub-millimeter fidelity, Online Penggaris offers 3 straightforward calibration methods:';
+        ? 'Pilih metode kalibrasi paling praktis agar ukuran di layar 100% tepat seukuran fisik asli:'
+        : 'Choose the most convenient method to guarantee 100% actual physical size on your display:';
 
       const seoM1T = document.getElementById('seo-m1-title');
-      if (seoM1T) seoM1T.textContent = t.seo.method1Title;
+      if (seoM1T) seoM1T.textContent = lang === 'id' ? 'Deteksi Layar Otomatis' : 'Auto Screen Detection';
       const seoM1D = document.getElementById('seo-m1-text');
-      if (seoM1D) seoM1D.textContent = t.seo.method1Text;
+      if (seoM1D) seoM1D.textContent = lang === 'id'
+        ? 'Membaca resolusi dan rasio piksel layar gawai Anda secara otomatis untuk kalibrasi instan.'
+        : 'Instantly reads display resolution and pixel ratio from manufacturer hardware profiles.';
       const seoM2T = document.getElementById('seo-m2-title');
-      if (seoM2T) seoM2T.textContent = t.seo.method2Title;
+      if (seoM2T) seoM2T.textContent = lang === 'id' ? 'Ukuran Diagonal Layar' : 'Screen Diagonal Size';
       const seoM2D = document.getElementById('seo-m2-text');
-      if (seoM2D) seoM2D.textContent = t.seo.method2Text;
+      if (seoM2D) seoM2D.textContent = lang === 'id'
+        ? 'Masukkan ukuran diagonal layar dalam inci (misalnya 14", 15.6", atau 27") untuk menghitung nilai PPI akurat.'
+        : 'Enter your screen diagonal in inches (e.g. 14", 15.6", or 27") for precise geometric PPI calculation.';
       const seoM3T = document.getElementById('seo-m3-title');
-      if (seoM3T) seoM3T.textContent = t.seo.method3Title;
+      if (seoM3T) seoM3T.textContent = lang === 'id' ? 'Kartu ATM / KTP Fisik' : 'Standard Bank Card / ID';
       const seoM3D = document.getElementById('seo-m3-text');
-      if (seoM3D) seoM3D.textContent = t.seo.method3Text;
+      if (seoM3D) seoM3D.textContent = lang === 'id'
+        ? 'Tempelkan kartu standar ISO (panjang 85.60 mm) pada layar dan sesuaikan garis pembanding.'
+        : 'Hold an ISO standard credit/ID card (85.60 mm width) against the screen and match the slider.';
 
-      const seoTableTitle = document.getElementById('seo-table-title');
-      if (seoTableTitle) seoTableTitle.textContent = t.seo.tableTitle;
-      const thDev = document.getElementById('th-col-device');
-      if (thDev) thDev.textContent = lang === 'id' ? 'Tipe Perangkat' : 'Device Model';
-      const thDiag = document.getElementById('th-col-diag');
-      if (thDiag) thDiag.textContent = lang === 'id' ? 'Ukuran Layar' : 'Screen Size';
-      const thRes = document.getElementById('th-col-res');
-      if (thRes) thRes.textContent = lang === 'id' ? 'Resolusi Asli' : 'Native Resolution';
       const seoFaqTitle = document.getElementById('seo-faq-title');
       if (seoFaqTitle) seoFaqTitle.textContent = t.seo.faqTitle;
 
@@ -488,20 +481,20 @@ import Footer from '../components/Footer.astro';
         if (faqQ10) faqQ10.textContent = 'How to use a ruler accurately? (Cara menggunakan penggaris)';
         if (faqA10) faqA10.textContent = '1. Align the base of the object with the 0 (zero) line mark, not the outer casing edge if there is an offset gap. 2. Look straight down at a 90-degree angle to eliminate parallax distortion. 3. Read the major number and add the fractional millimeter/subdivision marks.';
       } else {
-        if (faqQ1) faqQ1.textContent = 'Can I use my phone as a ruler? (Bisakah menggunakan HP sebagai penggaris?)';
-        if (faqA1) faqA1.textContent = 'Ya, sangat bisa! Dengan membuka OnlinePenggaris.com di browser HP (iPhone maupun Android), layar Anda langsung menjadi penggaris fisik nyata skala 1:1. Cukup lakukan kalibrasi otomatis atau tempelkan kartu ATM/KTP fisik, lalu tempelkan benda yang ingin diukur langsung pada kaca layar untuk membaca panjangnya dalam cm, mm, atau inci.';
+        if (faqQ1) faqQ1.textContent = 'Bisakah HP atau smartphone digunakan sebagai penggaris?';
+        if (faqA1) faqA1.textContent = 'Ya, sangat bisa! Dengan membuka OnlinePenggaris.com di browser HP (iPhone maupun Android), layar Anda langsung berfungsi sebagai penggaris fisik nyata skala 1:1. Cukup lakukan kalibrasi otomatis atau tempelkan kartu ATM/KTP fisik, lalu letakkan benda yang ingin diukur langsung pada permukaan layar untuk membaca panjangnya dalam cm, mm, atau inci.';
         
-        if (faqQ2) faqQ2.textContent = 'Is there a ruler online? (Apakah ada penggaris online?)';
-        if (faqA2) faqA2.textContent = 'Ya, OnlinePenggaris.com adalah situs penggaris online gratis yang menampilkan mistar seukuran asli (actual size to scale) langsung di browser web Anda tanpa perlu mengunduh atau menginstal software apapun.';
+        if (faqQ2) faqQ2.textContent = 'Apakah ada penggaris online yang langsung sesuai ukuran asli?';
+        if (faqA2) faqA2.textContent = 'Ya, OnlinePenggaris.com adalah situs penggaris online gratis yang menampilkan mistar seukuran fisik sebenarnya (actual size to scale) langsung di peramban web tanpa perlu mengunduh atau menginstal aplikasi apa pun.';
         
-        if (faqQ3) faqQ3.textContent = 'How to identify 1 inch? (Bagaimana cara mengetahui ukuran 1 inci?)';
-        if (faqA3) faqA3.textContent = '1 inci (inch) setara tepat dengan 2.54 sentimeter (25.4 mm). Pada OnlinePenggaris.com, Anda cukup memilih satuan "in". Di dunia nyata, 1 inci kira-kira sebanding dengan panjang ruas ujung ibu jari orang dewasa atau diameter koin pecahan Rp 1.000 / US Quarter.';
+        if (faqQ3) faqQ3.textContent = 'Berapa ukuran 1 inci dan bagaimana cara mengetahuinya?';
+        if (faqA3) faqA3.textContent = '1 inci (inch) setara tepat dengan 2,54 sentimeter (25,4 mm). Pada OnlinePenggaris.com, Anda cukup memilih satuan "in". Di dunia nyata, 1 inci kira-kira sebanding dengan panjang ruas ujung ibu jari orang dewasa atau diameter koin pecahan Rp 1.000.';
         
-        if (faqQ4) faqQ4.textContent = 'How to measure cm online? (Bagaimana cara mengukur cm secara online?)';
-        if (faqA4) faqA4.textContent = 'Cara mengukur sentimeter secara online: 1. Pilih satuan cm pada toolbar atas OnlinePenggaris.com. 2. Lakukan kalibrasi layar jika diperlukan. 3. Tempelkan benda yang ingin diukur sejajar dengan garis awal angka 0. 4. Baca garis tanda sentimeter dan milimeter yang bertepatan dengan ujung benda.';
+        if (faqQ4) faqQ4.textContent = 'Bagaimana cara mengukur sentimeter (cm) di penggaris online?';
+        if (faqA4) faqA4.textContent = 'Cara mengukur sentimeter secara online: 1. Pilih satuan cm pada toolbar atas OnlinePenggaris.com. 2. Lakukan kalibrasi layar jika diperlukan. 3. Letakkan benda yang ingin diukur sejajar dengan garis awal angka 0. 4. Baca garis tanda sentimeter dan milimeter yang bertepatan dengan ujung benda.';
         
-        if (faqQ5) faqQ5.textContent = 'Can a smart phone measure? (Apakah smartphone bisa mengukur?)';
-        if (faqA5) faqA5.textContent = 'Ya, smartphone modern dapat mengukur benda dengan dua cara: 1. Untuk benda kecil berpresisi tinggi (0-15 cm), gunakan penggaris layar seukuran asli seperti OnlinePenggaris.com. 2. Untuk ruangan atau perabotan besar (1-5 meter), gunakan aplikasi kamera Augmented Reality (AR) bawaan smartphone (seperti fitur Measure di iOS atau Google AR Ruler di Android).';
+        if (faqQ5) faqQ5.textContent = 'Apakah smartphone bisa digunakan untuk mengukur benda?';
+        if (faqA5) faqA5.textContent = 'Ya, smartphone modern dapat mengukur benda dengan dua cara: 1. Untuk benda kecil berpresisi tinggi (0–15 cm), gunakan penggaris layar seukuran asli seperti OnlinePenggaris.com. 2. Untuk ruangan atau perabotan besar (1–5 meter), gunakan aplikasi kamera Augmented Reality (AR) bawaan smartphone (seperti fitur Measure di iOS atau Google AR Ruler di Android).';
         
         if (faqQ6) faqQ6.textContent = 'Cara memunculkan penggaris di Word?';
         if (faqA6) faqA6.textContent = 'Langkah mudah memunculkan penggaris di Microsoft Word: 1. Buka dokumen Word Anda. 2. Klik tab menu View (Tampilan) pada bilah pita atas. 3. Pada grup pengaturan Show (Tampilkan), centang kotak Ruler (Penggaris). Penggaris horizontal di atas dan vertikal di kiri akan langsung muncul.';
@@ -785,10 +778,45 @@ import Footer from '../components/Footer.astro';
         : 'tool-btn px-2.5 py-1.5 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center gap-1.5 text-xs font-medium';
     }
 
+    const mSwitchBg = document.getElementById('mobile-marker-switch-bg');
+    const mSwitchThumb = document.getElementById('mobile-marker-switch-thumb');
+    const mMarkerStatus = document.getElementById('mobile-marker-row-status');
+    const mMarkerTitle = document.getElementById('mobile-marker-row-title');
+
     if (btnMobileMarker) {
+      btnMobileMarker.setAttribute('aria-pressed', showMarker ? 'true' : 'false');
       btnMobileMarker.className = showMarker
-        ? 'p-2 rounded-xl border border-red-500 bg-red-600 text-white text-xs font-semibold flex flex-col items-center gap-1 shadow-sm'
-        : 'p-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-[var(--color-body)] text-xs font-medium flex flex-col items-center gap-1';
+        ? 'w-full p-2.5 rounded-xl border border-red-500/40 bg-red-500/10 hover:bg-red-500/20 transition-all flex items-center justify-between text-left cursor-pointer shadow-xs'
+        : 'w-full p-2.5 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] hover:bg-[var(--color-canvas)] transition-all flex items-center justify-between text-left cursor-pointer';
+    }
+
+    if (mSwitchBg) {
+      mSwitchBg.className = showMarker
+        ? 'w-10 h-6 bg-red-600 rounded-full p-0.5 transition-colors duration-200 flex items-center shrink-0'
+        : 'w-10 h-6 bg-zinc-300 dark:bg-zinc-600 rounded-full p-0.5 transition-colors duration-200 flex items-center shrink-0';
+    }
+    if (mSwitchThumb) {
+      mSwitchThumb.className = showMarker
+        ? 'bg-white w-5 h-5 rounded-full shadow-md transform translate-x-4 transition-transform duration-200'
+        : 'bg-white w-5 h-5 rounded-full shadow-md transform translate-x-0 transition-transform duration-200';
+    }
+    if (mMarkerTitle) {
+      mMarkerTitle.textContent = currentLang === 'id'
+        ? 'Tampilkan / Sembunyikan Titik Ukur'
+        : 'Show / Hide Measurement Marker';
+    }
+    if (mMarkerStatus) {
+      mMarkerStatus.textContent = currentLang === 'id'
+        ? (showMarker ? 'Status: Aktif (Tampil)' : 'Status: Nonaktif (Sembunyi)')
+        : (showMarker ? 'Status: Active (Visible)' : 'Status: Inactive (Hidden)');
+      mMarkerStatus.className = showMarker
+        ? 'text-[11px] text-red-600 dark:text-red-400 font-medium'
+        : 'text-[11px] text-[var(--color-mute)] font-medium';
+    }
+
+    const navMarkerText = document.getElementById('nav-marker-text');
+    if (navMarkerText) {
+      navMarkerText.textContent = currentLang === 'id' ? (showMarker ? 'Titik Ukur' : 'Titik Ukur (Mati)') : (showMarker ? 'Marker' : 'Marker (Off)');
     }
 
     if (!showMarker) {
@@ -1137,13 +1165,6 @@ import Footer from '../components/Footer.astro';
       if (mobileSheet) mobileSheet.style.display = 'none';
     });
 
-    document.getElementById('btn-mobile-tool-guides')?.addEventListener('click', () => {
-      showGuides = !showGuides;
-      renderGuideLines();
-      updateEdgeButtonStyles();
-      if (mobileSheet) mobileSheet.style.display = 'none';
-    });
-
     // Edge Placement Buttons (Desktop Navbar)
     document.querySelectorAll('[data-edge-btn]').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -1319,12 +1340,15 @@ import Footer from '../components/Footer.astro';
     });
 
     const btnMobileMarker = document.getElementById('btn-mobile-tool-marker');
-    btnMobileMarker?.addEventListener('click', () => {
+    const handleMobileMarkerToggle = (e: Event) => {
+      e.preventDefault();
       showMarker = !showMarker;
       updateMarker();
       const mobileDrawer = document.getElementById('mobile-tools-sheet');
       if (mobileDrawer) mobileDrawer.style.display = 'none';
-    });
+    };
+    btnMobileMarker?.addEventListener('click', handleMobileMarkerToggle);
+    btnMobileMarker?.addEventListener('touchend', handleMobileMarkerToggle);
 
     // Copy Measurement when clicking on Point Tag
     document.getElementById('marker-handle-v')?.addEventListener('click', (e) => {
@@ -1406,13 +1430,12 @@ import Footer from '../components/Footer.astro';
       isDraggingMarkerH = false;
     });
 
-    // Click on ruler canvases or surface to drop / move marker instantly
+    // Click on ruler canvases or surface to drop / move marker instantly (preserves show/hide state)
     ['ruler-canvas-top', 'ruler-canvas-bottom'].forEach(id => {
       document.getElementById(id)?.addEventListener('click', (e: MouseEvent) => {
         const wsRect = rulerWs?.getBoundingClientRect() || { left: 0, top: 52 };
         markerPosX = Math.max(0, e.clientX - wsRect.left);
-        showMarker = true;
-        updateMarker();
+        if (showMarker) updateMarker();
       });
     });
 
@@ -1420,8 +1443,7 @@ import Footer from '../components/Footer.astro';
       document.getElementById(id)?.addEventListener('click', (e: MouseEvent) => {
         const wsRect = rulerWs?.getBoundingClientRect() || { left: 0, top: 52 };
         markerPosY = Math.max(0, e.clientY - wsRect.top);
-        showMarker = true;
-        updateMarker();
+        if (showMarker) updateMarker();
       });
     });
 
@@ -1429,8 +1451,7 @@ import Footer from '../components/Footer.astro';
       const wsRect = rulerWs?.getBoundingClientRect() || { left: 0, top: 52 };
       markerPosX = Math.max(0, e.clientX - wsRect.left);
       markerPosY = Math.max(0, e.clientY - wsRect.top);
-      showMarker = true;
-      updateMarker();
+      if (showMarker) updateMarker();
     });
 
     // Modals open / close triggers
