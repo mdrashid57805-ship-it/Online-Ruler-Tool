@@ -2,51 +2,61 @@
 
 @layer base {
   :root {
-    /* White theme with Red buttons */
-    --color-primary: #dc2626; /* Vibrant Red */
-    --color-primary-deep: #b91c1c; /* Deep Red */
-    --color-primary-press: #991b1b; /* Dark Red */
-    --color-primary-soft: #ef4444; /* Light Red */
-    --color-primary-subdued: #fee2e2; /* Red 100 */
-    --color-on-primary: #ffffff;
+    /* Clean Light Theme Specification (Crisp, Neutral surfaces) */
+    --color-canvas: #FFFFFF; /* Main Background: Clean Pure White */
+    --color-canvas-card: #FFFFFF; /* Cards / Sections: White */
+    --color-canvas-soft: #F8FAFC; /* Secondary Surface: Subtle Slate Gray */
+    --color-ink: #0F172A; /* Primary Text: Dark Navy/Slate */
+    --color-body: #334155; /* Body Text: Slate 700 */
+    --color-mute: #64748B; /* Secondary Text: Slate Gray */
+    --color-hairline: #E2E8F0; /* Borders: Subtle Neutral Gray */
+    --color-hairline-strong: #CBD5E1;
 
-    --color-canvas: #ffffff;
-    --color-canvas-soft: #f9fafb;
-    --color-canvas-card: #ffffff;
-    --color-hairline: #e5e7eb;
-    --color-hairline-strong: #d1d5db;
+    /* Primary Brand Accent (Blue - strictly for buttons, toggles and active states) */
+    --color-primary: #2563EB; /* Royal Blue */
+    --color-primary-hover: #1D4ED8; /* Deep Blue */
+    --color-primary-deep: #1E40AF;
+    --color-primary-subdued: rgba(37, 99, 235, 0.08);
+    --color-on-primary: #FFFFFF;
 
-    --color-ink: #111827;
-    --color-body: #374151;
-    --color-mute: #6b7280;
+    /* Marker & Calibration (Red ONLY) */
+    --color-marker: #DC2626; /* Red */
+    --color-marker-hover: #B91C1C;
+    --color-marker-subdued: rgba(220, 38, 38, 0.08);
 
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     --radius-xs: 4px;
     --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 14px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
     --radius-pill: 9999px;
   }
 
   html.dark {
-    --color-primary: #ef4444;
-    --color-primary-deep: #dc2626;
-    --color-primary-press: #b91c1c;
-    --color-primary-soft: #f87171;
-    --color-primary-subdued: #450a0a;
-    --color-on-primary: #ffffff;
+    /* Clean Neutral Dark Theme Specification (No excessive blue tinting on sections) */
+    --color-canvas: #090C13; /* Main Background: Neutral Dark Obsidian */
+    --color-canvas-card: #11151E; /* Cards / Sections: Sleek Dark Surface */
+    --color-canvas-soft: #181D27; /* Secondary Surface: Neutral Dark Gray */
+    --color-ink: #F5F7FA; /* Primary Text: Off White */
+    --color-body: #CBD5E1; /* Body Text: Slate 300 */
+    --color-mute: #94A3B8; /* Secondary Text: Slate Gray */
+    --color-hairline: #222735; /* Borders: Subtle Neutral Dark */
+    --color-hairline-strong: #2F3647;
 
-    --color-canvas: #0f172a;
-    --color-canvas-soft: #1e293b;
-    --color-canvas-card: #1e293b;
-    --color-hairline: #334155;
-    --color-hairline-strong: #475569;
+    /* Primary Brand Accent (Blue - strictly for buttons, toggles and active states) */
+    --color-primary: #3B82F6; /* Bright Blue */
+    --color-primary-hover: #60A5FA; /* Light Blue */
+    --color-primary-deep: #2563EB;
+    --color-primary-subdued: rgba(59, 130, 246, 0.12);
+    --color-on-primary: #FFFFFF;
 
-    --color-ink: #f8fafc;
-    --color-body: #cbd5e1;
-    --color-mute: #94a3b8;
+    /* Marker & Calibration (Red ONLY) */
+    --color-marker: #EF4444; /* Red */
+    --color-marker-hover: #DC2626;
+    --color-marker-subdued: rgba(239, 68, 68, 0.12);
   }
 
   body {
@@ -60,10 +70,31 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
+  }
+
   .font-tabular {
     font-feature-settings: "tnum" 1, "ss01" 1;
     font-variant-numeric: tabular-nums;
   }
+}
+
+/* Precision Drafting Workspace Grid (Neutral, minimal, clean) */
+.workspace-grid {
+  background-color: var(--color-canvas);
+  background-image: 
+    linear-gradient(to right, rgba(100, 116, 139, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(100, 116, 139, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px;
+}
+
+html.dark .workspace-grid {
+  background-color: var(--color-canvas);
+  background-image: 
+    linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px;
 }
 
 /* Custom styled range slider */
@@ -80,55 +111,46 @@ input[type=range]:focus {
 
 input[type=range]::-webkit-slider-runnable-track {
   height: 6px;
-  background: var(--color-hairline-strong);
+  background: var(--color-hairline);
   border-radius: 9999px;
   transition: background 0.2s ease;
-}
-
-html.dark input[type=range]::-webkit-slider-runnable-track {
-  background: #334155;
 }
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  margin-top: -6px;
-  background-color: var(--color-primary);
-  height: 18px;
-  width: 18px;
+  margin-top: -5px;
+  background-color: var(--color-marker);
+  height: 16px;
+  width: 16px;
   border-radius: 9999px;
   border: 2px solid var(--color-canvas);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
 input[type=range]::-webkit-slider-thumb:hover {
   transform: scale(1.15);
-  background-color: var(--color-primary-soft);
-}
-
-input[type=range]::-webkit-slider-thumb:active {
-  transform: scale(1.05);
-  background-color: var(--color-primary-deep);
+  background-color: var(--color-marker-hover);
 }
 
 /* Firefox */
 input[type=range]::-moz-range-track {
   height: 6px;
-  background: var(--color-hairline-strong);
+  background: var(--color-hairline);
   border-radius: 9999px;
 }
 
 input[type=range]::-moz-range-thumb {
-  background-color: var(--color-primary);
-  height: 18px;
-  width: 18px;
+  background-color: var(--color-marker);
+  height: 16px;
+  width: 16px;
   border-radius: 9999px;
   border: 2px solid var(--color-canvas);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* Modern clean scrollbar */
+/* Modern sleek scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -139,7 +161,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-hairline-strong);
+  background: var(--color-hairline);
   border-radius: 9999px;
 }
 
@@ -147,25 +169,22 @@ input[type=range]::-moz-range-thumb {
   background: var(--color-mute);
 }
 
-/* Glassmorphism utility */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--color-hairline);
-}
-
-html.dark .glass-panel {
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid var(--color-hairline);
-}
-
-/* Red Button Style Utilities */
-.btn-red {
+/* Utility Button Classes */
+.btn-primary {
   background-color: var(--color-primary);
   color: #ffffff;
+  transition: background-color 0.15s ease;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
 }
 
-.btn-red:hover {
-  background-color: var(--color-primary-deep);
+.btn-marker {
+  background-color: var(--color-marker);
+  color: #ffffff;
+  transition: background-color 0.15s ease;
 }
+.btn-marker:hover {
+  background-color: var(--color-marker-hover);
+}
+

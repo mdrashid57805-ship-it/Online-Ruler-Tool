@@ -1,8 +1,11 @@
 ---
+import { ui, defaultLang, type SupportedLanguage } from '../i18n/ui';
+
 export interface Props {
-  lang?: 'id' | 'en';
+  lang?: SupportedLanguage;
 }
-const { lang = 'id' } = Astro.props;
+const { lang = defaultLang } = Astro.props;
+const t = ui[lang] || ui[defaultLang];
 ---
 
 <div
@@ -15,17 +18,17 @@ const { lang = 'id' } = Astro.props;
     <!-- Modal Header -->
     <div class="p-3.5 sm:p-5 border-b border-[var(--color-hairline)] flex items-center justify-between shrink-0 bg-[var(--color-canvas-soft)]">
       <div class="flex items-center gap-2">
-        <span id="modal-badge-text" class="px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-red-500/10 text-red-600 border border-red-500/20">
-          KALIBRASI LAYAR
+        <span id="modal-badge-text" class="px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-[var(--color-primary-subdued)] text-[var(--color-primary)] border border-[var(--color-primary)]/20">
+          {t.calModal.badge}
         </span>
         <h2 id="modal-title-text" class="text-sm sm:text-base font-bold tracking-tight text-[var(--color-ink)]">
-          Pilih Metode Kalibrasi Akurat
+          {t.calModal.title}
         </h2>
       </div>
       <button
         id="btn-close-cal-modal"
-        class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-[var(--color-mute)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas)] transition-colors"
-        title="Tutup (Esc)"
+        class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-[var(--color-mute)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas)] transition-colors cursor-pointer"
+        title={`${t.common.close} (Esc)`}
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M1 1l12 12M13 1L1 13" />
@@ -37,34 +40,34 @@ const { lang = 'id' } = Astro.props;
     <div class="grid grid-cols-4 border-b border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-xs font-semibold shrink-0">
       <button
         data-cal-tab="auto"
-        class="cal-tab-btn active py-2.5 sm:py-3 text-center transition-all flex flex-col sm:flex-row items-center justify-center gap-1 hover:text-[var(--color-ink)]"
+        class="cal-tab-btn active py-2.5 sm:py-3 text-center transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 hover:text-[var(--color-ink)] cursor-pointer"
       >
-        <span class="text-sm">⚡</span>
-        <span id="tab-btn-auto-text" class="text-[11px] sm:text-xs">Otomatis</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span id="tab-btn-auto-text" class="text-[11px] sm:text-xs">{t.calModal.tabAuto}</span>
       </button>
 
       <button
         data-cal-tab="card"
-        class="cal-tab-btn py-2.5 sm:py-3 text-center transition-all flex flex-col sm:flex-row items-center justify-center gap-1 hover:text-[var(--color-ink)]"
+        class="cal-tab-btn py-2.5 sm:py-3 text-center transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 hover:text-[var(--color-ink)] cursor-pointer"
       >
-        <span class="text-sm">💳</span>
-        <span id="tab-btn-card-text" class="text-[11px] sm:text-xs">Kartu ATM</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <span id="tab-btn-card-text" class="text-[11px] sm:text-xs">{t.calModal.tabCard}</span>
       </button>
 
       <button
         data-cal-tab="diagonal"
-        class="cal-tab-btn py-2.5 sm:py-3 text-center transition-all flex flex-col sm:flex-row items-center justify-center gap-1 hover:text-[var(--color-ink)]"
+        class="cal-tab-btn py-2.5 sm:py-3 text-center transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 hover:text-[var(--color-ink)] cursor-pointer"
       >
-        <span class="text-sm">📐</span>
-        <span id="tab-btn-diagonal-text" class="text-[11px] sm:text-xs">Diagonal</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><line x1="2" y1="22" x2="22" y2="2"/><path d="M7 21l3-3M12 16l3-3M17 11l3-3"/></svg>
+        <span id="tab-btn-diagonal-text" class="text-[11px] sm:text-xs">{t.calModal.tabDiagonal}</span>
       </button>
 
       <button
         data-cal-tab="device"
-        class="cal-tab-btn py-2.5 sm:py-3 text-center transition-all flex flex-col sm:flex-row items-center justify-center gap-1 hover:text-[var(--color-ink)]"
+        class="cal-tab-btn py-2.5 sm:py-3 text-center transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 hover:text-[var(--color-ink)] cursor-pointer"
       >
-        <span class="text-sm">📱</span>
-        <span id="tab-btn-device-text" class="text-[11px] sm:text-xs">Perangkat</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        <span id="tab-btn-device-text" class="text-[11px] sm:text-xs">{t.calModal.tabDevice}</span>
       </button>
     </div>
 
@@ -76,51 +79,51 @@ const { lang = 'id' } = Astro.props;
         <div class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3 text-xs">
           <div>
             <span id="auto-confidence-badge" class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 inline-block mb-1">
-              Kecocokan Pabrikan Sangat Akurat (100%)
+              {t.calModal.autoConfidenceExact}
             </span>
             <h4 id="auto-device-title" class="text-sm font-bold text-[var(--color-ink)]">
-              Mendeteksi spesifikasi layar Anda...
+              {t.calModal.autoDetecting}
             </h4>
             <p id="auto-device-specs" class="text-[11px] text-[var(--color-mute)] font-mono mt-0.5">
-              Resolusi & kerapatan piksel otomatis
+              {t.calModal.autoMatched}
             </p>
           </div>
 
           <div class="p-3 rounded-xl bg-[var(--color-canvas)] border border-[var(--color-hairline)] flex items-center justify-between">
-            <span id="auto-ppi-label" class="text-[var(--color-body)] font-medium">Hasil Kalibrasi Layar:</span>
-            <span id="auto-ppi-val" class="font-mono text-base font-bold text-red-600">127.0 PPI</span>
+            <span id="auto-ppi-label" class="text-[var(--color-body)] font-medium">PPI:</span>
+            <span id="auto-ppi-val" class="font-mono text-base font-bold text-[var(--color-primary)]">127.0 PPI</span>
           </div>
 
           <p id="auto-desc-text" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
-            Sistem secara otomatis membaca ukuran resolusi layar, Device Pixel Ratio (DPR), dan user agent browser Anda untuk menyesuaikan skala penggaris 1:1 tanpa perlu input manual.
+            {t.calModal.autoDesc}
           </p>
         </div>
 
         <button
           id="btn-apply-auto"
-          class="w-full py-2.5 sm:py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs tracking-tight transition-all shadow-md flex items-center justify-center gap-1.5"
+          class="w-full py-2.5 sm:py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-xs tracking-tight transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
         >
           <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
             <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
           </svg>
-          <span id="btn-apply-auto-text">Terapkan Kalibrasi Otomatis Ini</span>
+          <span id="btn-apply-auto-text">{t.calModal.applyAuto}</span>
         </button>
       </div>
 
       <!-- TAB 2: CREDIT CARD / KTP CALIBRATION -->
       <div id="tab-panel-card" class="cal-panel space-y-4" style="display: none;">
-        <div id="card-instruction-text" class="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs leading-relaxed text-[var(--color-ink)]">
-          👉 <strong>Tempelkan kartu fisik (KTP / ATM / Debit / SIM)</strong> pada layar Anda. Sesuaikan ukuran kotak di layar menggunakan slider di bawah sampai sama persis dengan kartu fisik (Standar ISO: <strong>85.60 × 53.98 mm</strong>).
+        <div id="card-instruction-text" class="p-3 rounded-xl bg-[var(--color-primary-subdued)] border border-[var(--color-primary)]/20 text-xs leading-relaxed text-[var(--color-ink)]">
+          {t.calModal.cardInstruction} {t.calModal.cardInstructionSub}
         </div>
 
         <!-- In-Modal True 1:1 Card Alignment Box -->
         <div class="p-3 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] flex flex-col items-center justify-center min-h-[160px] overflow-hidden">
           <div
             id="modal-card-box"
-            class="rounded-xl border-2 border-dashed border-red-500 bg-red-500/10 flex flex-col items-center justify-center transition-all p-2 text-center"
+            class="rounded-xl border-2 border-dashed border-[var(--color-primary)] bg-[var(--color-primary-subdued)] flex flex-col items-center justify-center transition-all p-2 text-center"
             style="width: 323px; height: 204px;"
           >
-            <span class="text-[10px] font-bold font-mono text-red-600 block">KARTU ATM / KTP STANDAR</span>
+            <span class="text-[10px] font-bold font-mono text-[var(--color-primary)] block">ISO/IEC 7810 ID-1 CARD</span>
             <span id="screen-card-dims" class="text-[9px] font-mono text-[var(--color-mute)]">85.60 × 53.98 mm</span>
           </div>
         </div>
@@ -128,8 +131,8 @@ const { lang = 'id' } = Astro.props;
         <!-- Interactive PPI Slider -->
         <div class="p-3.5 rounded-xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
           <div class="flex items-center justify-between text-xs font-mono">
-            <span id="card-slider-label" class="text-[var(--color-mute)]">Geser untuk menyesuaikan:</span>
-            <span id="card-ppi-display" class="font-bold text-red-600 text-sm">127.0 PPI</span>
+            <span id="card-slider-label" class="text-[var(--color-mute)]">{t.calModal.cardAdjustPpi}</span>
+            <span id="card-ppi-display" class="font-bold text-[var(--color-primary)] text-sm">127.0 PPI</span>
           </div>
           <input
             id="card-ppi-slider"
@@ -144,18 +147,21 @@ const { lang = 'id' } = Astro.props;
 
         <button
           id="btn-apply-card"
-          class="w-full py-2.5 sm:py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs tracking-tight transition-all shadow-md flex items-center justify-center gap-1.5"
+          class="w-full py-2.5 sm:py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-xs tracking-tight transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
         >
-          <span id="btn-apply-card-text">Simpan & Terapkan Kalibrasi Kartu</span>
+          <span id="btn-apply-card-text">{t.calModal.cardApply}</span>
         </button>
       </div>
 
       <!-- TAB 3: SCREEN DIAGONAL (INCHES) -->
       <div id="tab-panel-diagonal" class="cal-panel space-y-4" style="display: none;">
         <div class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-3 text-xs">
-          <label id="diag-label-text" for="diagonal-input" class="font-semibold text-[var(--color-ink)] block">
-            Masukkan Ukuran Diagonal Layar Aktif (Inci):
-          </label>
+          <div class="flex items-center justify-between">
+            <label id="diag-label-text" for="diagonal-input" class="font-semibold text-[var(--color-ink)] block">
+              {t.calModal.diagonalLabel}
+            </label>
+            <span id="diagonal-calc-result" class="text-xs font-mono font-bold text-[var(--color-primary)]"></span>
+          </div>
           <div class="flex items-center gap-2">
             <input
               id="diagonal-input"
@@ -163,34 +169,34 @@ const { lang = 'id' } = Astro.props;
               step="0.1"
               min="3"
               max="100"
-              placeholder="e.g. 14.0 atau 15.6"
-              class="flex-1 px-3 py-2 rounded-xl border border-[var(--color-hairline-strong)] bg-[var(--color-canvas)] text-[var(--color-ink)] font-mono text-sm focus:outline-none focus:border-red-500"
+              placeholder={t.calModal.diagonalPlaceholder}
+              class="flex-1 px-3 py-2 rounded-xl border border-[var(--color-hairline-strong)] bg-[var(--color-canvas)] text-[var(--color-ink)] font-mono text-sm focus:outline-none focus:border-[var(--color-primary)]"
             />
             <button
               id="btn-apply-diagonal"
-              class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-sm transition-all"
+              class="px-4 py-2 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
             >
-              Hitung & Terapkan
+              {t.calModal.diagonalApply}
             </button>
           </div>
           <p id="diag-desc-text" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
-            Diagonal layar adalah jarak sudut ke sudut layar (misalnya laptop 14", 15.6", iPad 10.2", atau monitor 24"/27").
+            {t.calModal.diagonalDesc}
           </p>
 
           <!-- Diagonal Presets -->
           <div class="pt-2 border-t border-[var(--color-hairline)]">
             <span id="diag-presets-label" class="text-[10px] font-mono text-[var(--color-mute)] block mb-1.5 font-bold uppercase tracking-wider">
-              Pilihan Cepat Layar Populer:
+              {t.calModal.diagonalPresets}
             </span>
             <div class="flex flex-wrap gap-1.5">
-              <button data-diag-preset="6.1" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-red-500 font-mono">6.1" HP</button>
-              <button data-diag-preset="6.7" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-red-500 font-mono">6.7" HP Plus</button>
-              <button data-diag-preset="10.2" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-red-500 font-mono">10.2" Tablet</button>
-              <button data-diag-preset="13.3" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-red-500 font-mono">13.3" Laptop</button>
-              <button data-diag-preset="14.0" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-red-500 font-mono">14.0" Laptop</button>
-              <button data-diag-preset="15.6" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-red-500 font-mono">15.6" Laptop</button>
-              <button data-diag-preset="24.0" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-red-500 font-mono">24" Monitor</button>
-              <button data-diag-preset="27.0" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-red-500 font-mono">27" Monitor</button>
+              <button data-diag-preset="6.1" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-[var(--color-primary)] font-mono cursor-pointer">6.1" Phone</button>
+              <button data-diag-preset="6.7" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-[var(--color-primary)] font-mono cursor-pointer">6.7" Phone Plus</button>
+              <button data-diag-preset="10.2" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-[var(--color-primary)] font-mono cursor-pointer">10.2" Tablet</button>
+              <button data-diag-preset="13.3" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-[var(--color-primary)] font-mono cursor-pointer">13.3" Laptop</button>
+              <button data-diag-preset="14.0" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-[var(--color-primary)] font-mono cursor-pointer">14.0" Laptop</button>
+              <button data-diag-preset="15.6" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-[var(--color-primary)] font-mono cursor-pointer">15.6" Laptop</button>
+              <button data-diag-preset="24.0" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-[var(--color-primary)] font-mono cursor-pointer">24" Monitor</button>
+              <button data-diag-preset="27.0" class="diag-preset-btn px-2 py-1 rounded-md bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[11px] hover:border-[var(--color-primary)] font-mono cursor-pointer">27" Monitor</button>
             </div>
           </div>
         </div>
@@ -198,27 +204,33 @@ const { lang = 'id' } = Astro.props;
 
       <!-- TAB 4: SELECT FROM DATABASE -->
       <div id="tab-panel-device" class="cal-panel space-y-3" style="display: none;">
-        <!-- Search and Filter Bar -->
-        <div class="space-y-2">
+        <div class="relative">
           <input
             id="device-search-input"
             type="text"
-            placeholder="Cari tipe: MacBook, iPhone, iPad, Galaxy, XPS..."
-            class="w-full px-3 py-2 rounded-xl border border-[var(--color-hairline-strong)] bg-[var(--color-canvas)] text-[var(--color-ink)] text-xs focus:outline-none focus:border-red-500"
+            placeholder={t.calModal.deviceSearchPlaceholder}
+            class="w-full px-3.5 py-2 pl-9 rounded-xl border border-[var(--color-hairline-strong)] bg-[var(--color-canvas)] text-[var(--color-ink)] text-xs focus:outline-none focus:border-[var(--color-primary)]"
           />
-          <div class="flex items-center gap-1 overflow-x-auto pb-1 text-[11px]">
-            <button data-device-filter="all" class="device-filter-btn active px-2.5 py-0.5 rounded-full border border-red-500 bg-red-600 text-white font-medium">Semua</button>
-            <button data-device-filter="macbook" class="device-filter-btn px-2.5 py-0.5 rounded-full border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-medium">MacBook</button>
-            <button data-device-filter="iphone" class="device-filter-btn px-2.5 py-0.5 rounded-full border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-medium">iPhone</button>
-            <button data-device-filter="ipad" class="device-filter-btn px-2.5 py-0.5 rounded-full border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-medium">iPad</button>
-            <button data-device-filter="laptop" class="device-filter-btn px-2.5 py-0.5 rounded-full border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-medium">Laptop PC</button>
-            <button data-device-filter="monitor" class="device-filter-btn px-2.5 py-0.5 rounded-full border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-medium">Monitor</button>
-          </div>
+          <svg class="w-4 h-4 text-[var(--color-mute)] absolute left-3 top-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
         </div>
 
-        <!-- Scrollable Device Catalog Grid -->
-        <div id="device-catalog-list" class="space-y-1.5 max-h-[260px] overflow-y-auto pr-1">
-          <!-- Dynamically populated via devices.ts -->
+        <!-- Filter category tags -->
+        <div class="flex gap-1 overflow-x-auto pb-1 text-[11px] no-scrollbar">
+          <button data-dev-filter="all" class="dev-cat-btn active px-2.5 py-1 rounded-full bg-[var(--color-primary)] text-white font-medium shrink-0 cursor-pointer">{t.calModal.deviceCategoryAll}</button>
+          <button data-dev-filter="laptop" class="dev-cat-btn px-2.5 py-1 rounded-full bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] text-[var(--color-body)] font-medium shrink-0 cursor-pointer">{t.calModal.deviceCategoryLaptop}</button>
+          <button data-dev-filter="macbook" class="dev-cat-btn px-2.5 py-1 rounded-full bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] text-[var(--color-body)] font-medium shrink-0 cursor-pointer">{t.calModal.deviceCategoryMacbook}</button>
+          <button data-dev-filter="iphone" class="dev-cat-btn px-2.5 py-1 rounded-full bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] text-[var(--color-body)] font-medium shrink-0 cursor-pointer">{t.calModal.deviceCategoryIphone}</button>
+          <button data-dev-filter="android" class="dev-cat-btn px-2.5 py-1 rounded-full bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] text-[var(--color-body)] font-medium shrink-0 cursor-pointer">{t.calModal.deviceCategoryAndroid}</button>
+          <button data-dev-filter="ipad" class="dev-cat-btn px-2.5 py-1 rounded-full bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] text-[var(--color-body)] font-medium shrink-0 cursor-pointer">{t.calModal.deviceCategoryIpad}</button>
+          <button data-dev-filter="monitor" class="dev-cat-btn px-2.5 py-1 rounded-full bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] text-[var(--color-body)] font-medium shrink-0 cursor-pointer">{t.calModal.deviceCategoryMonitor}</button>
+        </div>
+
+        <!-- Device List -->
+        <div id="device-results-list" class="max-h-[240px] sm:max-h-[300px] overflow-y-auto space-y-1.5 pr-1 text-xs">
+          <!-- Populated by JS -->
         </div>
       </div>
 
@@ -226,14 +238,17 @@ const { lang = 'id' } = Astro.props;
 
     <!-- Modal Footer -->
     <div class="p-3 sm:p-4 border-t border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] flex items-center justify-between text-xs shrink-0">
-      <span id="modal-active-ppi-badge" class="font-mono text-[var(--color-mute)] text-[11px]">
-        Aktif: 127.0 PPI (Layar Terdeteksi)
-      </span>
       <button
-        id="btn-reset-calibration"
-        class="text-red-600 hover:text-red-700 font-medium text-[11px] hover:underline"
+        id="btn-reset-cal"
+        class="text-[var(--color-mute)] hover:text-[var(--color-primary)] transition-colors font-medium cursor-pointer"
       >
-        Reset Standar
+        {t.calModal.resetDefault}
+      </button>
+      <button
+        id="btn-close-cal-bottom"
+        class="px-4 py-1.5 rounded-lg border border-[var(--color-hairline)] text-[var(--color-body)] hover:bg-[var(--color-canvas)] font-semibold transition-colors cursor-pointer"
+      >
+        {t.common.close}
       </button>
     </div>
 
@@ -241,14 +256,13 @@ const { lang = 'id' } = Astro.props;
 </div>
 
 <style>
-  .cal-tab-btn.active {
-    color: #dc2626 !important;
-    background-color: var(--color-canvas);
-    border-bottom: 2px solid #dc2626;
+  .cal-tab-btn {
+    color: var(--color-mute);
+    border-bottom: 2px solid transparent;
   }
-  .device-filter-btn.active {
-    background-color: #dc2626 !important;
-    color: #ffffff !important;
-    border-color: #dc2626 !important;
+  .cal-tab-btn.active {
+    color: var(--color-primary) !important;
+    border-bottom-color: var(--color-primary) !important;
+    background-color: var(--color-canvas);
   }
 </style>

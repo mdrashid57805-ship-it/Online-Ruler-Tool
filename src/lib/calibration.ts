@@ -101,7 +101,7 @@ export function calculatePpiFromDiagonal(diagonalInches: number, widthPx?: numbe
   const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
   const w = widthPx ?? (typeof screen !== 'undefined' ? screen.width * dpr : 1920);
   const h = heightPx ?? (typeof screen !== 'undefined' ? screen.height * dpr : 1080);
-  
+
   // PPI = sqrt(w^2 + h^2) / diagonal
   const diagonalPx = Math.sqrt(w * w + h * h);
   // We return CSS-level or physical PPI. In CSS canvas measurements, 1 CSS inch = PPI / dpr or physical PPI

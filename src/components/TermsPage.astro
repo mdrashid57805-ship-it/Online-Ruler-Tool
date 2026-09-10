@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+import { ui, defaultLang, type SupportedLanguage } from '../i18n/ui';
+import { useTranslatedPath } from '../i18n/utils';
+
+export interface Props {
+  lang?: SupportedLanguage;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = ui[lang] || ui[defaultLang];
+const translatePath = useTranslatedPath(lang);
+---
+
+<BaseLayout
+  title={`${t.terms.title} — ${t.siteName}`}
+  description={t.terms.s1Text}
+  lang={lang}
+>
+  <Navbar lang={lang} />
+
+  <main class="pt-24 pb-20 px-4 sm:px-6 max-w-3xl mx-auto text-[var(--color-ink)] space-y-8">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-[var(--color-mute)]" aria-label="Breadcrumb">
+      <a href={translatePath('/')} class="hover:text-[var(--color-ink)] transition-colors">
+        {t.footer.home}
+      </a>
+      <span>/</span>
+      <span class="text-[var(--color-primary)] font-medium">{t.terms.title}</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="space-y-2">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-primary-subdued)] text-[var(--color-primary)] text-xs font-bold font-mono border border-[var(--color-hairline)]">
+        {t.terms.badge}
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--color-ink)]">
+        {t.terms.title}
+      </h1>
+      <p class="text-xs text-[var(--color-mute)] font-mono">
+        {t.terms.updatedText}
+      </p>
+    </div>
+
+    <!-- Main Content Sections (Concise 4 sections) -->
+    <article class="space-y-4 text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+      <section class="p-5 sm:p-6 rounded-xl bg-[var(--color-canvas-card)] border border-[var(--color-hairline)] space-y-2 shadow-xs">
+        <h2 class="text-sm sm:text-base font-bold text-[var(--color-ink)]">
+          {t.terms.s1Title}
+        </h2>
+        <p>{t.terms.s1Text}</p>
+      </section>
+
+      <section class="p-5 sm:p-6 rounded-xl bg-[var(--color-canvas-card)] border border-[var(--color-hairline)] space-y-2 shadow-xs">
+        <h2 class="text-sm sm:text-base font-bold text-[var(--color-ink)]">
+          {t.terms.s2Title}
+        </h2>
+        <p>{t.terms.s2Text}</p>
+      </section>
+
+      <section class="p-5 sm:p-6 rounded-xl bg-[var(--color-canvas-card)] border border-[var(--color-hairline)] space-y-2 shadow-xs">
+        <h2 class="text-sm sm:text-base font-bold text-[var(--color-ink)]">
+          {t.terms.s3Title}
+        </h2>
+        <p>{t.terms.s3Text}</p>
+      </section>
+
+      <section class="p-5 sm:p-6 rounded-xl bg-[var(--color-canvas-card)] border border-[var(--color-hairline)] space-y-2 shadow-xs">
+        <h2 class="text-sm sm:text-base font-bold text-[var(--color-ink)]">
+          {t.terms.s4Title}
+        </h2>
+        <p>{t.terms.s4Text}</p>
+      </section>
+    </article>
+
+    <!-- Back Action -->
+    <div class="pt-2">
+      <a
+        href={translatePath('/')}
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-xs font-semibold hover:bg-[var(--color-primary-hover)] transition-all shadow-xs"
+      >
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>{t.common.backToRuler}</span>
+      </a>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

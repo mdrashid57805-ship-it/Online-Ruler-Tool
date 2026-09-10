@@ -1,40 +1,96 @@
 ---
+import { ui, defaultLang, type SupportedLanguage } from '../i18n/ui';
+import { useTranslatedPath } from '../i18n/utils';
+
 export interface Props {
-  lang?: 'id' | 'en';
+  lang?: SupportedLanguage;
 }
-const { lang = 'id' } = Astro.props;
+const { lang = defaultLang } = Astro.props;
+const t = ui[lang] || ui[defaultLang];
+const translatePath = useTranslatedPath(lang);
 ---
 
-<footer class="relative z-10 bg-[var(--color-canvas)] border-t border-[var(--color-hairline)] py-10 px-4 sm:px-6 select-none text-xs text-[var(--color-mute)]">
-  <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+<footer class="relative z-10 bg-[var(--color-canvas)] border-t border-[var(--color-hairline)] pt-12 pb-8 px-4 sm:px-6 select-none text-xs text-[var(--color-mute)]">
+  <div class="max-w-5xl mx-auto space-y-10">
     
-    <!-- Brand -->
-    <div class="flex items-center gap-2.5">
-      <div class="w-6 h-6 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center shadow-sm">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <rect x="2" y="6" width="20" height="12" rx="2" />
-          <line x1="6" y1="6" x2="6" y2="12" />
-          <line x1="12" y1="6" x2="12" y2="12" />
-          <line x1="18" y1="6" x2="18" y2="9" />
-        </svg>
+    <!-- Top Grid: Brand & Structured Navigation -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+      
+      <!-- Brand & Description -->
+      <div class="col-span-12 md:col-span-6 space-y-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-6 h-6 rounded-md bg-[var(--color-primary)] text-white flex items-center justify-center shadow-xs">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="20" height="12" rx="2" />
+              <line x1="6" y1="6" x2="6" y2="12" />
+              <line x1="12" y1="6" x2="12" y2="12" />
+              <line x1="18" y1="6" x2="18" y2="9" />
+            </svg>
+          </div>
+          <span class="font-bold text-[var(--color-ink)] text-sm tracking-tight">{t.siteName}</span>
+          <span class="text-[11px] font-mono text-[var(--color-mute)]">onlinepenggaris.com</span>
+        </div>
+
+        <p id="footer-brand-desc" class="text-xs text-[var(--color-body)] leading-relaxed max-w-md">
+          {t.footer.brandDesc}
+        </p>
       </div>
-      <span class="font-bold text-[var(--color-ink)] text-sm">Online Penggaris</span>
-      <span class="text-[11px]">| onlinepenggaris.com</span>
+
+      <!-- Navigation Columns -->
+      <div class="col-span-6 md:col-span-3 space-y-2.5">
+        <h4 id="footer-heading-tools" class="text-[11px] font-mono uppercase tracking-wider text-[var(--color-ink)] font-bold">
+          {t.footer.toolsHeading}
+        </h4>
+        <ul class="space-y-2">
+          <li>
+            <a id="footer-link-home" href={translatePath('/')} class="hover:text-[var(--color-ink)] transition-colors">
+              {t.footer.home}
+            </a>
+          </li>
+          <li>
+            <a id="footer-link-cal" href={translatePath('/cara-kalibrasi')} class="hover:text-[var(--color-ink)] transition-colors">
+              {t.footer.calGuide}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-span-6 md:col-span-3 space-y-2.5">
+        <h4 id="footer-heading-info" class="text-[11px] font-mono uppercase tracking-wider text-[var(--color-ink)] font-bold">
+          {t.footer.infoHeading}
+        </h4>
+        <ul class="space-y-2">
+          <li>
+            <a id="footer-link-about" href={translatePath('/tentang')} class="hover:text-[var(--color-ink)] transition-colors">
+              {t.footer.about}
+            </a>
+          </li>
+          <li>
+            <a id="footer-link-contact" href={translatePath('/contact')} class="hover:text-[var(--color-ink)] transition-colors">
+              {t.footer.contact}
+            </a>
+          </li>
+          <li>
+            <a id="footer-link-privacy" href={translatePath('/privacy-policy')} class="hover:text-[var(--color-ink)] transition-colors">
+              {t.footer.privacy}
+            </a>
+          </li>
+          <li>
+            <a id="footer-link-terms" href={translatePath('/terms')} class="hover:text-[var(--color-ink)] transition-colors">
+              {t.footer.terms}
+            </a>
+          </li>
+        </ul>
+      </div>
+
     </div>
 
-    <!-- Navigation Links -->
-    <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-medium">
-      <a id="footer-link-home" href="/" class="hover:text-[var(--color-ink)] transition-colors">Beranda</a>
-      <a id="footer-link-cal" href="/cara-kalibrasi" class="hover:text-[var(--color-ink)] transition-colors">Cara Kalibrasi</a>
-      <a id="footer-link-about" href="/tentang" class="hover:text-[var(--color-ink)] transition-colors">Tentang Kami</a>
-      <a id="footer-link-privacy" href="/privacy-policy" class="hover:text-[var(--color-ink)] transition-colors">Kebijakan Privasi</a>
-      <a id="footer-link-terms" href="/terms" class="hover:text-[var(--color-ink)] transition-colors">Syarat & Ketentuan</a>
-      <a id="footer-link-contact" href="/contact" class="hover:text-[var(--color-ink)] transition-colors">Kontak</a>
-    </nav>
+    <!-- Bottom Bar: Clean, Compact Centered Copyright -->
+    <div class="pt-6 border-t border-[var(--color-hairline)] text-center text-[11px]">
+      <p id="footer-copyright" class="text-[var(--color-mute)]">
+        {t.footer.copyright}
+      </p>
+    </div>
 
-    <!-- Copyright -->
-    <p id="footer-copyright" class="text-[11px] text-center md:text-right">
-      &copy; {new Date().getFullYear()} Online Penggaris. Gratis digunakan tanpa instalasi.
-    </p>
   </div>
 </footer>

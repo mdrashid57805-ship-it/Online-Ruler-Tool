@@ -1,2 +1,23 @@
 https://onlinepenggaris.pages.dev/*
-  X-Robots-Tag: noindex
+  X-Robots-Tag: noindexUse the attached image as the new favicon/logo source.
+
+Replace my website's current favicon with this new design.
+
+Create the required favicon/icon sizes from this same image, including:
+- 16x16
+- 32x32
+- 48x48
+- 96x96
+- 180x180 Apple Touch Icon
+- 192x192
+- 512x512
+
+Update the existing favicon <link> tags and web manifest if my project has one.
+
+Important:
+- Keep the exact same logo/design.
+- Do not redesign, crop incorrectly, add text, or change colors.
+- Preserve the existing website UI, functionality, SEO, routes, sitemap and content.
+- Replace only the favicon/icon-related files and references.
+- Make sure the icons work for browser tabs, bookmarks, mobile home-screen/app shortcuts and PWA where applicable.
+- Run the production build after making the changes and fix only favicon-related errors.

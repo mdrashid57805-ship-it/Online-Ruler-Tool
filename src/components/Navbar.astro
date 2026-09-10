@@ -1,9 +1,15 @@
 ---
+import { ui, defaultLang, type SupportedLanguage } from '../i18n/ui';
+import { useTranslatedPath } from '../i18n/utils';
+import LanguagePicker from './LanguagePicker.astro';
+
 export interface Props {
-  lang?: 'id' | 'en';
+  lang?: SupportedLanguage;
 }
 
-const { lang = 'id' } = Astro.props;
+const { lang = defaultLang } = Astro.props;
+const t = ui[lang] || ui[defaultLang];
+const translatePath = useTranslatedPath(lang);
 ---
 
 <!-- Fixed Top Navbar -->
@@ -17,8 +23,8 @@ const { lang = 'id' } = Astro.props;
     <!-- Left Section: Logo + Edge Placement (Desktop) -->
     <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-1.5 sm:gap-2 mr-0.5 sm:mr-1 text-[var(--color-ink)] font-bold tracking-tight hover:opacity-85 transition-opacity shrink-0" title="Online Penggaris">
-        <div class="w-7 h-7 rounded-lg bg-red-600 text-white flex items-center justify-center shadow-sm shrink-0">
+      <a href={translatePath('/')} class="flex items-center gap-1.5 sm:gap-2 mr-0.5 sm:mr-1 text-[var(--color-ink)] font-bold tracking-tight hover:opacity-85 transition-opacity shrink-0" title={t.siteName}>
+        <div class="w-7 h-7 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center shadow-xs shrink-0">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <rect x="2" y="6" width="20" height="12" rx="2" />
             <line x1="6" y1="6" x2="6" y2="12" />
@@ -27,15 +33,15 @@ const { lang = 'id' } = Astro.props;
             <line x1="18" y1="6" x2="18" y2="9" />
           </svg>
         </div>
-        <span id="nav-logo-text" class="hidden sm:inline font-bold tracking-tight text-[13px] sm:text-[14px]">Online Penggaris</span>
+        <span id="nav-logo-text" class="hidden sm:inline font-bold tracking-tight text-[13px] sm:text-[14px]">{t.siteName}</span>
       </a>
 
       <!-- Edge Placement Segmented Buttons (Desktop & Tablets) -->
-      <div class="hidden md:flex items-center bg-[var(--color-canvas-soft)] p-0.5 rounded-lg border border-[var(--color-hairline)] shrink-0" title="Pilih Posisi Penggaris">
+      <div class="hidden md:flex items-center bg-[var(--color-canvas-soft)] p-0.5 rounded-lg border border-[var(--color-hairline)] shrink-0" title={t.edges.title}>
         <button
           data-edge-btn="top"
           class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
-          title="Penggaris Atas (Top)"
+          title={t.edges.top}
           aria-pressed="true"
         >
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -44,13 +50,13 @@ const { lang = 'id' } = Astro.props;
             <line x1="8" y1="2" x2="8" y2="4" />
             <line x1="11" y1="2" x2="11" y2="4.5" />
           </svg>
-          <span id="nav-edge-top-text" class="hidden lg:inline text-[11px]">Atas</span>
+          <span id="nav-edge-top-text" class="hidden lg:inline text-[11px]">{lang === 'id' ? 'Atas' : lang === 'es' ? 'Arriba' : lang === 'ja' ? '上部' : lang === 'fr' ? 'Haut' : lang === 'de' ? 'Oben' : lang === 'pt' ? 'Topo' : lang === 'ko' ? '상단' : lang === 'it' ? 'Sopra' : 'Top'}</span>
         </button>
 
         <button
           data-edge-btn="bottom"
           class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
-          title="Penggaris Bawah (Bottom)"
+          title={t.edges.bottom}
           aria-pressed="false"
         >
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -59,13 +65,13 @@ const { lang = 'id' } = Astro.props;
             <line x1="8" y1="12" x2="8" y2="14" />
             <line x1="11" y1="11.5" x2="11" y2="14" />
           </svg>
-          <span id="nav-edge-bottom-text" class="hidden lg:inline text-[11px]">Bawah</span>
+          <span id="nav-edge-bottom-text" class="hidden lg:inline text-[11px]">{lang === 'id' ? 'Bawah' : lang === 'es' ? 'Abajo' : lang === 'ja' ? '下部' : lang === 'fr' ? 'Bas' : lang === 'de' ? 'Unten' : lang === 'pt' ? 'Fundo' : lang === 'ko' ? '하단' : lang === 'it' ? 'Sotto' : 'Bottom'}</span>
         </button>
 
         <button
           data-edge-btn="left"
           class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
-          title="Penggaris Kiri (Left)"
+          title={t.edges.left}
           aria-pressed="false"
         >
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -74,13 +80,13 @@ const { lang = 'id' } = Astro.props;
             <line x1="2" y1="8" x2="4.5" y2="8" />
             <line x1="2" y1="11" x2="4.5" y2="11" />
           </svg>
-          <span id="nav-edge-left-text" class="hidden lg:inline text-[11px]">Kiri</span>
+          <span id="nav-edge-left-text" class="hidden lg:inline text-[11px]">{lang === 'id' ? 'Kiri' : lang === 'es' ? 'Izq' : lang === 'ja' ? '左側' : lang === 'fr' ? 'Gauche' : lang === 'de' ? 'Links' : lang === 'pt' ? 'Esq' : lang === 'ko' ? '왼쪽' : lang === 'it' ? 'Sinistra' : 'Left'}</span>
         </button>
 
         <button
           data-edge-btn="right"
           class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
-          title="Penggaris Kanan (Right)"
+          title={t.edges.right}
           aria-pressed="false"
         >
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -89,108 +95,88 @@ const { lang = 'id' } = Astro.props;
             <line x1="12" y1="8" x2="14" y2="8" />
             <line x1="11.5" y1="11" x2="14" y2="11" />
           </svg>
-          <span id="nav-edge-right-text" class="hidden lg:inline text-[11px]">Kanan</span>
+          <span id="nav-edge-right-text" class="hidden lg:inline text-[11px]">{lang === 'id' ? 'Kanan' : lang === 'es' ? 'Der' : lang === 'ja' ? '右側' : lang === 'fr' ? 'Droite' : lang === 'de' ? 'Rechts' : lang === 'pt' ? 'Dir' : lang === 'ko' ? '오른쪽' : lang === 'it' ? 'Destra' : 'Right'}</span>
         </button>
 
         <button
           data-edge-btn="frame"
           class="edge-btn px-2 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all flex items-center gap-1"
-          title="Bingkai 4 Sisi (Full Frame)"
+          title={t.edges.all}
           aria-pressed="false"
         >
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
             <rect x="2" y="2" width="12" height="12" rx="1.5" stroke-dasharray="2 2" />
           </svg>
-          <span id="nav-edge-frame-text" class="hidden xl:inline text-[11px]">4 Sisi</span>
+          <span id="nav-edge-frame-text" class="hidden xl:inline text-[11px]">{lang === 'id' ? '4 Sisi' : lang === 'es' ? '4 Lados' : lang === 'ja' ? '4辺' : lang === 'fr' ? '4 Bords' : lang === 'de' ? '4-Seiten' : lang === 'pt' ? '4 Lados' : lang === 'ko' ? '4면' : lang === 'it' ? '4 Lati' : '4-Way'}</span>
         </button>
       </div>
     </div>
 
     <!-- Center Section: Marker & Measuring Tools -->
     <div class="hidden lg:flex items-center gap-1.5 shrink-0">
-      <!-- Interactive Red Marker / Pointer Toggle -->
+      <!-- Interactive Marker / Pointer Toggle (Same Blue Button) -->
       <button
         id="btn-tool-marker"
-        class="tool-btn px-2.5 py-1.5 rounded-lg border border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20 transition-all flex items-center gap-1.5 text-xs font-semibold"
-        title="Titik & Garis Ukur (P)"
-        aria-label="Titik Ukur"
+        class="tool-btn px-2.5 py-1.5 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center gap-1.5 text-xs font-semibold"
+        title="Marker Point (P)"
+        aria-label={t.tools.marker}
         aria-pressed="true"
       >
-        <span class="text-xs">📍</span>
-        <span id="nav-marker-text">Titik Ukur</span>
-      </button>
-
-      <!-- Guides (G) -->
-      <button
-        id="btn-tool-guides"
-        class="tool-btn w-8 h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center"
-        title="Garis Panduan (G)"
-        aria-label="Garis Panduan"
-        aria-pressed="false"
-      >
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
-          <line x1="8" y1="1" x2="8" y2="15" stroke-dasharray="2 2" />
-          <line x1="1" y1="8" x2="15" y2="8" stroke-dasharray="2 2" />
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
         </svg>
+        <span id="nav-marker-text" class="hidden xl:inline text-xs font-semibold">{t.tools.marker}</span>
       </button>
 
-      <!-- Dual Caliper / Jangka Sorong (K) -->
+      <!-- Dual Caliper Toggle -->
       <button
         id="btn-tool-caliper"
-        class="tool-btn w-8 h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center"
-        title="Jangka Sorong / Caliper 2 Titik (K)"
-        aria-label="Caliper"
+        class="tool-btn px-2.5 py-1.5 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center gap-1.5 text-xs font-medium"
+        title={t.tools.caliper}
+        aria-label={t.tools.caliper}
         aria-pressed="false"
       >
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 6h16M4 18h16M7 6v12M17 6v12" />
         </svg>
-      </button>
-
-      <!-- Matrix Grid (M) -->
-      <button
-        id="btn-tool-grid"
-        class="tool-btn w-8 h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center"
-        title="Matriks Grid (M)"
-        aria-label="Grid"
-        aria-pressed="false"
-      >
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
-          <rect x="2" y="2" width="12" height="12" rx="1" />
-          <line x1="6" y1="2" x2="6" y2="14" />
-          <line x1="10" y1="2" x2="10" y2="14" />
-          <line x1="2" y1="6" x2="14" y2="6" />
-          <line x1="2" y1="10" x2="14" y2="10" />
-        </svg>
+        <span class="hidden 2xl:inline text-xs">{t.tools.caliper}</span>
       </button>
     </div>
 
     <!-- Right Section: Units · Calibrate (Red Button) · Theme · Lang -->
-    <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-      <!-- Unit Segmented Switcher (Visible across phone & desktop) -->
-      <div id="unit-selector" class="flex items-center bg-[var(--color-canvas-soft)] p-0.5 rounded-lg border border-[var(--color-hairline)] shrink-0">
-        <button data-unit="cm" class="unit-btn active px-2 sm:px-2.5 py-1 rounded-[6px] text-xs font-bold font-mono transition-all">cm</button>
-        <button data-unit="mm" class="unit-btn px-2 sm:px-2.5 py-1 rounded-[6px] text-xs font-semibold font-mono text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all">mm</button>
-        <button data-unit="in" class="unit-btn px-2 sm:px-2.5 py-1 rounded-[6px] text-xs font-semibold font-mono text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all">in</button>
+    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+      
+      <!-- Unit Selector Segmented Pill -->
+      <div class="flex items-center bg-[var(--color-canvas-soft)] p-0.5 rounded-lg border border-[var(--color-hairline)] shrink-0" role="group" aria-label="Unit Satuan">
+        <button data-unit="cm" class="unit-btn active px-2 sm:px-2.5 py-1 rounded-[6px] text-xs font-bold transition-all" title="Centimeter">cm</button>
+        <button data-unit="mm" class="unit-btn px-2 sm:px-2.5 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all" title="Millimeter">mm</button>
+        <button data-unit="in" class="unit-btn px-2 sm:px-2.5 py-1 rounded-[6px] text-xs font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] transition-all" title="Inches">in</button>
       </div>
 
-      <!-- Calibrate Button (Red Button CTA) -->
+      <!-- Calibrate Button (Same Blue) -->
       <button
         id="btn-open-calibrate"
-        class="flex items-center gap-1 sm:gap-1.5 px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-all shadow-sm group shrink-0"
-        title="Kalibrasi Skala Layar"
+        class="px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] active:bg-[var(--color-primary-deep)] text-white font-bold text-xs shadow-xs transition-all flex items-center gap-1.5 shrink-0 cursor-pointer"
+        title={t.tools.calibrate}
       >
-        <span id="cal-nav-dot" class="w-2 h-2 rounded-full bg-white shrink-0 group-hover:scale-125 transition-transform"></span>
-        <span id="nav-cal-text">Kalibrasi</span>
-        <span id="cal-nav-ppi" class="hidden xl:inline text-[11px] font-mono text-red-100 font-normal">(127 PPI)</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10" />
+          <path d="m4.93 4.93 4.24 4.24" />
+          <path d="m14.83 9.17 4.24-4.24" />
+          <path d="m14.83 14.83 4.24 4.24" />
+          <path d="m9.17 14.83-4.24 4.24" />
+          <circle cx="12" cy="12" r="2" />
+        </svg>
+        <span id="nav-cal-text" class="hidden sm:inline font-bold tracking-wide">{t.tools.calibrate}</span>
       </button>
 
-      <!-- Theme Switcher (D) -->
+      <!-- Theme Toggle (Dark / Light) -->
       <button
         id="btn-theme-toggle"
-        class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center shrink-0"
-        title="Mode Gelap / Terang (D)"
-        aria-label="Tema"
+        class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center shrink-0 cursor-pointer"
+        title={t.tools.theme}
+        aria-label="Theme"
       >
         <svg id="theme-icon-sun" class="hidden dark:block" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5" />
@@ -208,26 +194,32 @@ const { lang = 'id' } = Astro.props;
         </svg>
       </button>
 
-      <!-- Language Toggle (ID / EN translation toggle) -->
+      <!-- Fullscreen Toggle Button (All tabs, phones, tablets, and laptops) -->
       <button
-        id="btn-lang-toggle"
-        class="px-2 sm:px-2.5 py-1 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] text-xs font-bold font-mono hover:bg-[var(--color-canvas-soft)] transition-all flex items-center gap-1 shrink-0"
-        title="Ganti Bahasa / Switch to English Translation"
+        id="btn-fullscreen-toggle"
+        class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center shrink-0 cursor-pointer"
+        title={t.tools.fullscreen}
+        aria-label={t.tools.fullscreen}
       >
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="2" y1="12" x2="22" y2="12" />
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        <svg class="fs-icon-enter block" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
         </svg>
-        <span id="lang-btn-label">EN</span>
+        <svg class="fs-icon-exit hidden" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+        </svg>
       </button>
+
+      <!-- Language Selector (Directly Accessible on Mobile and Desktop) -->
+      <div class="shrink-0">
+        <LanguagePicker lang={lang} variant="desktop" />
+      </div>
 
       <!-- Mobile Menu Button -->
       <button
         id="btn-mobile-tools-toggle"
-        class="lg:hidden w-7 h-7 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center shrink-0"
-        title="Menu Alat"
-        aria-label="Menu Alat"
+        class="lg:hidden w-7 h-7 rounded-lg border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-all flex items-center justify-center shrink-0 cursor-pointer"
+        title="Menu"
+        aria-label="Menu"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="1"></circle>
@@ -242,95 +234,109 @@ const { lang = 'id' } = Astro.props;
 <!-- Mobile Edge Bar (Visible on Mobile Phones & Small Screens, Minimalist & Uncluttered) -->
 <nav
   id="mobile-edge-bar"
-  class="md:hidden fixed top-[52px] left-0 right-0 z-40 bg-white dark:bg-slate-900 border-b border-[var(--color-hairline)] px-2 py-1 select-none shadow-xs h-[44px] flex items-center"
-  aria-label="Posisi Penggaris"
+  class="md:hidden fixed top-[52px] left-0 right-0 z-40 bg-[var(--color-canvas)] border-b border-[var(--color-hairline)] px-2 py-1 select-none shadow-xs h-[44px] flex items-center"
+  aria-label={t.edges.title}
 >
   <div class="flex items-center justify-between gap-1.5 w-full max-w-lg mx-auto">
     <button
       type="button"
       data-edge-btn-mobile="top"
       class="mobile-edge-btn active flex-1 h-8 rounded-lg border text-[11px] font-bold text-center transition-all cursor-pointer flex items-center justify-center select-none"
-      title="Atas (Top)"
+      title={t.edges.top}
       aria-pressed="true"
     >
-      Atas
+      {lang === 'id' ? 'Atas' : lang === 'es' ? 'Arriba' : lang === 'ja' ? '上部' : lang === 'fr' ? 'Haut' : lang === 'de' ? 'Oben' : lang === 'pt' ? 'Topo' : lang === 'ko' ? '상단' : lang === 'it' ? 'Sopra' : 'Top'}
     </button>
     <button
       type="button"
       data-edge-btn-mobile="bottom"
       class="mobile-edge-btn flex-1 h-8 rounded-lg border text-[11px] font-semibold text-center transition-all cursor-pointer flex items-center justify-center select-none"
-      title="Bawah (Bottom)"
+      title={t.edges.bottom}
       aria-pressed="false"
     >
-      Bawah
+      {lang === 'id' ? 'Bawah' : lang === 'es' ? 'Abajo' : lang === 'ja' ? '下部' : lang === 'fr' ? 'Bas' : lang === 'de' ? 'Unten' : lang === 'pt' ? 'Fundo' : lang === 'ko' ? '하단' : lang === 'it' ? 'Sotto' : 'Bottom'}
     </button>
     <button
       type="button"
       data-edge-btn-mobile="left"
       class="mobile-edge-btn flex-1 h-8 rounded-lg border text-[11px] font-semibold text-center transition-all cursor-pointer flex items-center justify-center select-none"
-      title="Kiri (Left)"
+      title={t.edges.left}
       aria-pressed="false"
     >
-      Kiri
+      {lang === 'id' ? 'Kiri' : lang === 'es' ? 'Izq' : lang === 'ja' ? '左側' : lang === 'fr' ? 'Gauche' : lang === 'de' ? 'Links' : lang === 'pt' ? 'Esq' : lang === 'ko' ? '왼쪽' : lang === 'it' ? 'Sinistra' : 'Left'}
     </button>
     <button
       type="button"
       data-edge-btn-mobile="right"
       class="mobile-edge-btn flex-1 h-8 rounded-lg border text-[11px] font-semibold text-center transition-all cursor-pointer flex items-center justify-center select-none"
-      title="Kanan (Right)"
+      title={t.edges.right}
       aria-pressed="false"
     >
-      Kanan
+      {lang === 'id' ? 'Kanan' : lang === 'es' ? 'Der' : lang === 'ja' ? '右側' : lang === 'fr' ? 'Droite' : lang === 'de' ? 'Rechts' : lang === 'pt' ? 'Dir' : lang === 'ko' ? '오른쪽' : lang === 'it' ? 'Destra' : 'Right'}
     </button>
     <button
       type="button"
       data-edge-btn-mobile="frame"
       class="mobile-edge-btn flex-1 h-8 rounded-lg border text-[11px] font-semibold text-center transition-all cursor-pointer flex items-center justify-center select-none"
-      title="4 Sisi (Frame)"
+      title={t.edges.all}
       aria-pressed="false"
     >
-      4 Sisi
+      {lang === 'id' ? '4 Sisi' : lang === 'es' ? '4 Lados' : lang === 'ja' ? '4辺' : lang === 'fr' ? '4 Bords' : lang === 'de' ? '4-Seiten' : lang === 'pt' ? '4 Lados' : lang === 'ko' ? '4면' : lang === 'it' ? '4 Lati' : '4-Way'}
     </button>
   </div>
 </nav>
 
-<!-- Mobile Bottom Drawer / Tools Sheet -->
+<!-- Mobile 3-Dot Drawer Backdrop Overlay -->
 <div
-  id="mobile-tools-sheet"
-  class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm select-none transition-opacity duration-200 lg:hidden"
-  style="display: none;"
+  id="mobile-tools-backdrop"
+  class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs transition-opacity duration-200"
+  aria-hidden="true"
+></div>
+
+<!-- Mobile 3-Dot Tools Bottom Drawer -->
+<div
+  id="mobile-tools-drawer"
+  class="lg:hidden fixed inset-x-0 bottom-0 z-55 bg-[var(--color-canvas)] border-t border-[var(--color-hairline)] rounded-t-2xl shadow-2xl p-4 transform translate-y-full transition-transform duration-300 ease-out max-h-[85vh] overflow-y-auto select-none"
+  aria-hidden="true"
 >
-  <div
-    class="absolute bottom-0 left-0 right-0 max-h-[80vh] overflow-y-auto bg-[var(--color-canvas)] rounded-t-2xl border-t border-[var(--color-hairline)] p-4 space-y-4 text-[var(--color-ink)] shadow-2xl"
-  >
-    <div class="flex items-center justify-between border-b border-[var(--color-hairline)] pb-2">
-      <span id="mobile-sheet-title" class="font-bold text-sm">Alat & Pengaturan</span>
-      <button id="btn-close-mobile-sheet" class="p-1 rounded-lg hover:bg-[var(--color-canvas-soft)]">
-        <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M1 1l12 12M13 1L1 13" />
+  <div class="w-12 h-1 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-3"></div>
+
+  <div class="space-y-4 max-w-md mx-auto">
+    <!-- Drawer Header -->
+    <div class="flex items-center justify-between pb-2 border-b border-[var(--color-hairline)]">
+      <span id="mobile-sheet-title" class="font-bold text-sm text-[var(--color-ink)]">{lang === 'id' ? 'Menu Pintas' : 'Menu'}</span>
+      <button id="btn-close-mobile-tools" class="p-1.5 rounded-lg text-[var(--color-mute)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] cursor-pointer" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     </div>
 
     <!-- Mobile Measurement Tools -->
     <div class="space-y-2">
-      <span id="mobile-sheet-tools-label" class="text-[11px] text-[var(--color-mute)] font-medium">Fitur Pengukuran:</span>
+      <span id="mobile-sheet-tools-label" class="text-[11px] text-[var(--color-mute)] font-medium">Tools:</span>
       
-      <!-- Clear Show / Hide Marker Option -->
+      <!-- Show / Hide Marker Option -->
       <button
         id="btn-mobile-tool-marker"
         type="button"
-        class="w-full p-2.5 rounded-xl border border-red-500/40 bg-red-500/10 hover:bg-red-500/20 transition-all flex items-center justify-between text-left cursor-pointer shadow-xs"
+        class="w-full p-2.5 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] hover:bg-[var(--color-canvas-card)] transition-all flex items-center justify-between text-left cursor-pointer shadow-xs"
         aria-pressed="true"
       >
         <div class="flex items-center gap-2.5">
-          <span class="text-base">📍</span>
+          <div class="w-7 h-7 rounded-lg bg-[var(--color-primary-subdued)] text-[var(--color-primary)] flex items-center justify-center shrink-0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+            </svg>
+          </div>
           <div>
-            <div id="mobile-marker-row-title" class="font-bold text-xs text-[var(--color-ink)]">Tampilkan / Sembunyikan Titik Ukur</div>
-            <div id="mobile-marker-row-status" class="text-[11px] text-red-600 dark:text-red-400 font-medium">Status: Aktif (Tampil)</div>
+            <div id="mobile-marker-row-title" class="font-bold text-xs text-[var(--color-ink)]">{t.tools.marker}</div>
+            <div id="mobile-marker-row-status" class="text-[11px] text-[var(--color-primary)] font-medium">{t.common.active}</div>
           </div>
         </div>
-        <div id="mobile-marker-switch-bg" class="w-10 h-6 bg-red-600 rounded-full p-0.5 transition-colors duration-200 flex items-center shrink-0">
+        <div id="mobile-marker-switch-bg" class="w-10 h-6 bg-[var(--color-primary)] rounded-full p-0.5 transition-colors duration-200 flex items-center shrink-0">
           <div id="mobile-marker-switch-thumb" class="bg-white w-5 h-5 rounded-full shadow-md transform translate-x-4 transition-transform duration-200"></div>
         </div>
       </button>
@@ -339,34 +345,60 @@ const { lang = 'id' } = Astro.props;
       <button
         id="btn-mobile-tool-caliper"
         type="button"
-        class="w-full p-2.5 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-xs font-medium flex items-center justify-center gap-2 hover:bg-[var(--color-canvas)] transition-all cursor-pointer"
+        class="w-full p-2.5 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-xs font-medium flex items-center justify-center gap-2 hover:bg-[var(--color-canvas-card)] transition-all cursor-pointer"
       >
-        <span>📏</span>
-        <span id="mobile-caliper-label">Jangka Sorong (Caliper)</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 18h16M7 6v12M17 6v12" />
+        </svg>
+        <span id="mobile-caliper-label">{t.tools.caliper}</span>
+      </button>
+
+      <!-- Fullscreen View Toggle in Mobile Drawer -->
+      <button
+        id="btn-mobile-fullscreen-toggle"
+        type="button"
+        class="w-full p-2.5 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-xs font-semibold text-[var(--color-ink)] flex items-center justify-between hover:bg-[var(--color-canvas-card)] transition-all cursor-pointer shadow-xs"
+        aria-label={t.tools.fullscreen}
+      >
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-lg bg-[var(--color-primary-subdued)] text-[var(--color-primary)] flex items-center justify-center shrink-0">
+            <svg class="fs-icon-enter block" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            </svg>
+            <svg class="fs-icon-exit hidden" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+            </svg>
+          </div>
+          <span id="mobile-fullscreen-label">{t.tools.fullscreen}</span>
+        </div>
+        <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[var(--color-mute)]">F</span>
       </button>
     </div>
 
-    <!-- Mobile Calibration Action -->
+    <!-- Mobile Calibration Action (Same Blue Button) -->
     <div>
       <button
         id="btn-mobile-open-calibrate"
-        class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md"
+        class="w-full py-2.5 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm cursor-pointer"
       >
-        <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-        <span id="mobile-calibrate-label">Kalibrasi Skala Layar (1:1)</span>
+        <span class="w-2 h-2 rounded-full bg-white"></span>
+        <span id="mobile-calibrate-label">{t.tools.calibrate}</span>
       </button>
     </div>
 
     <!-- Quick Navigation Links -->
-    <div class="pt-2 border-t border-[var(--color-hairline)] space-y-1.5 text-xs">
-      <a id="mobile-link-cal" href="/cara-kalibrasi" class="block py-1.5 px-3 rounded-lg hover:bg-[var(--color-canvas-soft)] text-red-600 font-medium">
-        📐 Panduan Kalibrasi Layar
+    <div class="pt-2 border-t border-[var(--color-hairline)] space-y-1 text-xs">
+      <a id="mobile-link-cal" href={translatePath('/cara-kalibrasi')} class="flex items-center gap-2.5 py-2 px-3 rounded-lg hover:bg-[var(--color-canvas-soft)] text-[var(--color-primary)] font-medium">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22h20M2 17l10-10 10 10M12 7v15"/></svg>
+        <span>{t.footer.calGuide}</span>
       </a>
-      <a id="mobile-link-about" href="/tentang" class="block py-1.5 px-3 rounded-lg hover:bg-[var(--color-canvas-soft)] text-[var(--color-body)]">
-        ℹ️ Tentang Online Penggaris
+      <a id="mobile-link-about" href={translatePath('/tentang')} class="flex items-center gap-2.5 py-2 px-3 rounded-lg hover:bg-[var(--color-canvas-soft)] text-[var(--color-body)]">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>{t.footer.about}</span>
       </a>
-      <a id="mobile-link-contact" href="/contact" class="block py-1.5 px-3 rounded-lg hover:bg-[var(--color-canvas-soft)] text-[var(--color-body)]">
-        ✉️ Hubungi Kami
+      <a id="mobile-link-contact" href={translatePath('/contact')} class="flex items-center gap-2.5 py-2 px-3 rounded-lg hover:bg-[var(--color-canvas-soft)] text-[var(--color-body)]">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <span>{t.footer.contact}</span>
       </a>
     </div>
   </div>
@@ -386,9 +418,9 @@ const { lang = 'id' } = Astro.props;
     transform: scale(0.95);
   }
   .unit-btn.active {
-    background-color: #dc2626 !important;
+    background-color: var(--color-primary) !important;
     color: #ffffff !important;
-    box-shadow: 0 1px 3px rgba(220, 38, 38, 0.3);
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
   }
 
   /* Desktop Edge Buttons */
@@ -406,11 +438,11 @@ const { lang = 'id' } = Astro.props;
   }
   .edge-btn.active,
   .edge-btn[aria-pressed="true"] {
-    background-color: #dc2626 !important;
+    background-color: var(--color-primary) !important;
     color: #ffffff !important;
     font-weight: 700 !important;
-    border-color: #dc2626 !important;
-    box-shadow: 0 1px 3px rgba(220, 38, 38, 0.3);
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
   }
 
   /* Mobile Edge Buttons */
@@ -430,9 +462,9 @@ const { lang = 'id' } = Astro.props;
   }
   .mobile-edge-btn.active,
   .mobile-edge-btn[aria-pressed="true"] {
-    background-color: #dc2626 !important;
+    background-color: var(--color-primary) !important;
     color: #ffffff !important;
-    border-color: #dc2626 !important;
+    border-color: var(--color-primary) !important;
     font-weight: 700 !important;
   }
 
@@ -447,8 +479,142 @@ const { lang = 'id' } = Astro.props;
   }
   .tool-btn.active,
   .tool-btn[aria-pressed="true"] {
-    background-color: #dc2626 !important;
+    background-color: var(--color-primary) !important;
     color: #ffffff !important;
-    border-color: #dc2626 !important;
+    border-color: var(--color-primary) !important;
+  }
+
+  #btn-tool-marker.active,
+  #btn-tool-marker[aria-pressed="true"] {
+    background-color: var(--color-primary) !important;
+    color: #ffffff !important;
+    border-color: var(--color-primary) !important;
   }
 </style>
+
+<script>
+  function setupMobileToolsDrawer() {
+    const toggleBtn = document.getElementById('btn-mobile-tools-toggle');
+    const drawer = document.getElementById('mobile-tools-drawer');
+    const backdrop = document.getElementById('mobile-tools-backdrop');
+    const closeBtn = document.getElementById('btn-close-mobile-tools');
+
+    if (!toggleBtn || !drawer) return;
+
+    function openDrawer() {
+      backdrop?.classList.remove('hidden');
+      drawer?.classList.remove('translate-y-full');
+      drawer?.classList.add('translate-y-0');
+      drawer?.setAttribute('aria-hidden', 'false');
+      toggleBtn?.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      drawer?.classList.add('translate-y-full');
+      drawer?.classList.remove('translate-y-0');
+      drawer?.setAttribute('aria-hidden', 'true');
+      toggleBtn?.setAttribute('aria-expanded', 'false');
+      backdrop?.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (drawer.classList.contains('translate-y-full')) {
+        openDrawer();
+      } else {
+        closeDrawer();
+      }
+    });
+
+    closeBtn?.addEventListener('click', closeDrawer);
+    backdrop?.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !drawer.classList.contains('translate-y-full')) {
+        closeDrawer();
+      }
+    });
+
+    // Mobile calibrate trigger inside drawer
+    document.getElementById('btn-mobile-open-calibrate')?.addEventListener('click', () => {
+      closeDrawer();
+      const calModal = document.getElementById('calibration-modal');
+      if (calModal) {
+        calModal.style.display = 'flex';
+      }
+    });
+  }
+
+  function setupFullscreen() {
+    const navFsBtn = document.getElementById('btn-fullscreen-toggle');
+    const mobileFsBtn = document.getElementById('btn-mobile-fullscreen-toggle');
+    const enterIcons = document.querySelectorAll('.fs-icon-enter');
+    const exitIcons = document.querySelectorAll('.fs-icon-exit');
+
+    function isFs(): boolean {
+      const doc = document as any;
+      return !!(doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement);
+    }
+
+    function updateFsUi() {
+      const active = isFs();
+      enterIcons.forEach((el) => el.classList.toggle('hidden', active));
+      exitIcons.forEach((el) => el.classList.toggle('hidden', !active));
+      navFsBtn?.setAttribute('aria-pressed', active ? 'true' : 'false');
+      mobileFsBtn?.setAttribute('aria-pressed', active ? 'true' : 'false');
+    }
+
+    function toggleFs() {
+      const docEl = document.documentElement as any;
+      const doc = document as any;
+
+      if (!isFs()) {
+        if (docEl.requestFullscreen) {
+          docEl.requestFullscreen().catch(() => {});
+        } else if (docEl.webkitRequestFullscreen) {
+          docEl.webkitRequestFullscreen();
+        } else if (docEl.msRequestFullscreen) {
+          docEl.msRequestFullscreen();
+        }
+      } else {
+        if (doc.exitFullscreen) {
+          doc.exitFullscreen().catch(() => {});
+        } else if (doc.webkitExitFullscreen) {
+          doc.webkitExitFullscreen();
+        } else if (doc.msExitFullscreen) {
+          doc.msExitFullscreen();
+        }
+      }
+    }
+
+    navFsBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleFs();
+    });
+
+    mobileFsBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Close mobile drawer then toggle
+      const drawer = document.getElementById('mobile-tools-drawer');
+      const backdrop = document.getElementById('mobile-tools-backdrop');
+      drawer?.classList.add('translate-y-full');
+      drawer?.classList.remove('translate-y-0');
+      backdrop?.classList.add('hidden');
+      document.body.style.overflow = '';
+      toggleFs();
+    });
+
+    document.addEventListener('fullscreenchange', updateFsUi);
+    document.addEventListener('webkitfullscreenchange', updateFsUi);
+    updateFsUi();
+  }
+
+  setupMobileToolsDrawer();
+  setupFullscreen();
+  document.addEventListener('astro:page-load', () => {
+    setupMobileToolsDrawer();
+    setupFullscreen();
+  });
+</script>

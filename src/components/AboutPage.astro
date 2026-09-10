@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+import { ui, defaultLang, type SupportedLanguage } from '../i18n/ui';
+import { useTranslatedPath } from '../i18n/utils';
+
+export interface Props {
+  lang?: SupportedLanguage;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = ui[lang] || ui[defaultLang];
+const translatePath = useTranslatedPath(lang);
+---
+
+<BaseLayout
+  title={`${t.about.title} — ${t.siteName}`}
+  description={t.about.lead}
+  lang={lang}
+>
+  <Navbar lang={lang} />
+
+  <main class="pt-24 pb-20 px-4 sm:px-6 max-w-3xl mx-auto text-[var(--color-ink)] space-y-8">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-[var(--color-mute)]" aria-label="Breadcrumb">
+      <a href={translatePath('/')} class="hover:text-[var(--color-ink)] transition-colors">
+        {t.footer.home}
+      </a>
+      <span>/</span>
+      <span class="text-[var(--color-primary)] font-medium">{t.about.title}</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-primary-subdued)] text-[var(--color-primary)] text-xs font-bold font-mono border border-[var(--color-hairline)]">
+        {t.about.badge}
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--color-ink)]">
+        {t.about.title}
+      </h1>
+      <p class="text-sm sm:text-base text-[var(--color-body)] leading-relaxed">
+        {t.about.lead}
+      </p>
+    </div>
+
+    <!-- Main Content Cards (Concise, 3 sections) -->
+    <article class="space-y-4 text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+      <section class="p-5 sm:p-6 rounded-xl bg-[var(--color-canvas-card)] border border-[var(--color-hairline)] space-y-2.5 shadow-xs">
+        <h2 class="text-sm sm:text-base font-bold text-[var(--color-ink)] flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-primary)] shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>{t.about.sec1Title}</span>
+        </h2>
+        <p>{t.about.sec1Text}</p>
+      </section>
+
+      <section class="p-5 sm:p-6 rounded-xl bg-[var(--color-canvas-card)] border border-[var(--color-hairline)] space-y-2.5 shadow-xs">
+        <h2 class="text-sm sm:text-base font-bold text-[var(--color-ink)] flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-primary)] shrink-0"><path d="M2 22h20M2 17l10-10 10 10M12 7v15"/></svg>
+          <span>{t.about.sec2Title}</span>
+        </h2>
+        <p>{t.about.sec2Text}</p>
+      </section>
+
+      <section class="p-5 sm:p-6 rounded-xl bg-[var(--color-canvas-card)] border border-[var(--color-hairline)] space-y-2.5 shadow-xs">
+        <h2 class="text-sm sm:text-base font-bold text-[var(--color-ink)] flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-primary)] shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>{t.about.sec3Title}</span>
+        </h2>
+        <p>{t.about.sec3Text}</p>
+      </section>
+    </article>
+
+    <!-- Back Action -->
+    <div class="pt-2">
+      <a
+        href={translatePath('/')}
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-xs font-semibold hover:bg-[var(--color-primary-hover)] transition-all shadow-xs"
+      >
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>{t.common.backToRuler}</span>
+      </a>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

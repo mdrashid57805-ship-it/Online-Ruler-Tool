@@ -1,8 +1,11 @@
 ---
+import { defaultLang, type SupportedLanguage } from '../i18n/ui';
+
 export interface Props {
-  lang?: 'id' | 'en';
+  lang?: SupportedLanguage;
 }
-const { lang = 'id' } = Astro.props;
+const { lang = defaultLang } = Astro.props;
+const isId = lang === 'id';
 ---
 
 <div
@@ -14,12 +17,14 @@ const { lang = 'id' } = Astro.props;
     <div class="flex items-center justify-between border-b border-[var(--color-hairline)] pb-3">
       <div class="flex items-center gap-2">
         <div class="w-2.5 h-2.5 rounded-full bg-red-600"></div>
-        <h3 id="silhouettes-modal-title" class="text-sm sm:text-base font-bold text-[var(--color-ink)]">Bandingkan Ukuran Objek Fisik (Skala 1:1)</h3>
+        <h3 id="silhouettes-modal-title" class="text-sm sm:text-base font-bold text-[var(--color-ink)]">
+          {isId ? 'Bandingkan Ukuran Objek Fisik (Skala 1:1)' : 'Physical Object Scale Reference (1:1)'}
+        </h3>
       </div>
       <button
         id="btn-close-silhouettes"
         class="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--color-mute)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-colors"
-        title="Tutup (Esc)"
+        title="Close (Esc)"
       >
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M1 1l12 12M13 1L1 13" />
@@ -28,38 +33,52 @@ const { lang = 'id' } = Astro.props;
     </div>
 
     <p id="silhouettes-modal-desc" class="text-xs text-[var(--color-body)] leading-relaxed">
-      Pilih objek di bawah untuk menampilkan siluet ukuran sebenarnya di layar. Tempelkan objek fisik Anda pada layar untuk memeriksa presisi kalibrasi:
+      {isId 
+        ? 'Pilih objek di bawah untuk menampilkan siluet ukuran sebenarnya di layar. Tempelkan objek fisik Anda pada layar untuk memeriksa presisi kalibrasi:'
+        : 'Select an object below to display its true 1:1 physical silhouette on screen. Place the real item against your screen to verify calibration:'}
     </p>
 
     <!-- Silhouette Scale Item Previews -->
     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
       <button data-obj="card" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
-        <span id="sil-obj-card" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">Kartu ATM / KTP</span>
+        <span id="sil-obj-card" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">
+          {isId ? 'Kartu ATM / KTP' : 'Credit Card / ID'}
+        </span>
         <span class="text-[10px] font-mono text-[var(--color-mute)]">85.60 × 53.98 mm</span>
       </button>
 
       <button data-obj="coin-idr" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
-        <span id="sil-obj-coin" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">Koin Rp 1.000</span>
+        <span id="sil-obj-coin" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">
+          {isId ? 'Koin Rp 1.000' : 'Rp 1,000 Coin'}
+        </span>
         <span class="text-[10px] font-mono text-[var(--color-mute)]">Ø 24.15 mm</span>
       </button>
 
       <button data-obj="coin-usd" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
-        <span id="sil-obj-quarter" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">US Quarter ($0.25)</span>
+        <span id="sil-obj-quarter" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">
+          US Quarter ($0.25)
+        </span>
         <span class="text-[10px] font-mono text-[var(--color-mute)]">Ø 24.26 mm</span>
       </button>
 
       <button data-obj="battery-aa" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
-        <span id="sil-obj-battery" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">Baterai AA</span>
+        <span id="sil-obj-battery" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">
+          {isId ? 'Baterai AA' : 'AA Battery'}
+        </span>
         <span class="text-[10px] font-mono text-[var(--color-mute)]">50.50 × 14.50 mm</span>
       </button>
 
       <button data-obj="sim" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
-        <span id="sil-obj-sim" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">Nano SIM Card</span>
+        <span id="sil-obj-sim" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">
+          Nano SIM Card
+        </span>
         <span class="text-[10px] font-mono text-[var(--color-mute)]">12.30 × 8.80 mm</span>
       </button>
 
       <button data-obj="banknote-idr" class="obj-btn p-2.5 rounded-xl border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas-soft)] text-left transition-all group">
-        <span id="sil-obj-note" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">Uang Kertas IDR</span>
+        <span id="sil-obj-note" class="font-semibold block text-[var(--color-ink)] group-hover:text-red-600">
+          {isId ? 'Uang Kertas IDR' : 'Banknote (IDR)'}
+        </span>
         <span class="text-[10px] font-mono text-[var(--color-mute)]">121.0 × 65.0 mm</span>
       </button>
     </div>

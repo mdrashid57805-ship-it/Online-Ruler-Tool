@@ -1,8 +1,11 @@
 ---
+import { ui, defaultLang, type SupportedLanguage } from '../i18n/ui';
+
 export interface Props {
-  lang?: 'id' | 'en';
+  lang?: SupportedLanguage;
 }
-const { lang = 'id' } = Astro.props;
+const { lang = defaultLang } = Astro.props;
+const t = ui[lang] || ui[defaultLang];
 ---
 
 <div
@@ -16,14 +19,14 @@ const { lang = 'id' } = Astro.props;
     <!-- Modal Header -->
     <div class="flex items-center justify-between px-5 pt-5 pb-4 border-b border-[var(--color-hairline)] shrink-0">
       <div>
-        <span id="howto-badge-text" class="text-[10px] font-bold text-red-600 uppercase tracking-widest font-mono block">PANDUAN LENGKAP</span>
-        <h2 id="howto-title-text" class="text-base sm:text-lg font-bold tracking-tight">Cara Menggunakan Online Penggaris</h2>
+        <span id="howto-badge-text" class="text-[10px] font-bold text-[var(--color-primary)] uppercase tracking-widest font-mono block">{t.howTo.badge}</span>
+        <h2 id="howto-title-text" class="text-base sm:text-lg font-bold tracking-tight">{t.howTo.title}</h2>
       </div>
 
       <button
         id="btn-close-howto-modal"
-        class="w-8 h-8 rounded-lg flex items-center justify-center text-[var(--color-mute)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-colors"
-        title="Tutup (Esc)"
+        class="w-8 h-8 rounded-lg flex items-center justify-center text-[var(--color-mute)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-colors cursor-pointer"
+        title={`${t.common.close} (Esc)`}
       >
         <svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M1 1l12 12M13 1L1 13" />
@@ -36,72 +39,73 @@ const { lang = 'id' } = Astro.props;
       
       <!-- Step 1 -->
       <div class="flex gap-3">
-        <div class="w-6 h-6 rounded-full bg-red-500/10 text-red-600 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
+        <div class="w-6 h-6 rounded-full bg-[var(--color-primary-subdued)] text-[var(--color-primary)] font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
           1
         </div>
         <div class="space-y-1">
-          <h4 id="howto-step1-title" class="font-bold text-[var(--color-ink)] text-sm">Kalibrasi Layar (Ukuran Asli 1:1)</h4>
+          <h4 id="howto-step1-title" class="font-bold text-[var(--color-ink)] text-sm">{t.howTo.step1Title}</h4>
           <p id="howto-step1-desc">
-            Klik tombol <strong class="text-red-600">Kalibrasi</strong> di toolbar atas. Pilih salah satu dari 3 metode: Deteksi Otomatis, Diagonal Layar, atau tempelkan kartu ATM/KTP fisik agar 1 cm di layar benar-benar sama dengan 1 cm fisik di dunia nyata.
+            {t.howTo.step1Desc}
           </p>
         </div>
       </div>
 
       <!-- Step 2 -->
       <div class="flex gap-3">
-        <div class="w-6 h-6 rounded-full bg-red-500/10 text-red-600 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
+        <div class="w-6 h-6 rounded-full bg-[var(--color-primary-subdued)] text-[var(--color-primary)] font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
           2
         </div>
         <div class="space-y-1">
-          <h4 id="howto-step2-title" class="font-bold text-[var(--color-ink)] text-sm">Pilih Posisi Penggaris</h4>
+          <h4 id="howto-step2-title" class="font-bold text-[var(--color-ink)] text-sm">{t.howTo.step2Title}</h4>
           <p id="howto-step2-desc">
-            Pilih sisi tepi layar yang diinginkan (Atas, Bawah, Kiri, Kanan, atau Bingkai 4 Sisi) agar Anda dapat menempelkan barang fisik langsung pada tepi bezel layar kaca Anda.
+            {t.howTo.step2Desc}
           </p>
         </div>
       </div>
 
       <!-- Step 3 -->
       <div class="flex gap-3">
-        <div class="w-6 h-6 rounded-full bg-red-500/10 text-red-600 font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
+        <div class="w-6 h-6 rounded-full bg-[var(--color-primary-subdued)] text-[var(--color-primary)] font-bold flex items-center justify-center shrink-0 font-mono text-[11px]">
           3
         </div>
         <div class="space-y-1">
-          <h4 id="howto-step3-title" class="font-bold text-[var(--color-ink)] text-sm">Penunjuk Ukur (Marker) & Jangka Sorong</h4>
+          <h4 id="howto-step3-title" class="font-bold text-[var(--color-ink)] text-sm">{t.howTo.step3Title}</h4>
           <p id="howto-step3-desc">
-            Klik atau geser penunjuk merah (marker) untuk membaca ukuran panjang langsung secara instan dalam cm, mm, atau inci. Gunakan tombol jangka sorong untuk mengukur jarak antar 2 titik.
+            {t.howTo.step3Desc}
           </p>
         </div>
       </div>
 
       <!-- Keyboard Shortcuts Cheatsheet -->
       <div class="pt-4 border-t border-[var(--color-hairline)] space-y-2.5">
-        <h4 id="howto-shortcuts-title" class="font-bold text-[var(--color-ink)] text-xs flex items-center gap-1.5 font-mono uppercase tracking-wider">
-          <span>⌨️</span> Tombol Pintas Keyboard
+        <h4 id="howto-shortcuts-title" class="font-bold text-[var(--color-ink)] text-xs flex items-center gap-2 font-mono uppercase tracking-wider">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-primary)]"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/><line x1="14" y1="8" x2="14.01" y2="8"/><line x1="18" y1="8" x2="18.01" y2="8"/><line x1="8" y1="16" x2="16" y2="16"/></svg>
+          <span>{t.howTo.shortcutsTitle}</span>
         </h4>
 
         <div class="grid grid-cols-1 gap-1.5 font-mono text-[11px]">
           <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
-            <span id="sc-label-guides" class="font-sans text-[var(--color-body)]">Garis Panduan</span>
+            <span id="sc-label-guides" class="font-sans text-[var(--color-body)]">{t.tools.guides}</span>
             <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">G</kbd>
           </div>
           <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
-            <span id="sc-label-crosshair" class="font-sans text-[var(--color-body)]">Penunjuk / Marker</span>
+            <span id="sc-label-crosshair" class="font-sans text-[var(--color-body)]">{t.tools.marker}</span>
             <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">P</kbd>
           </div>
           <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
-            <span id="sc-label-grid" class="font-sans text-[var(--color-body)]">Matriks Grid</span>
+            <span id="sc-label-grid" class="font-sans text-[var(--color-body)]">{t.tools.grid}</span>
             <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">M</kbd>
           </div>
           <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
-            <span id="sc-label-caliper" class="font-sans text-[var(--color-body)]">Jangka Sorong (Caliper)</span>
+            <span id="sc-label-caliper" class="font-sans text-[var(--color-body)]">{t.tools.caliper}</span>
             <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">K</kbd>
           </div>
           <div class="flex items-center justify-between py-1 border-b border-[var(--color-hairline)]">
-            <span id="sc-label-theme" class="font-sans text-[var(--color-body)]">Mode Gelap / Terang</span>
+            <span id="sc-label-theme" class="font-sans text-[var(--color-body)]">{t.tools.theme}</span>
             <kbd class="px-2 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">D</kbd>
           </div>
           <div class="flex items-center justify-between py-1">
-            <span id="sc-label-units" class="font-sans text-[var(--color-body)]">Ganti Satuan (cm / mm / in)</span>
+            <span id="sc-label-units" class="font-sans text-[var(--color-body)]">{t.howTo.shortcutUnits}</span>
             <div class="flex gap-1">
               <kbd class="px-1.5 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">1</kbd>
               <kbd class="px-1.5 py-0.5 rounded border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] font-bold text-[var(--color-ink)]">2</kbd>
@@ -117,9 +121,9 @@ const { lang = 'id' } = Astro.props;
     <div class="px-5 py-3 border-t border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] shrink-0">
       <button
         id="btn-close-howto-bottom"
-        class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs transition-all shadow-md"
+        class="w-full py-2 rounded-lg bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-xs transition-all shadow-xs cursor-pointer"
       >
-        Mengerti, Mulai Mengukur
+        {t.howTo.gotIt}
       </button>
     </div>
   </div>

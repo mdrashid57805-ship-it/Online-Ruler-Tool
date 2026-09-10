@@ -1,8 +1,5 @@
 ---
-export interface Props {
-  lang?: 'id' | 'en';
-}
-const { lang = 'id' } = Astro.props;
+// RulerCanvas handles high-DPI canvas rendering surfaces and interactive drag elements
 ---
 
 <div id="ruler-viewport" class="relative w-full h-full overflow-hidden select-none bg-[var(--color-canvas)]" style="touch-action: pan-y;">
@@ -62,13 +59,12 @@ const { lang = 'id' } = Astro.props;
       id="marker-handle-v"
       class="pointer-events-auto absolute top-[48px] left-1/2 -translate-x-1/2 flex flex-col items-center cursor-grab active:cursor-grabbing z-35"
       style="touch-action: none;"
-      title="Geser titik ukur"
     >
       <!-- Small Precision Red Point (Dot) -->
-      <div class="w-2.5 h-2.5 rounded-full bg-red-600 border border-white shadow-sm"></div>
+      <div class="w-2.5 h-2.5 rounded-full bg-red-600 border border-white dark:border-slate-800 shadow-sm"></div>
 
       <!-- Small Clean Measurement Tag -->
-      <div class="mt-1 px-1.5 py-0.5 rounded bg-white/95 text-red-600 border border-red-200 shadow-sm text-[10px] sm:text-[11px] font-mono font-bold tracking-tight whitespace-nowrap">
+      <div class="mt-1 px-1.5 py-0.5 rounded bg-white/95 dark:bg-[#101827] text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/40 shadow-xs text-[10px] sm:text-[11px] font-mono font-bold tracking-tight whitespace-nowrap">
         <span id="marker-value-v">5.00 cm</span>
       </div>
     </div>
@@ -91,13 +87,12 @@ const { lang = 'id' } = Astro.props;
       id="marker-handle-h"
       class="pointer-events-auto absolute left-[48px] top-1/2 -translate-y-1/2 flex items-center gap-1 cursor-grab active:cursor-grabbing z-35"
       style="touch-action: none;"
-      title="Geser titik ukur"
     >
       <!-- Small Precision Red Point (Dot) -->
-      <div class="w-2.5 h-2.5 rounded-full bg-red-600 border border-white shadow-sm"></div>
+      <div class="w-2.5 h-2.5 rounded-full bg-red-600 border border-white dark:border-slate-800 shadow-sm"></div>
 
       <!-- Small Clean Measurement Tag -->
-      <div class="px-1.5 py-0.5 rounded bg-white/95 text-red-600 border border-red-200 shadow-sm text-[10px] sm:text-[11px] font-mono font-bold tracking-tight whitespace-nowrap">
+      <div class="px-1.5 py-0.5 rounded bg-white/95 dark:bg-[#101827] text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/40 shadow-xs text-[10px] sm:text-[11px] font-mono font-bold tracking-tight whitespace-nowrap">
         <span id="marker-value-h">5.00 cm</span>
       </div>
     </div>

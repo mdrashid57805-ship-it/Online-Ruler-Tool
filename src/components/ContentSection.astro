@@ -1,336 +1,204 @@
 ---
+import { ui, defaultLang, type SupportedLanguage } from '../i18n/ui';
+
 export interface Props {
-  lang?: 'id' | 'en';
+  lang?: SupportedLanguage;
 }
-const { lang = 'id' } = Astro.props;
+
+const { lang = defaultLang } = Astro.props;
+const t = ui[lang] || ui[defaultLang];
 ---
 
-<section id="seo-content" class="relative z-10 bg-[var(--color-canvas)] border-t border-[var(--color-hairline)] py-16 px-4 sm:px-6">
-  <article class="max-w-4xl mx-auto space-y-12 text-[var(--color-ink)]">
+<section id="seo-content" class="relative z-10 bg-[var(--color-canvas)] border-t border-[var(--color-hairline)] py-12 sm:py-16 px-4 sm:px-6">
+  <article class="relative max-w-3xl mx-auto space-y-10 text-[var(--color-ink)]">
     
-    <!-- Hero Article Header -->
-    <header class="space-y-4 text-center sm:text-left">
-      <div id="seo-badge" class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-500/10 text-red-600 text-xs font-bold font-mono border border-red-500/20">
-        ALAT UKUR DIGITAL PRESISI 1:1
-      </div>
-      <h1 id="seo-h1" class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-        Online Penggaris — Penggaris Digital Akurat (cm, mm, inci)
+    <!-- Hero Header -->
+    <header class="space-y-3 text-center sm:text-left">
+      <h1 id="seo-h1" class="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--color-ink)]">
+        {t.seo.h1}
       </h1>
-      <p id="seo-lead" class="text-sm sm:text-base text-[var(--color-body)] leading-relaxed">
-        <strong>Online Penggaris</strong> adalah alat ukur digital gratis berbasis web yang mengubah layar HP, tablet, laptop, atau monitor Anda menjadi penggaris seukuran fisik asli (skala 1:1). Anda dapat langsung mengukur objek secara presisi dalam sentimeter (cm), milimeter (mm), dan inci (inches) tanpa perlu menginstal aplikasi apa pun.
+      <p id="seo-lead" class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
+        {t.seo.lead}
       </p>
     </header>
 
-    <!-- SECTION 2: Pilihan Satuan Lengkap (CM, MM, Inches) -->
-    <section class="space-y-4">
-      <h2 id="seo-sec2-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
-        Pilihan Satuan: CM, MM, dan Inci
-      </h2>
-      <p id="seo-sec2-p1" class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
-        Pilih satuan ukur yang Anda butuhkan secara instan:
-      </p>
+    <!-- Centered Decorative Horizontal Scale (Single Middle Scale Above FAQ) -->
+    <div class="w-full flex flex-col items-center justify-center my-4 select-none" aria-hidden="true">
+      <div class="w-full max-w-sm sm:max-w-md px-4 py-2.5 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-card)] shadow-xs">
+        <svg viewBox="0 0 300 26" class="w-full h-6.5 text-[var(--color-mute)] overflow-visible" preserveAspectRatio="none">
+          <!-- Main Baseline -->
+          <line x1="10" y1="24" x2="290" y2="24" stroke="currentColor" stroke-width="1" class="text-[var(--color-hairline-strong)]" />
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-        <div class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
-          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-mono font-bold text-xs">
-            CM
-          </div>
-          <h3 id="card-unit-cm-title" class="font-bold text-sm text-[var(--color-ink)]">Sentimeter (cm)</h3>
-          <p id="card-unit-cm-desc" class="text-xs text-[var(--color-body)] leading-relaxed">
-            Skala metrik sentimeter standar dengan pembagi 1 mm dan tanda 5 mm untuk pengukuran sehari-hari.
-          </p>
-        </div>
+          <!-- Centimeter Marks 0 to 10 (28px spacing: 10, 38, 66, 94, 122, 150, 178, 206, 234, 262, 290) -->
+          <!-- 0 -->
+          <line x1="10" y1="12" x2="10" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="10" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">0</text>
+          <!-- mm ticks -->
+          <line x1="12.8" y1="20" x2="12.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="15.6" y1="20" x2="15.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="18.4" y1="20" x2="18.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="21.2" y1="20" x2="21.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="24" y1="17" x2="24" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="26.8" y1="20" x2="26.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="29.6" y1="20" x2="29.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="32.4" y1="20" x2="32.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="35.2" y1="20" x2="35.2" y2="24" stroke="currentColor" stroke-width="0.75" />
 
-        <div class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
-          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-mono font-bold text-xs">
-            MM
-          </div>
-          <h3 id="card-unit-mm-title" class="font-bold text-sm text-[var(--color-ink)]">Milimeter (mm)</h3>
-          <p id="card-unit-mm-desc" class="text-xs text-[var(--color-body)] leading-relaxed">
-            Skala milimeter presisi untuk mengukur objek kecil, baut, perhiasan, dan komponen teknik.
-          </p>
-        </div>
+          <!-- 1 -->
+          <line x1="38" y1="12" x2="38" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="38" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">1</text>
+          <line x1="40.8" y1="20" x2="40.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="43.6" y1="20" x2="43.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="46.4" y1="20" x2="46.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="49.2" y1="20" x2="49.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="52" y1="17" x2="52" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="54.8" y1="20" x2="54.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="57.6" y1="20" x2="57.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="60.4" y1="20" x2="60.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="63.2" y1="20" x2="63.2" y2="24" stroke="currentColor" stroke-width="0.75" />
 
-        <div class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
-          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-mono font-bold text-xs">
-            IN
-          </div>
-          <h3 id="card-unit-in-title" class="font-bold text-sm text-[var(--color-ink)]">Inci (Inches)</h3>
-          <p id="card-unit-in-desc" class="text-xs text-[var(--color-body)] leading-relaxed">
-            Skala imperial dengan fraksi 1/8, 1/16, hingga 1/32 inci untuk standar internasional dan format cetak.
-          </p>
-        </div>
+          <!-- 2 -->
+          <line x1="66" y1="12" x2="66" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="66" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">2</text>
+          <line x1="68.8" y1="20" x2="68.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="71.6" y1="20" x2="71.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="74.4" y1="20" x2="74.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="77.2" y1="20" x2="77.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="80" y1="17" x2="80" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="82.8" y1="20" x2="82.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="85.6" y1="20" x2="85.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="88.4" y1="20" x2="88.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="91.2" y1="20" x2="91.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+
+          <!-- 3 -->
+          <line x1="94" y1="12" x2="94" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="94" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">3</text>
+          <line x1="96.8" y1="20" x2="96.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="99.6" y1="20" x2="99.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="102.4" y1="20" x2="102.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="105.2" y1="20" x2="105.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="108" y1="17" x2="108" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="110.8" y1="20" x2="110.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="113.6" y1="20" x2="113.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="116.4" y1="20" x2="116.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="119.2" y1="20" x2="119.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+
+          <!-- 4 -->
+          <line x1="122" y1="12" x2="122" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="122" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">4</text>
+          <line x1="124.8" y1="20" x2="124.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="127.6" y1="20" x2="127.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="130.4" y1="20" x2="130.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="133.2" y1="20" x2="133.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="136" y1="17" x2="136" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="138.8" y1="20" x2="138.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="141.6" y1="20" x2="141.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="144.4" y1="20" x2="144.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="147.2" y1="20" x2="147.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+
+          <!-- 5 -->
+          <line x1="150" y1="12" x2="150" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="150" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">5</text>
+          <line x1="152.8" y1="20" x2="152.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="155.6" y1="20" x2="155.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="158.4" y1="20" x2="158.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="161.2" y1="20" x2="161.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="164" y1="17" x2="164" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="166.8" y1="20" x2="166.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="169.6" y1="20" x2="169.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="172.4" y1="20" x2="172.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="175.2" y1="20" x2="175.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+
+          <!-- 6 -->
+          <line x1="178" y1="12" x2="178" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="178" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">6</text>
+          <line x1="180.8" y1="20" x2="180.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="183.6" y1="20" x2="183.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="186.4" y1="20" x2="186.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="189.2" y1="20" x2="189.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="192" y1="17" x2="192" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="194.8" y1="20" x2="194.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="197.6" y1="20" x2="197.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="200.4" y1="20" x2="200.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="203.2" y1="20" x2="203.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+
+          <!-- 7 -->
+          <line x1="206" y1="12" x2="206" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="206" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">7</text>
+          <line x1="208.8" y1="20" x2="208.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="211.6" y1="20" x2="211.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="214.4" y1="20" x2="214.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="217.2" y1="20" x2="217.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="220" y1="17" x2="220" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="222.8" y1="20" x2="222.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="225.6" y1="20" x2="225.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="228.4" y1="20" x2="228.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="231.2" y1="20" x2="231.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+
+          <!-- 8 -->
+          <line x1="234" y1="12" x2="234" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="234" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">8</text>
+          <line x1="236.8" y1="20" x2="236.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="239.6" y1="20" x2="239.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="242.4" y1="20" x2="242.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="245.2" y1="20" x2="245.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="248" y1="17" x2="248" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="250.8" y1="20" x2="250.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="253.6" y1="20" x2="253.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="256.4" y1="20" x2="256.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="259.2" y1="20" x2="259.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+
+          <!-- 9 -->
+          <line x1="262" y1="12" x2="262" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="262" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">9</text>
+          <line x1="264.8" y1="20" x2="264.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="267.6" y1="20" x2="267.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="270.4" y1="20" x2="270.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="273.2" y1="20" x2="273.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="276" y1="17" x2="276" y2="24" stroke="currentColor" stroke-width="0.9" />
+          <line x1="278.8" y1="20" x2="278.8" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="281.6" y1="20" x2="281.6" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="284.4" y1="20" x2="284.4" y2="24" stroke="currentColor" stroke-width="0.75" />
+          <line x1="287.2" y1="20" x2="287.2" y2="24" stroke="currentColor" stroke-width="0.75" />
+
+          <!-- 10 -->
+          <line x1="290" y1="12" x2="290" y2="24" stroke="currentColor" stroke-width="1.2" />
+          <text x="290" y="8" text-anchor="middle" font-size="7.5" font-family="monospace" font-weight="bold" fill="currentColor">10</text>
+        </svg>
       </div>
-    </section>
+    </div>
 
-    <!-- SECTION 4: 3 Metode Kalibrasi Layar -->
-    <section class="space-y-4">
-      <h2 id="seo-sec4-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
-        3 Metode Kalibrasi Skala Layar (1:1)
-      </h2>
-      <p id="seo-sec4-p1" class="text-xs sm:text-sm text-[var(--color-body)] leading-relaxed">
-        Pilih metode kalibrasi paling praktis agar ukuran di layar 100% tepat seukuran fisik asli:
-      </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-        <!-- Method 1 -->
-        <div class="p-5 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
-          <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-mono font-bold text-xs">
-            01
-          </div>
-          <h3 id="seo-m1-title" class="font-bold text-sm text-[var(--color-ink)]">Deteksi Layar Otomatis</h3>
-          <p id="seo-m1-text" class="text-xs text-[var(--color-body)] leading-relaxed">
-            Membaca resolusi dan rasio piksel layar gawai Anda secara otomatis untuk kalibrasi instan.
-          </p>
+    <!-- Localized FAQ Section -->
+    <section class="space-y-5 pt-2">
+      <div class="space-y-1 text-center sm:text-left">
+        <div class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider font-mono text-[var(--color-mute)]">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)]"></span>
+          <span>FAQ</span>
         </div>
-
-        <!-- Method 2 -->
-        <div class="p-5 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
-          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-mono font-bold text-xs">
-            02
-          </div>
-          <h3 id="seo-m2-title" class="font-bold text-sm text-[var(--color-ink)]">Ukuran Diagonal Layar</h3>
-          <p id="seo-m2-text" class="text-xs text-[var(--color-body)] leading-relaxed">
-            Masukkan ukuran diagonal layar dalam inci (misalnya 14", 15.6", atau 27") untuk menghitung nilai PPI akurat.
-          </p>
-        </div>
-
-        <!-- Method 3 -->
-        <div class="p-5 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] space-y-2">
-          <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center font-mono font-bold text-xs">
-            03
-          </div>
-          <h3 id="seo-m3-title" class="font-bold text-sm text-[var(--color-ink)]">Kartu ATM / KTP Fisik</h3>
-          <p id="seo-m3-text" class="text-xs text-[var(--color-body)] leading-relaxed">
-            Tempelkan kartu standar ISO (panjang 85.60 mm) pada layar dan sesuaikan garis pembanding.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 6: Comprehensive FAQ Accordion (10 Questions) -->
-    <section class="space-y-4 pt-2">
-      <div class="space-y-1">
-        <h2 id="seo-faq-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
-          Pertanyaan yang Sering Diajukan (FAQ Penggaris Online)
+        <h2 id="seo-faq-title" class="text-lg sm:text-xl font-bold tracking-tight text-[var(--color-ink)]">
+          {t.seo.faqTitle}
         </h2>
-        <p id="seo-faq-sub" class="text-xs text-[var(--color-mute)]">
-          Jawaban lengkap seputar penggaris digital online, kalibrasi smartphone, dan panduan penggaris Microsoft Word.
-        </p>
       </div>
 
       <div class="space-y-2.5">
-        
-        <!-- FAQ 1 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q1">Bisakah HP atau smartphone digunakan sebagai penggaris?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a1" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            Ya, sangat bisa! Dengan membuka OnlinePenggaris.com di browser HP (iPhone maupun Android), layar Anda langsung berfungsi sebagai penggaris fisik nyata skala 1:1. Cukup lakukan kalibrasi otomatis atau tempelkan kartu ATM/KTP fisik, lalu letakkan benda yang ingin diukur langsung pada permukaan layar untuk membaca panjangnya dalam cm, mm, atau inci.
-          </p>
-        </details>
-
-        <!-- FAQ 2 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q2">Apakah ada penggaris online yang langsung sesuai ukuran asli?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a2" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            Ya, OnlinePenggaris.com adalah situs penggaris online gratis yang menampilkan mistar seukuran fisik sebenarnya (actual size to scale) langsung di peramban web tanpa perlu mengunduh atau menginstal aplikasi apa pun.
-          </p>
-        </details>
-
-        <!-- FAQ 3 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q3">Berapa ukuran 1 inci dan bagaimana cara mengetahuinya?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a3" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            1 inci (inch) setara tepat dengan 2,54 sentimeter (25,4 mm). Pada OnlinePenggaris.com, Anda cukup memilih satuan "in". Di dunia nyata, 1 inci kira-kira sebanding dengan panjang ruas ujung ibu jari orang dewasa atau diameter koin pecahan Rp 1.000.
-          </p>
-        </details>
-
-        <!-- FAQ 4 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q4">Bagaimana cara mengukur sentimeter (cm) di penggaris online?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a4" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            Cara mengukur sentimeter secara online: 1. Pilih satuan <strong>cm</strong> pada toolbar atas OnlinePenggaris.com. 2. Lakukan kalibrasi layar jika diperlukan. 3. Letakkan benda yang ingin diukur sejajar dengan garis awal angka 0. 4. Baca garis tanda sentimeter dan milimeter yang bertepatan dengan ujung benda.
-          </p>
-        </details>
-
-        <!-- FAQ 5 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q5">Apakah smartphone bisa digunakan untuk mengukur benda?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a5" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            Ya, smartphone modern dapat mengukur benda dengan dua cara: 1. Untuk benda kecil berpresisi tinggi (0–15 cm), gunakan penggaris layar seukuran asli seperti OnlinePenggaris.com. 2. Untuk ruangan atau perabotan besar (1–5 meter), gunakan aplikasi kamera Augmented Reality (AR) bawaan smartphone (seperti fitur Measure di iOS atau Google AR Ruler di Android).
-          </p>
-        </details>
-
-        <!-- FAQ 6 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q6">Cara memunculkan penggaris di Word?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a6" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            Langkah mudah memunculkan penggaris di Microsoft Word: 1. Buka dokumen Word Anda. 2. Klik tab menu <strong>View</strong> (Tampilan) pada bilah pita atas. 3. Pada grup pengaturan <strong>Show</strong> (Tampilkan), centang kotak <strong>Ruler</strong> (Penggaris). Penggaris horizontal di atas dan vertikal di kiri akan langsung muncul.
-          </p>
-        </details>
-
-        <!-- FAQ 7 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q7">Cara menampilkan penggaris di Word dengan tombol pintas?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a7" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            Cara tercepat menampilkan penggaris di Word adalah dengan menekan tombol keyboard <strong>Alt + W</strong>, lalu tekan tombol <strong>R</strong>. Anda juga dapat mengubah format ukuran penggaris Word ke cm lewat menu <em>File > Options > Advanced > Display > Show measurements in units of: Centimeters</em>.
-          </p>
-        </details>
-
-        <!-- FAQ 8 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q8">Bahasa Inggrisnya penggaris?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a8" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            Bahasa Inggris dari kata penggaris adalah <strong>"Ruler"</strong> atau <strong>"Straightedge" / "Scale"</strong> (mistar). Untuk jenis penggaris lainnya: Penggaris busur derajat disebut <strong>"Protractor"</strong>, Penggaris segitiga disebut <strong>"Set Square" / "Triangle Ruler"</strong>, Meteran gulung disebut <strong>"Tape Measure"</strong>, dan Jangka sorong disebut <strong>"Caliper"</strong>.
-          </p>
-        </details>
-
-        <!-- FAQ 9 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q9">Cara memunculkan penggaris pada Word jika tidak muncul / hilang?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a9" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            Jika penggaris pada Word hilang: 1. Pastikan tampilan lembar kerja dalam mode <strong>Print Layout</strong> (klik tab <em>View > Print Layout</em>). 2. Centang kembali opsi <strong>Ruler</strong>. 3. Jika penggaris vertikal di samping kiri tidak tampak, buka menu <em>File > Options > Advanced</em>, gulir ke bagian <em>Display</em>, lalu centang kotak <em>"Show vertical ruler in Print Layout view"</em>.
-          </p>
-        </details>
-
-        <!-- FAQ 10 -->
-        <details class="group p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] transition-all">
-          <summary class="flex items-center justify-between font-semibold text-xs sm:text-sm cursor-pointer list-none">
-            <span id="faq-q10">Cara menggunakan penggaris dengan akurat?</span>
-            <span class="transition-transform group-open:rotate-180 text-[var(--color-mute)]">▼</span>
-          </summary>
-          <p id="faq-a10" class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2 border-t border-[var(--color-hairline)]">
-            Langkah tepat menggunakan penggaris: 1. Letakkan pangkal benda sejajar tepat pada garis angka 0 (nol), bukan di ujung fisik bingkai penggaris jika terdapat celah offset. 2. Posisikan mata tegak lurus (90°) tepat di atas garis ukur untuk mencegah kesalahan paralaks. 3. Catat angka utama (cm/inci) lalu jumlahkan dengan garis milimeter atau fraksi terdekat.
-          </p>
-        </details>
-
-      </div>
-    </section>
-
-    <!-- SECTION 7: MPA Directory Showcase (Halaman Informasi & Navigasi Cepat) -->
-    <section class="space-y-4 pt-6 border-t border-[var(--color-hairline)]">
-      <div class="space-y-1 text-center sm:text-left">
-        <h2 id="seo-mpa-title" class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-ink)]">
-          Pusat Informasi & Direktori Halaman (Multi-Page Navigation)
-        </h2>
-        <p id="seo-mpa-sub" class="text-xs text-[var(--color-mute)]">
-          Jelajahi halaman panduan, kebijakan privasi, syarat penggunaan, dan kontak resmi kami:
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
-        
-        <!-- MPA Card 1: Cara Kalibrasi -->
-        <a
-          href="/cara-kalibrasi"
-          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
-        >
-          <div class="space-y-1.5">
-            <div class="w-8 h-8 rounded-xl bg-red-500/10 text-red-600 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
-              📐
-            </div>
-            <h3 id="mpa-c1-title" class="font-bold text-xs text-[var(--color-ink)] group-hover:text-red-600 transition-colors">
-              Panduan Kalibrasi
-            </h3>
-            <p id="mpa-c1-desc" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
-              Panduan lengkap langkah demi langkah kalibrasi layar HP, laptop, dan monitor.
+        {t.seo.faqs.map((faq, index) => (
+          <details class="group p-3.5 sm:p-4 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-canvas-card)] shadow-xs hover:border-[var(--color-hairline-strong)] transition-all duration-150">
+            <summary class="flex items-center justify-between gap-3 font-semibold text-xs sm:text-sm cursor-pointer list-none select-none text-[var(--color-ink)] group-open:text-[var(--color-primary)] transition-colors">
+              <span class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-md bg-[var(--color-canvas-soft)] text-[var(--color-mute)] group-open:bg-[var(--color-primary)] group-open:text-white flex items-center justify-center font-mono text-[11px] shrink-0 font-bold transition-colors">
+                  {index + 1}
+                </span>
+                <span>{faq.q}</span>
+              </span>
+              <span class="w-6 h-6 rounded-full bg-[var(--color-canvas-soft)] flex items-center justify-center shrink-0 text-[var(--color-mute)] group-open:rotate-180 group-open:text-[var(--color-ink)] transition-transform duration-150 text-[10px]">
+                ▼
+              </span>
+            </summary>
+            <p class="text-xs text-[var(--color-body)] leading-relaxed mt-2.5 pt-2.5 border-t border-[var(--color-hairline)] pl-7">
+              {faq.a}
             </p>
-          </div>
-          <span id="mpa-c1-btn" class="text-[10px] text-red-600 font-semibold font-mono flex items-center gap-1 pt-2">
-            Buka Panduan →
-          </span>
-        </a>
-
-        <!-- MPA Card 2: Tentang Kami -->
-        <a
-          href="/tentang"
-          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-red-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
-        >
-          <div class="space-y-1.5">
-            <div class="w-8 h-8 rounded-xl bg-red-500/10 text-red-600 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
-              🏢
-            </div>
-            <h3 id="mpa-c2-title" class="font-bold text-xs text-[var(--color-ink)] group-hover:text-red-600 transition-colors">
-              Tentang Kami
-            </h3>
-            <p id="mpa-c2-desc" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
-              Visi pembuatan penggaris digital 1:1, prinsip akurasi, dan teknologi DPR/PPI.
-            </p>
-          </div>
-          <span id="mpa-c2-btn" class="text-[10px] text-red-600 font-semibold font-mono flex items-center gap-1 pt-2">
-            Baca Tentang Kami →
-          </span>
-        </a>
-
-        <!-- MPA Card 3: Kebijakan Privasi -->
-        <a
-          href="/privacy-policy"
-          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
-        >
-          <div class="space-y-1.5">
-            <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
-              🔒
-            </div>
-            <h3 id="mpa-c3-title" class="font-bold text-xs text-[var(--color-ink)] group-hover:text-emerald-500 transition-colors">
-              Kebijakan Privasi
-            </h3>
-            <p id="mpa-c3-desc" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
-              Jaminan 100% privasi lokal di peramban tanpa pelacakan data sensitif.
-            </p>
-          </div>
-          <span id="mpa-c3-btn" class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold font-mono flex items-center gap-1 pt-2">
-            Lihat Privasi →
-          </span>
-        </a>
-
-        <!-- MPA Card 4: Syarat & Kontak -->
-        <a
-          href="/contact"
-          class="p-4 rounded-2xl bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-indigo-500 hover:bg-[var(--color-canvas)] transition-all space-y-2 group shadow-sm flex flex-col justify-between"
-        >
-          <div class="space-y-1.5">
-            <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">
-              ✉️
-            </div>
-            <h3 id="mpa-c4-title" class="font-bold text-xs text-[var(--color-ink)] group-hover:text-purple-500 transition-colors">
-              Hubungi Kami
-            </h3>
-            <p id="mpa-c4-desc" class="text-[11px] text-[var(--color-mute)] leading-relaxed">
-              Saran fitur, feedback pengguna, dan pengajuan database layar perangkat.
-            </p>
-          </div>
-          <span id="mpa-c4-btn" class="text-[10px] text-purple-500 font-semibold font-mono flex items-center gap-1 pt-2">
-            Kirim Masukan →
-          </span>
-        </a>
-
+          </details>
+        ))}
       </div>
     </section>
 

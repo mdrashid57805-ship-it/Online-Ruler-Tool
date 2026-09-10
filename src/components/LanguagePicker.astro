@@ -1,0 +1,164 @@
+---
+import { languages, ui, defaultLang, type SupportedLanguage } from '../i18n/ui';
+import { useTranslatedPath } from '../i18n/utils';
+
+export interface Props {
+  lang: SupportedLanguage;
+  currentPath?: string;
+  variant?: 'desktop' | 'mobile';
+}
+
+const { lang, currentPath = Astro.url.pathname, variant = 'desktop' } = Astro.props;
+const t = ui[lang] || ui[defaultLang];
+const translatePath = useTranslatedPath(lang);
+
+const languageMeta: Record<SupportedLanguage, { flag: string; label: string; code: string }> = {
+  en: { flag: '🇺🇸', label: 'English', code: 'EN' },
+  es: { flag: '🇪🇸', label: 'Español', code: 'ES' },
+  ja: { flag: '🇯🇵', label: '日本語', code: 'JA' },
+  fr: { flag: '🇫🇷', label: 'Français', code: 'FR' },
+  de: { flag: '🇩🇪', label: 'Deutsch', code: 'DE' },
+  pt: { flag: '🇵🇹', label: 'Português', code: 'PT' },
+  ko: { flag: '🇰🇷', label: '한국어', code: 'KO' },
+  it: { flag: '🇮🇹', label: 'Italiano', code: 'IT' },
+  id: { flag: '🇮🇩', label: 'Bahasa Indonesia', code: 'ID' },
+};
+
+const currentMeta = languageMeta[lang] || languageMeta.en;
+---
+
+{variant === 'desktop' ? (
+  <div class="relative inline-block text-left" id="lang-picker-dropdown">
+    <button
+      id="lang-picker-trigger"
+      type="button"
+      class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full border border-[var(--color-hairline)] bg-[var(--color-canvas)] hover:bg-[var(--color-canvas-soft)] text-xs font-semibold text-[var(--color-ink)] shadow-xs transition-all cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[var(--color-primary)]/20"
+      aria-expanded="false"
+      aria-haspopup="true"
+      title="Change Language / Cambiar Idioma"
+    >
+      <span class="text-[13px] leading-none select-none">{currentMeta.flag}</span>
+      <span class="font-mono text-[11px] font-bold text-[var(--color-ink)]">{currentMeta.code}</span>
+      <svg class="w-3 h-3 text-[var(--color-mute)] transition-transform duration-200" id="lang-chevron" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div
+      id="lang-picker-menu"
+      class="hidden absolute right-0 mt-1.5 w-48 max-w-[calc(100vw-20px)] rounded-xl bg-[var(--color-canvas-card)] border border-[var(--color-hairline)] shadow-lg py-1 z-50 animate-in fade-in zoom-in-95 duration-100"
+      role="menu"
+      aria-orientation="vertical"
+    >
+      <div class="px-3 py-1.5 border-b border-[var(--color-hairline)] text-[10px] font-bold uppercase tracking-wider text-[var(--color-mute)]">
+        {t.common.selectLanguage}
+      </div>
+      {Object.entries(languages).map(([code, name]) => {
+        const itemMeta = languageMeta[code as SupportedLanguage];
+        const isCurrent = code === lang;
+        const targetUrl = translatePath(currentPath, code as SupportedLanguage);
+        return (
+          <a
+            href={targetUrl}
+            data-lang-code={code}
+            class={`flex items-center justify-between px-3 py-2 text-xs font-medium transition-colors hover:bg-[var(--color-canvas-soft)] ${
+              isCurrent ? 'text-[var(--color-primary)] font-bold bg-[var(--color-primary-subdued)]' : 'text-[var(--color-ink)]'
+            }`}
+            role="menuitem"
+          >
+            <span class="flex items-center gap-2">
+              <span class="text-sm">{itemMeta.flag}</span>
+              <span>{name}</span>
+            </span>
+            {isCurrent && (
+              <svg class="w-3.5 h-3.5 text-[var(--color-primary)]" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+              </svg>
+            )}
+          </a>
+        );
+      })}
+    </div>
+  </div>
+) : (
+  <div class="grid grid-cols-2 gap-1.5 p-1 bg-[var(--color-canvas-soft)] rounded-xl border border-[var(--color-hairline)]">
+    {Object.entries(languages).map(([code, name]) => {
+      const itemMeta = languageMeta[code as SupportedLanguage];
+      const isCurrent = code === lang;
+      const targetUrl = translatePath(currentPath, code as SupportedLanguage);
+      return (
+        <a
+          href={targetUrl}
+          data-lang-code={code}
+          class={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+            isCurrent
+              ? 'bg-[var(--color-canvas-card)] text-[var(--color-primary)] font-bold shadow-xs border border-[var(--color-primary)]/20'
+              : 'text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-card)]/50'
+          }`}
+        >
+          <span class="text-sm">{itemMeta.flag}</span>
+          <span class="truncate">{name}</span>
+        </a>
+      );
+    })}
+  </div>
+)}
+
+<script>
+  function setupLanguagePicker() {
+    const trigger = document.getElementById('lang-picker-trigger');
+    const menu = document.getElementById('lang-picker-menu');
+    const chevron = document.getElementById('lang-chevron');
+
+    if (!trigger || !menu) return;
+
+    function openMenu() {
+      menu?.classList.remove('hidden');
+      trigger?.setAttribute('aria-expanded', 'true');
+      chevron?.classList.add('rotate-180');
+    }
+
+    function closeMenu() {
+      menu?.classList.add('hidden');
+      trigger?.setAttribute('aria-expanded', 'false');
+      chevron?.classList.remove('rotate-180');
+    }
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (menu.classList.contains('hidden')) {
+        openMenu();
+      } else {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!trigger.contains(e.target as Node) && !menu.contains(e.target as Node)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    // Save language choice in localStorage when clicked
+    document.querySelectorAll('[data-lang-code]').forEach((link) => {
+      link.addEventListener('click', () => {
+        const langCode = link.getAttribute('data-lang-code');
+        if (langCode) {
+          try {
+            localStorage.setItem('onlinepenggaris_lang_v1', langCode);
+          } catch (err) {}
+        }
+      });
+    });
+  }
+
+  setupLanguagePicker();
+  document.addEventListener('astro:page-load', setupLanguagePicker);
+</script>

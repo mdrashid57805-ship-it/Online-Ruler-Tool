@@ -1,22 +1,47 @@
 ---
 import '../styles/global.css';
+import { ui, defaultLang, type SupportedLanguage } from '../i18n/ui';
+import { getHreflangLinks, getCleanPathname } from '../i18n/utils';
 
 export interface Props {
   title?: string;
   description?: string;
-  lang?: 'id' | 'en';
+  keywords?: string;
+  lang?: SupportedLanguage;
 }
 
-const {
-  title = 'Penggaris Online — Ukur Panjang Akurat Seukuran Asli (cm, mm, inci) | onlinepenggaris.com',
-  description = 'Penggaris online gratis akurat seukuran asli di layar HP, laptop, dan monitor PC (skala 1:1 cm, mm, inci). Dilengkapi penunjuk / marker ukur interaktif dan kalibrasi otomatis.',
-  lang = 'id'
-} = Astro.props;
+const { lang = defaultLang } = Astro.props;
+const currentPath = Astro.url.pathname;
+const t = ui[lang] || ui[defaultLang];
 
-const pathname = Astro.url.pathname.replace(/\/$/, '') || '';
-const pageUrl = `https://onlinepenggaris.com${pathname || '/'}`;
-const pageEnUrl = `https://onlinepenggaris.com${pathname || '/'}?lang=en`;
-const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
+const title = Astro.props.title || t.metaTitle;
+const description = Astro.props.description || t.metaDescription;
+const keywords = Astro.props.keywords || t.keywords;
+
+const siteUrl = 'https://onlinepenggaris.com';
+const cleanPath = getCleanPathname(currentPath);
+const cleanNorm = cleanPath === '/' ? '' : cleanPath.replace(/\/$/, '');
+
+// Canonical URL for this specific language page
+const canonicalUrl = lang === defaultLang 
+  ? `${siteUrl}${cleanNorm || '/'}` 
+  : `${siteUrl}/${lang}${cleanNorm}/`;
+
+const hreflangLinks = getHreflangLinks(cleanPath, siteUrl);
+const ogImageUrl = `${siteUrl}/og-image.png`;
+
+const ogLocales: Record<SupportedLanguage, string> = {
+  en: 'en_US',
+  es: 'es_ES',
+  ja: 'ja_JP',
+  fr: 'fr_FR',
+  de: 'de_DE',
+  pt: 'pt_BR',
+  ko: 'ko_KR',
+  it: 'it_IT',
+  id: 'id_ID',
+};
+const currentOgLocale = ogLocales[lang] || 'en_US';
 ---
 
 <!doctype html>
@@ -27,7 +52,7 @@ const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
     <meta name="generator" content={Astro.generator} />
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X2ST24TC94"></script>
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-X2ST24TC94"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -36,7 +61,7 @@ const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
       gtag('config', 'G-X2ST24TC94');
     </script>
 
-    <!-- Theme initialization script (Defaults to clean white / light theme) -->
+    <!-- Theme initialization script -->
     <script is:inline>
       (function () {
         try {
@@ -46,168 +71,113 @@ const ogImageUrl = 'https://onlinepenggaris.com/og-image.png';
           } else {
             document.documentElement.classList.remove('dark');
           }
-
-          // Language initialization (strictly defaults to 'id')
-          const urlParams = new URLSearchParams(window.location.search);
-          const urlLang = urlParams.get('lang');
-          let currentLang = 'id';
-          if (urlLang === 'en') {
-            currentLang = 'en';
-          } else if (urlLang === 'id') {
-            currentLang = 'id';
-          } else {
-            const savedLang = localStorage.getItem('onlinepenggaris_lang_v1');
-            if (savedLang === 'en') currentLang = 'en';
-          }
-          document.documentElement.lang = currentLang;
         } catch (e) {}
       })();
     </script>
 
-    <!-- Primary SEO Meta Tags for Indonesian Ranking -->
+    <!-- Primary SEO Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta
-      name="keywords"
-      content="penggaris online, penggaris, penggaris digital, penggaris online cm, online penggaris, penggaris online mm, penggaris online inches, gambar penggaris, cara memunculkan penggaris di word, penggaris busur, penggaris segitiga, free online ruler, accurate online ruler, penggaris layar hp, penggaris layar laptop, online ruler in cm, online ruler in mm"
-    />
-    <meta name="author" content="Online Penggaris" />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content={t.siteName} />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    
-    <!-- Geo Target for Indonesia -->
-    <meta name="geo.region" content="ID" />
-    <meta name="geo.placename" content="Indonesia" />
-    <meta name="language" content="Indonesian" />
 
-    <link rel="canonical" href={pageUrl} />
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalUrl} />
     
-    <!-- Hreflang Tags for ID -->
-    <link rel="alternate" hreflang="id" href={pageUrl} />
-    <link rel="alternate" hreflang="id-ID" href={pageUrl} />
-    <link rel="alternate" hreflang="en" href={pageEnUrl} />
-    <link rel="alternate" hreflang="x-default" href={pageUrl} />
+    <!-- International SEO: Hreflang Markup for all supported languages + x-default English fallback -->
+    {hreflangLinks.map((entry) => (
+      <link rel="alternate" hreflang={entry.lang} href={entry.href} />
+    ))}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={pageUrl} />
-    <meta property="og:title" content="Penggaris Online — Ukur Panjang Akurat Seukuran Asli (cm, mm, in)" />
-    <meta property="og:description" content="Penggaris online gratis akurat seukuran asli di layar HP dan laptop. Dilengkapi penunjuk / marker ukur dan kalibrasi layar 1:1." />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Penggaris Online - OnlinePenggaris.com" />
-    <meta property="og:site_name" content="Online Penggaris" />
-    <meta property="og:locale" content="id_ID" />
-    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:image:alt" content={`${t.siteName} - onlinepenggaris.com`} />
+    <meta property="og:site_name" content={t.siteName} />
+    <meta property="og:locale" content={currentOgLocale} />
+    {Object.entries(ogLocales)
+      .filter(([code]) => code !== lang)
+      .map(([, loc]) => (
+        <meta property="og:locale:alternate" content={loc} />
+      ))}
 
     <!-- Twitter Card -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={pageUrl} />
-    <meta property="twitter:title" content="Penggaris Online — Ukur Akurat Seukuran Asli (cm, mm, in)" />
-    <meta property="twitter:description" content="Penggaris online digital gratis untuk layar HP, laptop, dan monitor seukuran fisik asli." />
-    <meta property="twitter:image" content={ogImageUrl} />
-    <meta property="twitter:image:alt" content="Penggaris Online - OnlinePenggaris.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={`${t.siteName} - onlinepenggaris.com`} />
 
     <!-- Favicon & PWA Icons -->
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Penggaris" />
+    <meta name="apple-mobile-web-app-title" content="Ruler" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Fonts: Inter & JetBrains Mono -->
+    <!-- Fonts: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-    <!-- JSON-LD Structured Data: WebApplication -->
-    <script type="application/ld+json" is:inline>
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Penggaris Online",
-        "alternateName": [
-          "Online Penggaris",
-          "Penggaris Digital Online",
-          "Penggaris Layar HP",
-          "Penggaris Online CM"
-        ],
-        "url": "https://onlinepenggaris.com",
-        "description": "Penggaris online gratis akurat seukuran asli (skala 1:1) dalam cm, mm, dan inci dengan penunjuk / marker ukur presisi dan kalibrasi otomatis layar.",
-        "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "All (Web Browser, Android, iOS, Windows, macOS)",
-        "inLanguage": ["id", "en"],
-        "isAccessibleForFree": true,
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "IDR"
-        },
-        "featureList": [
-          "Penggaris online seukuran asli terkalibrasi layar 1:1",
-          "Penunjuk dan marker geser interaktif (interactive ruler pointer)",
-          "Penggaris online cm, mm, dan inci",
-          "3 Metode Kalibrasi: Otomatis, Diagonal Layar, dan Kartu ATM/KTP",
-          "Pilihan Posisi Penggaris: Atas, Bawah, Kiri, Kanan, 4 Sisi",
-          "Jangka Sorong Digital (Two-Point Caliper)",
-          "100% Gratis tanpa download aplikasi"
-        ]
+    <!-- JSON-LD Structured Data: WebApplication Schema -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": t.siteName,
+      "alternateName": [
+        "Online Ruler",
+        "Regla Online",
+        "オンライン定規",
+        "Règle en ligne",
+        "Online Lineal",
+        "Régua Online",
+        "온라인 자",
+        "Righello Online",
+        "Penggaris Online"
+      ],
+      "url": canonicalUrl,
+      "description": description,
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All (Web Browser, Android, iOS, Windows, macOS)",
+      "inLanguage": Object.keys(ogLocales),
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
       }
-    </script>
+    })} />
 
     <!-- JSON-LD Structured Data: FAQPage Schema -->
-    <script type="application/ld+json" is:inline>
-      {
+    {t.seo.faqs && t.seo.faqs.length > 0 && (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify({
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Apakah penggaris online ini benar-benar akurat seukuran asli?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Ya, 100% akurat. Setelah melakukan kalibrasi layar (menggunakan deteksi otomatis hardware, memasukkan ukuran diagonal layar dalam inci, atau mencocokkan kartu ATM/KTP fisik standar ISO), skala 1 cm, 1 mm, maupun 1 inci di layar kaca sama persis dengan penggaris fisik di dunia nyata."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Bagaimana cara mengukur dengan penunjuk / marker di penggaris online?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Cukup klik atau geser jari/kursor Anda pada garis penggaris di layar. Garis penunjuk (marker) merah akan otomatis mengikuti dan menampilkan hasil pengukuran panjang langsung secara instan dalam cm, mm, dan inci."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Bisakah saya menggunakan HP sebagai penggaris?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Ya! Buka OnlinePenggaris.com di browser HP Anda (Android atau iPhone). Layar Anda akan langsung berubah menjadi penggaris digital seukuran nyata."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Cara memunculkan penggaris di Word?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Untuk memunculkan penggaris di Microsoft Word: 1. Buka dokumen Word. 2. Klik tab menu 'View' (Tampilan) pada pita atas. 3. Pada grup 'Show', centang kotak 'Ruler' (Penggaris). Penggaris horizontal dan vertikal akan langsung muncul."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Bahasa Inggrisnya penggaris?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Bahasa Inggris dari penggaris adalah 'Ruler' atau 'Straightedge'. Penggaris busur adalah 'Protractor', penggaris segitiga adalah 'Set Square', dan jangka sorong adalah 'Caliper'."
-            }
+        "mainEntity": t.seo.faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a
           }
-        ]
-      }
-    </script>
+        }))
+      })} />
+    )}
   </head>
-  <body class="min-h-screen bg-[var(--color-canvas)] text-[var(--color-ink)] selection:bg-red-500/20">
+  <body class="bg-[var(--color-canvas)] text-[var(--color-ink)] min-h-screen flex flex-col selection:bg-red-500/20 selection:text-red-700">
     <slot />
   </body>
 </html>

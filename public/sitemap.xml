@@ -2,65 +2,256 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
-  <!-- Home Page / Main Interactive Measuring Tool -->
+  <!-- Main Interactive Ruler Tool: Root (English & Global x-default) -->
   <url>
     <loc>https://onlinepenggaris.com/</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/?lang=en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/"/>
+  </url>
+
+  <!-- Spanish (Español) -->
+  <url>
+    <loc>https://onlinepenggaris.com/es/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/"/>
+  </url>
+
+  <!-- Japanese (日本語) -->
+  <url>
+    <loc>https://onlinepenggaris.com/ja/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/"/>
+  </url>
+
+  <!-- French (Français) -->
+  <url>
+    <loc>https://onlinepenggaris.com/fr/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/"/>
+  </url>
+
+  <!-- German (Deutsch) -->
+  <url>
+    <loc>https://onlinepenggaris.com/de/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/"/>
+  </url>
+
+  <!-- Portuguese (Português) -->
+  <url>
+    <loc>https://onlinepenggaris.com/pt/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/"/>
+  </url>
+
+  <!-- Korean (한국어) -->
+  <url>
+    <loc>https://onlinepenggaris.com/ko/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/"/>
+  </url>
+
+  <!-- Italian (Italiano) -->
+  <url>
+    <loc>https://onlinepenggaris.com/it/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/"/>
+  </url>
+
+  <!-- Indonesian (Bahasa Indonesia) -->
+  <url>
+    <loc>https://onlinepenggaris.com/id/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/"/>
   </url>
 
   <!-- Cara Kalibrasi (Calibration Guide) -->
   <url>
     <loc>https://onlinepenggaris.com/cara-kalibrasi/</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/cara-kalibrasi/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/cara-kalibrasi/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/cara-kalibrasi/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/cara-kalibrasi/"/>
   </url>
 
   <!-- Tentang Kami (About Us) -->
   <url>
     <loc>https://onlinepenggaris.com/tentang/</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/tentang/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/tentang/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/tentang/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/tentang/"/>
   </url>
 
   <!-- Hubungi Kami (Contact Us) -->
   <url>
     <loc>https://onlinepenggaris.com/contact/</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/contact/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/contact/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/contact/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/contact/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/contact/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/contact/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/contact/"/>
   </url>
 
   <!-- Kebijakan Privasi (Privacy Policy) -->
   <url>
     <loc>https://onlinepenggaris.com/privacy-policy/</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/privacy-policy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/privacy-policy/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/privacy-policy/"/>
   </url>
 
   <!-- Syarat & Ketentuan (Terms of Service) -->
   <url>
     <loc>https://onlinepenggaris.com/terms/</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/terms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/terms/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://onlinepenggaris.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://onlinepenggaris.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://onlinepenggaris.com/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://onlinepenggaris.com/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://onlinepenggaris.com/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://onlinepenggaris.com/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://onlinepenggaris.com/pt/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://onlinepenggaris.com/ko/terms/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://onlinepenggaris.com/it/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://onlinepenggaris.com/id/terms/"/>
   </url>
 
 </urlset>
