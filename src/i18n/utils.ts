@@ -45,13 +45,20 @@ export function getCleanPathname(pathname: string): string {
 export function useTranslatedPath(currentLang: SupportedLanguage) {
   return function translatePath(path: string, targetLang: SupportedLanguage = currentLang): string {
     const clean = getCleanPathname(path);
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    
+    let translated: string;
     if (!showDefaultLang && targetLang === defaultLang) {
-      return clean;
+      translated = clean;
+    } else {
+      const suffix = clean === '/' ? '' : clean.replace(/\/$/, '');
+      translated = `/${targetLang}${suffix}/`;
     }
-    const suffix = clean === '/' ? '' : clean.replace(/\/$/, '');
-    return `/${targetLang}${suffix}/`;
+
+    return `${base}${translated}` || '/';
   };
 }
+
 
 export interface HreflangEntry {
   lang: string;
