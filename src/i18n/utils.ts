@@ -45,7 +45,7 @@ export function getCleanPathname(pathname: string): string {
 export function useTranslatedPath(currentLang: SupportedLanguage) {
   return function translatePath(path: string, targetLang: SupportedLanguage = currentLang): string {
     const clean = getCleanPathname(path);
-    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '').replace(/\/Online-Ruler-Tool$/, '');
     
     let translated: string;
     if (!showDefaultLang && targetLang === defaultLang) {
